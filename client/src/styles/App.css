@@ -4,21 +4,6 @@
   margin: 5px;
 }
 
-.mybody {
-  display: flex;
-  gap: 3em;
-  padding: 1em;
-}
-
-a.navbar-brand {
-  margin-inline-start: -5em;
-}
-
-.nav-link {
-  color: white !important;
-  margin-left: 5em;
-}
-
 .list-students {
   text-align: center;
   margin-top: 25px;
@@ -47,9 +32,6 @@ input[type=text] {
   border: 3px solid #98d0f1
 }
 
-button.btn.btn-primary {
-  margin-top: 25px;
-}
 
 .myicon {
   stroke: rgb(243, 121, 7);
@@ -70,4 +52,34 @@ button.btn.btn-primary {
 .card-body {
   margin-left: 2em;
   margin-right: 2em;
+}
+
+/* Changes to Modify Homepage */
+root {
+  background-color: orange;
+}
+#WelcomePageOuterDiv {
+  background-color: orange;
+        margin: auto 0 auto auto;
+      height: 100vh;
+}
+
+#WelcomePageWelcomeText {
+
+}
+
+#WelcomePageTitle {
+  background-color: pink;
+}
+
+#WelcomePageText {
+  background-color: red;
+}
+
+#DashBoardOuterDiv {
+
+}
+
+#ProfileDiv {
+  padding: 10px;
 }
