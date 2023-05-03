@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import NavigationBar from "../components/NavigationBar";
 import { useEffect, useState } from "react";
+import "../styles/AccountSettings.css";
 
 const AccountSettings = () => {
   const { user } = useAuth0();
@@ -56,39 +57,43 @@ const AccountSettings = () => {
   };
 
   return (
-    <div id="SettingsOuterDiv">
+    <>
       <NavigationBar />
-      <h1>Account Settings</h1>
-      <Form className="SettingsForm" onSubmit={handleSubmit}>
-        <Form.Group as={Col}>
-          <Form.Label>Name</Form.Label>
-          <input
-            type="text"
-            id="add-name"
-            placeholder="name"
-            required
-            value={userInfo.name || ""}
-            onChange={handleNameChange}
-          />
-        </Form.Group>
-        <Form.Group as={Col}>
-          <Form.Label>Phone Numebr </Form.Label>
-          <input
-            type="text"
-            id="add-phone"
-            placeholder="Phone"
-            required
-            value={userInfo.phone || ""}
-            onChange={handlePhoneChange}
-          />
-        </Form.Group>
-        <Form.Group as={Col}>
-          <Button type="submit" variant="outline-success">
-            Save Changes
-          </Button>
-        </Form.Group>
-      </Form>
-    </div>
+      <div id="SettingsOuterDiv">
+        <div id="SettingsFormOuterDiv">
+          <h1>Account Settings</h1>
+          <Form className="SettingsForm" onSubmit={handleSubmit}>
+            <Form.Group as={Col}>
+              <Form.Label>Name</Form.Label>
+              <input
+                type="text"
+                id="add-name"
+                placeholder="name"
+                required
+                value={userInfo.name || ""}
+                onChange={handleNameChange}
+              />
+            </Form.Group>
+            <Form.Group as={Col}>
+              <Form.Label>Phone Number </Form.Label>
+              <input
+                type="text"
+                id="add-phone"
+                placeholder="Phone"
+                required
+                value={userInfo.phone || ""}
+                onChange={handlePhoneChange}
+              />
+            </Form.Group>
+            <Form.Group as={Col}>
+              <Button type="submit" variant="outline-success" id="FormButton">
+                Save Changes
+              </Button>
+            </Form.Group>
+          </Form>
+        </div>
+      </div>
+    </>
   );
 };
 
