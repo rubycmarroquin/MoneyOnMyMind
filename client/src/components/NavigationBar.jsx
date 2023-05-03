@@ -14,9 +14,9 @@ const NavigationBar = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/Dashboard">Dashboard</Nav.Link>
-              <Nav.Link href="/Create">Create</Nav.Link>
-              <Nav.Link href="/Settings">Settings</Nav.Link>
+              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+              <Nav.Link href="/create">Create</Nav.Link>
+              <Nav.Link href="/settings">Settings</Nav.Link>
             </Nav>
             <Navbar.Text>Signed in as: {user.name}</Navbar.Text>
             <LogoutButton />
