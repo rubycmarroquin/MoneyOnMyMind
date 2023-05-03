@@ -6,15 +6,29 @@ import { useEffect, useState } from "react";
 
 const AccountSettings = () => {
   const { user } = useAuth0();
-  const [userInfo, setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
 
-  async function loadUserData(userInfo) {
+  async function loadUserData() {
     // fetch the data from the backend
     const response = await fetch(`http://localhost:8080/user/${user.sub}`);
     const json = await response.json();
     setUserInfo(json);
     console.log(json);
   }
+
+  useEffect(() => {
+    console.log(userInfo);
+  }, [userInfo]);
+
+  const handleNameChange = (event) => {
+    const name = event.target.value;
+    setUserInfo((user) => ({ ...userInfo, name }));
+  };
+
+  const handlePhoneChange = (event) => {
+    const phone = event.target.value;
+    setUserInfo((user) => ({ ...userInfo, phone }));
+  };
 
   //   // updates a user's name & phone number
   //   const editUserInfo = (toEditStudent) => {
@@ -53,18 +67,18 @@ const AccountSettings = () => {
             id="add-name"
             placeholder="name"
             required
-            value={userInfo.name}
+            value={userInfo.name || ""}
             onChange={handleNameChange}
           />
         </Form.Group>
         <Form.Group as={Col}>
-          <Form.Label>Last Name</Form.Label>
+          <Form.Label>Phone Numebr </Form.Label>
           <input
             type="text"
             id="add-phone"
             placeholder="Phone"
             required
-            value={userInfo.phone}
+            value={userInfo.phone || ""}
             onChange={handlePhoneChange}
           />
         </Form.Group>
