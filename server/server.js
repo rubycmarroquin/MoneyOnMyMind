@@ -58,46 +58,14 @@ app.delete("/api/students/:studentId", async (req, res) => {
   }
 });
 
-//A put request - Update a student
-app.put("/api/students/:studentId", async (req, res) => {
-  //console.log(req.params);
-  //This will be the id that I want to find in the DB - the student to be updated
-  const studentId = req.params.studentId;
-  const updatedStudent = {
-    id: req.body.id,
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    iscurrent: req.body.is_current,
-  };
-  console.log("In the server from the url - the student id", studentId);
-  console.log(
-    "In the server, from the react - the student to be edited",
-    updatedStudent
-  );
-  // UPDATE students SET lastname = "something" WHERE id="16";
-  const query = `UPDATE students SET firstname=$1, lastname=$2, is_current=$3 WHERE id=${studentId} RETURNING *`;
-  const values = [
-    updatedStudent.firstname,
-    updatedStudent.lastname,
-    updatedStudent.iscurrent,
-  ];
-  try {
-    const updated = await db.query(query, values);
-    console.log(updated.rows[0]);
-    res.send(updated.rows[0]);
-  } catch (e) {
-    console.log(e);
-    return res.status(400).json({ e });
-  }
-});
-
 /* Auth0 Connection */
+
 // create the get request for students in the endpoint '/api/students'
 app.get("/user/:userId", async (req, res) => {
   const user_id = req.params.userId;
   try {
     const { rows: users } = await db.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
-    res.send(users);
+    res.send(users.length > 0 ? users[0] : {});
   } catch (e) {
     return res.status(400).json({ e });
   }
@@ -118,6 +86,25 @@ app.post("/user", async (req, res) => {
     console.log("result.rows[0]: ", result.rows[0]);
     // if value is undefined, set value to {} 
     res.json(result.rows[0] ?? {});
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ e });
+  }
+});
+
+/* Account Settings - Updating User Information */
+// update a user's info
+app.put("/user/:userId", async (req, res) => {
+  const user_id = req.params.userId;
+  const updatedUser = {
+    name: req.body.name,
+    phone: req.body.phone,
+  };
+  console.log("Updated User - Server: ", updatedUser);
+  try {
+    const updated = await db.query(`update users set name=$1, phone=$2 where user_id=$3 RETURNING *`,  [updatedUser.name, updatedUser.phone, user_id]);
+    console.log(updated.rows[0]);
+    res.send(updated.rows[0]);
   } catch (e) {
     console.log(e);
     return res.status(400).json({ e });
