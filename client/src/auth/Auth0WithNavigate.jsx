@@ -15,7 +15,7 @@ const Auth0WithNavigate = ({ children }) => {
       clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
       useRefreshTokens
       cacheLocation="localstorage"
-      redirectUri={window.location.origin}
+      redirectUri={`${window.location.origin}/dashboard`}
       onRedirectCallback={onRedirectCallback}
     >
       {children}
