@@ -2,12 +2,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Button } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import NavigationBar from "../components/NavigationBar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../styles/AccountSettings.css";
+import { SnackbarContext } from "../components/SnackbarContext";
 
 const AccountSettings = () => {
   const { user } = useAuth0();
   const [userInfo, setUserInfo] = useState({});
+  const { open, handleOpen, handleClose } = useContext(SnackbarContext);
 
   async function loadUserData() {
     // fetch the data from the backend
@@ -17,9 +19,20 @@ const AccountSettings = () => {
     console.log(json);
   }
 
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
+  // updates a user's name & phone number
+  async function editUserInfo(updatedInfo) {
+    return fetch(`http://localhost:8080/user/${user.sub}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedInfo),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => handleOpen("Successfully updated!"));
+  }
+
+  async function changePassword() {}
 
   const handleNameChange = (event) => {
     const name = event.target.value;
@@ -31,22 +44,9 @@ const AccountSettings = () => {
     setUserInfo((user) => ({ ...userInfo, phone }));
   };
 
-  //   // updates a user's name & phone number
-  //   const editUserInfo = (toEditStudent) => {
-  //     return fetch(`http://localhost:8080/api/students/${toEditStudent.id}`, {
-  //       method: "PUT",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(toEditStudent),
-  //     })
-  //       .then((response) => {
-  //         return response.json();
-  //       })
-  //       .then((data) => {
-  //         onUpdateStudent(data);
-  //         //this line just for cleaning the form
-  //         clearForm();
-  //       });
-  //   };
+  useEffect(() => {
+    console.log(userInfo);
+  }, [userInfo]);
 
   useEffect(() => {
     loadUserData();
@@ -54,6 +54,7 @@ const AccountSettings = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    editUserInfo(userInfo);
   };
 
   return (
