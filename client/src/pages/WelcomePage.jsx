@@ -1,7 +1,14 @@
 import React from "react";
 import LoginButton from "../components/LoginButton.jsx";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function WelcomePage() {
+  const { isAuthenticated } = useAuth0();
+
+  if (isAuthenticated) {
+    window.location.href = "http://localhost:5173/dashboard";
+  }
+
   return (
     <div id="WelcomePageOuterDiv">
       <h1 id="WelcomePageWelcomeText">WELCOME</h1>
