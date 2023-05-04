@@ -58,7 +58,7 @@ app.delete("/api/students/:studentId", async (req, res) => {
   }
 });
 
-/* Auth0 Connection */
+/***************** Auth0 Connection **************/
 
 // create the get request for students in the endpoint '/api/students'
 app.get("/user/:userId", async (req, res) => {
@@ -103,7 +103,8 @@ app.put("/user/:userId", async (req, res) => {
   };
   console.log("Updated User - Server: ", updatedUser);
   try {
-    const updated = await db.query(`update users set name=$1, phone=$2 where user_id=$3 RETURNING *`,  [updatedUser.name, updatedUser.phone, user_id]);
+    const updated = await db.query(`update users set name=$1, phone=$2 where user_id=$3 RETURNING *`, 
+    [updatedUser.name, updatedUser.phone, user_id]);
     console.log(updated.rows[0]);
     res.send(updated.rows[0]);
   } catch (e) {
@@ -111,6 +112,21 @@ app.put("/user/:userId", async (req, res) => {
     return res.status(400).json({ e });
   }
 });
+
+/*************** Expense Table METHODS *****************/
+app.get("/expenses/:userId&:monthName", async (req, res) => {
+  const user_id = req.params.userId;
+  const monthName = req.params.monthName;
+  try {
+    const { rows: expenses } = await db.query("SELECT * FROM expenses WHERE user_id = $1 AND month iLIKE $2", [user_id, monthName]);
+    console.log(expenses);
+    res.send(expenses);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
+// http://localhost:8080/user/expenses/ 
 
 // console.log that your server is up and running
 app.listen(PORT, () => {
