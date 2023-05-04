@@ -1,10 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Form, Button } from "react-bootstrap";
-import Col from "react-bootstrap/Col";
-import NavigationBar from "../components/NavigationBar";
 import { useContext, useEffect, useState } from "react";
-import "../styles/AccountSettings.css";
+import { Form, Button, Col } from "react-bootstrap";
 import { SnackbarContext } from "../components/SnackbarContext";
+import NavigationBar from "../components/NavigationBar";
+import "../styles/AccountSettings.css";
+import ResetButtonComp from "../components/ResetPassword";
 
 const AccountSettings = () => {
   const { user } = useAuth0();
@@ -16,7 +16,7 @@ const AccountSettings = () => {
     const response = await fetch(`http://localhost:8080/user/${user.sub}`);
     const json = await response.json();
     setUserInfo(json);
-    console.log(json);
+    console.log("this is the json", json);
   }
 
   // updates a user's name & phone number
@@ -31,8 +31,6 @@ const AccountSettings = () => {
       })
       .then((data) => handleOpen("Successfully updated!"));
   }
-
-  async function changePassword() {}
 
   const handleNameChange = (event) => {
     const name = event.target.value;
@@ -86,13 +84,14 @@ const AccountSettings = () => {
                 onChange={handlePhoneChange}
               />
             </Form.Group>
-            <Form.Group as={Col}>
+            <Form.Group as={Col} id="ButtonsGroups">
               <Button type="submit" variant="outline-success" id="FormButton">
                 Save Changes
               </Button>
             </Form.Group>
           </Form>
         </div>
+        <ResetButtonComp user_email={userInfo.email} />
       </div>
     </>
   );
