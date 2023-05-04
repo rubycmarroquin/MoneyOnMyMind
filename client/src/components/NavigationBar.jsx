@@ -15,7 +15,7 @@ const NavigationBar = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-              <Nav.Link href="/create">Create</Nav.Link>
+              <Nav.Link href="/budget">Budgets</Nav.Link>
               <Nav.Link href="/settings">Settings</Nav.Link>
             </Nav>
             <Navbar.Text>Signed in as: {user.name}</Navbar.Text>
