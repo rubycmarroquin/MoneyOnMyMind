@@ -14,24 +14,14 @@ ul {
   list-style-type: none;
 }
 
-
-form {
-  flex-direction: column;
-  align-items: center;
-  text-align: left;
-  margin-top: 3em;
-  flex: 1;
-}
-
 input[type=text] {
   display: inline-block;
   margin-top: -10px;
   width: 100%;
   font-size: 15px;
   border-radius: 2px;
-  border: 3px solid #98d0f1
+  border: 3px solid #7fd0ff
 }
-
 
 .myicon {
   stroke: rgb(243, 121, 7);
@@ -45,39 +35,16 @@ input[type=text] {
   margin-top: 0.5em;
 }
 
-.form-check {
-  margin-top: 1em;
-}
-
 .card-body {
   margin-left: 2em;
   margin-right: 2em;
 }
 
 /* Changes to Modify Homepage */
-root {
-  background-color: orange;
-}
 #WelcomePageOuterDiv {
   background-color: orange;
         margin: auto 0 auto auto;
       height: 100vh;
-}
-
-#WelcomePageWelcomeText {
-
-}
-
-#WelcomePageTitle {
-  background-color: pink;
-}
-
-#WelcomePageText {
-  background-color: red;
-}
-
-#DashBoardOuterDiv {
-
 }
 
 #ProfileDiv {

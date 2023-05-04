@@ -93,6 +93,7 @@ app.post("/user", async (req, res) => {
 });
 
 /* Account Settings - Updating User Information */
+
 // update a user's info
 app.put("/user/:userId", async (req, res) => {
   const user_id = req.params.userId;
