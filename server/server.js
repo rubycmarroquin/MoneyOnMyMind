@@ -4,10 +4,24 @@ require("dotenv").config();
 const path = require("path");
 const db = require("./db/db-connection.js");
 
+//auth0 jwt
+const { auth } = require("express-oauth2-jwt-bearer");
+
+
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+//JWT middleware
+const jwtCheck = auth({
+  audience: 'https://money-on-my-mind/api',
+  issuerBaseURL: 'https://dev-xy4didc5bijpholc.us.auth0.com/',
+  tokenSigningAlg: 'RS256'
+});
+
+
 app.use(cors());
 app.use(express.json());
+app.use(jwtCheck);
 
 // creates an endpoint for the route "/""
 app.get("/", (req, res) => {
@@ -114,6 +128,7 @@ app.put("/user/:userId", async (req, res) => {
 });
 
 /*************** Expense Table METHODS *****************/
+// grab data by user id and month 
 app.get("/expenses/:userId&:monthName", async (req, res) => {
   const user_id = req.params.userId;
   const monthName = req.params.monthName;
@@ -126,7 +141,42 @@ app.get("/expenses/:userId&:monthName", async (req, res) => {
   }
 });
 
-// http://localhost:8080/user/expenses/ 
+// post expense to database 
+app.post("/expenses", async (req, res) => {
+  try {
+    const newExpense = {
+      user_id: req.body.user_id,
+      amount: req.body.amount,
+      duedate: req.body.duedate,
+      datepaid: req.body.datepaid || null,
+      expense_name: req.body.expense_name,
+      month: req.body.month
+    };
+    
+    const result = await db.query(
+      "insert into expenses(expense_id, user_id, amount, duedate, datepaid, reminded, expense_name, month) values(nextval('expensesq'), $1, $2, $3, $4, false, $5, $6) RETURNING *",
+      [newExpense.user_id, newExpense.amount, newExpense.duedate, newExpense.datepaid, newExpense.expense_name, newExpense.month]);
+    res.json(result.rows[0]);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ e });
+  }
+});
+
+// delete an expense entry 
+app.delete("/expense/:expenseId&:user_id", async (req, res) => {
+  try {
+    const expense_id = req.params.expenseId;
+    const user_id = req.params.user_id;
+    await db.query("DELETE FROM expenses WHERE expense_id=$1 AND user_id=$2", [expense_id, user_id]);
+    console.log("From the delete request-url", expense_id, user_id);
+    res.status(200).end();
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ e });
+  }
+});
+
 
 // console.log that your server is up and running
 app.listen(PORT, () => {
