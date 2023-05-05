@@ -87,7 +87,7 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (editExpense.expense_id) editExpenseDB();
+    if (editExpense && editExpense.expense_id) editExpenseDB();
     else addExpense();
     handleClose();
   };
