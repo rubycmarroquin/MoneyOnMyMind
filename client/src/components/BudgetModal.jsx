@@ -12,7 +12,7 @@ const BudgetModal = ({ month, editExpense, loadExpenses }) => {
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Add Expense
+        {!editExpense ? "Add Expense" : "Edit"}
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

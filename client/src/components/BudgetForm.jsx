@@ -18,6 +18,10 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
     }
   );
 
+  const [hasDueDate, setHasDueDate] = useState(
+    editExpense && editExpense.duedate ? true : false
+  );
+
   function getMonthNum(monthName) {
     let monthNum = new Date(`${monthName} 1, 2023`).getMonth() + 1;
     return monthNum > 10 ? monthNum : `0${monthNum}`;
@@ -32,8 +36,16 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
     setExpense({ ...expense, [field]: value });
   };
 
+  const handleCheckChange = (e) => {
+    const check = e.target.checked;
+    // resets the expenses due date
+    if (!check) setExpense({ ...expense, ["duedate"]: "" });
+    setHasDueDate(check);
+  };
+
   //A function to handle the post request
   async function addExpense() {
+    if (!hasDueDate) expense.duedate = "";
     await fetch("http://localhost:8080/expenses", {
       method: "POST",
       headers: {
@@ -52,10 +64,32 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
       });
   }
 
+  //A function to handle the post request
+  async function editExpenseDB() {
+    console.log(expense);
+    await fetch(`http://localhost:8080/expense/${expense.expense_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify(expense),
+    })
+      .then((response) => {
+        console.log("Response from post method ", response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        loadExpenses();
+      });
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (editExpense.expense_id) editExpenseDB();
+    else addExpense();
     handleClose();
-    addExpense();
   };
 
   return (
@@ -85,18 +119,26 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
             onChange={(event) => handleChange("amount", event.target.value)}
           />
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Due Date: </Form.Label>
-          <input
-            type="date"
-            id="add-duedate"
-            required
-            min={`2023-${getMonthNum(month)}-01`}
-            max={`2023-${getMonthNum(month)}-${getDayNum(month)}`}
-            value={expense.duedate || ""}
-            onChange={(event) => handleChange("duedate", event.target.value)}
-          />
-        </Form.Group>
+        <Form.Check
+          type={"checkbox"}
+          checked={hasDueDate}
+          onChange={handleCheckChange}
+          label={"Has due date?"}
+        />
+        {hasDueDate ? (
+          <Form.Group>
+            <Form.Label>Due Date: </Form.Label>
+            <input
+              type="date"
+              id="add-duedate"
+              required
+              min={`2023-${getMonthNum(month)}-01`}
+              max={`2023-${getMonthNum(month)}-${getDayNum(month)}`}
+              value={expense.duedate || ""}
+              onChange={(event) => handleChange("duedate", event.target.value)}
+            />
+          </Form.Group>
+        ) : null}
         <Form.Group>
           <Form.Label>Date Paid: </Form.Label>
           <input

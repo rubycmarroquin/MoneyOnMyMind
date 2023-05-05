@@ -25,6 +25,19 @@ const LoadBudget = ({ month }) => {
     console.log("this is the json", json);
   }
 
+  // delete an expense from database
+  async function deleteExpense(expense_id) {
+    const response = await fetch(
+      `http://localhost:8080/expense/${expense_id}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${authToken}` },
+      }
+    ).then((response) => {
+      if (response.ok) loadExpenses();
+    });
+  }
+
   const parseDate = (expenseDate) => {
     if (expenseDate === null) return "";
     let date = new Date(expenseDate);
@@ -57,8 +70,14 @@ const LoadBudget = ({ month }) => {
                 <td>{parseDate(expense.duedate)}</td>
                 <td>{parseDate(expense.datepaid)}</td>
                 <td>
-                  <Button>Delete</Button>
-                  <Button>Edit</Button>
+                  <Button onClick={() => deleteExpense(expense.expense_id)}>
+                    Delete
+                  </Button>
+                  <BudgetModal
+                    month={month}
+                    editExpense={expense}
+                    loadExpenses={loadExpenses}
+                  />
                 </td>
               </tr>
             );

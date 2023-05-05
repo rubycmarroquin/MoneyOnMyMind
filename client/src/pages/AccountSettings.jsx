@@ -1,11 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useContext, useEffect, useState } from "react";
 import { Form, Button, Col } from "react-bootstrap";
-import { SnackbarContext } from "../components/SnackbarContext";
 import NavigationBar from "../components/NavigationBar";
-import "../styles/AccountSettings.css";
 import ResetButtonComp from "../components/ResetPassword";
+import { SnackbarContext } from "../components/SnackbarContext";
 import { AuthContext } from "../components/AuthContext";
+import "../styles/AccountSettings.css";
 
 const AccountSettings = () => {
   const { user } = useAuth0();
@@ -21,7 +21,6 @@ const AccountSettings = () => {
     });
     const json = await response.json();
     setUserInfo(json);
-    console.log("this is the json", json);
   }
 
   // updates a user's name & phone number
@@ -35,9 +34,11 @@ const AccountSettings = () => {
       body: JSON.stringify(updatedInfo),
     })
       .then((response) => {
+        if (response.status === 200) handleOpen("Successfully updated!");
+        else handleOpen("An error occured, try again!");
         return response.json();
       })
-      .then((data) => handleOpen("Successfully updated!"));
+      .then((data) => console.log(data));
   }
 
   const handleNameChange = (event) => {
@@ -50,12 +51,10 @@ const AccountSettings = () => {
     setUserInfo((user) => ({ ...userInfo, phone }));
   };
 
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
+  useEffect(() => {}, [userInfo]);
 
   useEffect(() => {
-    loadUserData();
+    if (authToken) loadUserData();
   }, [authToken]);
 
   const handleSubmit = (e) => {
@@ -64,44 +63,46 @@ const AccountSettings = () => {
   };
 
   return (
-    <>
-      <NavigationBar />
-      <div id="SettingsOuterDiv">
-        <div id="SettingsFormOuterDiv">
-          <h1>Account Settings</h1>
-          <Form className="SettingsForm" onSubmit={handleSubmit}>
-            <Form.Group as={Col}>
-              <Form.Label>Name</Form.Label>
-              <input
-                type="text"
-                id="add-name"
-                placeholder="name"
-                required
-                value={userInfo.name || ""}
-                onChange={handleNameChange}
-              />
-            </Form.Group>
-            <Form.Group as={Col}>
-              <Form.Label>Phone Number </Form.Label>
-              <input
-                type="text"
-                id="add-phone"
-                placeholder="Phone"
-                required
-                value={userInfo.phone || ""}
-                onChange={handlePhoneChange}
-              />
-            </Form.Group>
-            <Form.Group as={Col} id="ButtonsGroups">
-              <Button type="submit" variant="outline-success" id="FormButton">
-                Save Changes
-              </Button>
-            </Form.Group>
-          </Form>
+    authToken && (
+      <>
+        <NavigationBar />
+        <div id="SettingsOuterDiv">
+          <div id="SettingsFormOuterDiv">
+            <h1>Account Settings</h1>
+            <Form className="SettingsForm" onSubmit={handleSubmit}>
+              <Form.Group as={Col}>
+                <Form.Label>Name</Form.Label>
+                <input
+                  type="text"
+                  id="add-name"
+                  placeholder="name"
+                  required
+                  value={userInfo.name || ""}
+                  onChange={handleNameChange}
+                />
+              </Form.Group>
+              <Form.Group as={Col}>
+                <Form.Label>Phone Number </Form.Label>
+                <input
+                  type="text"
+                  id="add-phone"
+                  placeholder="Phone"
+                  required
+                  value={userInfo.phone || ""}
+                  onChange={handlePhoneChange}
+                />
+              </Form.Group>
+              <Form.Group as={Col} id="ButtonsGroups">
+                <Button type="submit" variant="outline-success" id="FormButton">
+                  Save Changes
+                </Button>
+              </Form.Group>
+            </Form>
+          </div>
+          <ResetButtonComp user_email={userInfo.email} />
         </div>
-        <ResetButtonComp user_email={userInfo.email} />
-      </div>
-    </>
+      </>
+    )
   );
 };
 
