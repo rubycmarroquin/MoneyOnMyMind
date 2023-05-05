@@ -5,15 +5,20 @@ import { SnackbarContext } from "../components/SnackbarContext";
 import NavigationBar from "../components/NavigationBar";
 import "../styles/AccountSettings.css";
 import ResetButtonComp from "../components/ResetPassword";
+import { AuthContext } from "../components/AuthContext";
 
 const AccountSettings = () => {
   const { user } = useAuth0();
   const [userInfo, setUserInfo] = useState({});
   const { open, handleOpen, handleClose } = useContext(SnackbarContext);
+  const { authToken } = useContext(AuthContext);
 
   async function loadUserData() {
     // fetch the data from the backend
-    const response = await fetch(`http://localhost:8080/user/${user.sub}`);
+    const response = await fetch(`http://localhost:8080/user/${user.sub}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
     const json = await response.json();
     setUserInfo(json);
     console.log("this is the json", json);
@@ -23,7 +28,10 @@ const AccountSettings = () => {
   async function editUserInfo(updatedInfo) {
     return fetch(`http://localhost:8080/user/${user.sub}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
       body: JSON.stringify(updatedInfo),
     })
       .then((response) => {
@@ -48,7 +56,7 @@ const AccountSettings = () => {
 
   useEffect(() => {
     loadUserData();
-  }, []);
+  }, [authToken]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -7,10 +7,7 @@ const MonthDropDown = ({ month, setMonth }) => {
       <Dropdown
         variant="secondary"
         id="dropdown-basic"
-        onSelect={(e) => {
-          console.log(e);
-          setMonth(e);
-        }}
+        onSelect={(e) => setMonth(e)}
       >
         <Dropdown.Toggle variant="secondary" id="dropdown-basic">
           {month ? month : "Select Month"}

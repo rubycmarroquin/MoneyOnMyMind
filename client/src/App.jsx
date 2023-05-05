@@ -8,9 +8,20 @@ import { Route, Routes } from "react-router-dom";
 import { AuthGuard } from "./components/AuthGuard";
 import { SnackbarProvider } from "./components/SnackbarContext";
 import Budget from "./pages/Budget";
+import { useEffect, useContext } from "react";
+import { AuthContext } from "./components/AuthContext";
 
 function App() {
-  const { user } = useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0();
+  //TODO: AuthContext should return a setAuthToken & setUser function
+  const { setAuthToken } = useContext(AuthContext);
+  useEffect(() => {
+    if (user) {
+      getAccessTokenSilently().then((token) => {
+        setAuthToken(token);
+      });
+    }
+  }, [user, getAccessTokenSilently]);
 
   // return <div className="App">{!user ? <WelcomePage /> : <Dashboard />}</div>;
   return (

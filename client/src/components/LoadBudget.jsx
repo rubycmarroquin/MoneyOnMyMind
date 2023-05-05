@@ -1,16 +1,24 @@
-import { React, useState, useEffect } from "react";
-import { Table } from "semantic-ui-react";
+import { React, useState, useEffect, useContext } from "react";
+import Table from "react-bootstrap/Table";
 import { useAuth0 } from "@auth0/auth0-react";
+import BudgetModal from "./BudgetModal";
+import { Button } from "react-bootstrap";
+import { AuthContext } from "./AuthContext";
 
 const LoadBudget = ({ month }) => {
   const { user } = useAuth0();
   const [expenses, setExpenses] = useState([]);
+  const { authToken } = useContext(AuthContext);
 
   // load expenses from database
   async function loadExpenses() {
     // fetch the data from the backend
     const response = await fetch(
-      `http://localhost:8080/expenses/${user.sub}&${month}`
+      `http://localhost:8080/expenses/${user.sub}&${month}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${authToken}` },
+      }
     );
     const json = await response.json();
     setExpenses(json);
@@ -25,59 +33,40 @@ const LoadBudget = ({ month }) => {
 
   useEffect(() => {
     loadExpenses();
-  }, [month]);
+  }, [month, authToken]);
 
   return (
     <div id="LoadBudgetOuterDiv">
       <h1>Viewing: {month}</h1>
-      <Table celled padded>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell singleLine>Expense</Table.HeaderCell>
-            <Table.HeaderCell>Amount</Table.HeaderCell>
-            <Table.HeaderCell>Currency</Table.HeaderCell>
-            <Table.HeaderCell>Due Date</Table.HeaderCell>
-            <Table.HeaderCell>Date Paid</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+      <Table bordered hover>
+        <thead>
+          <tr>
+            <th>Expense</th>
+            <th>Amount</th>
+            <th>Due Date</th>
+            <th>Date Paid</th>
+            <th>...</th>
+          </tr>
+        </thead>
+        <tbody>
           {expenses.map((expense, index) => {
             return (
-              <Table.Row key={index}>
-                <Table.Cell>{expense.expense_name}</Table.Cell>
-                <Table.Cell>{expense.amount}</Table.Cell>
-                <Table.Cell>{expense.currency}</Table.Cell>
-                <Table.Cell>{parseDate(expense.duedate)}</Table.Cell>
-                <Table.Cell>{parseDate(expense.datepaid)}</Table.Cell>
-              </Table.Row>
+              <tr key={index}>
+                <td>{expense.expense_name}</td>
+                <td>{expense.amount}</td>
+                <td>{parseDate(expense.duedate)}</td>
+                <td>{parseDate(expense.datepaid)}</td>
+                <td>
+                  <Button>Delete</Button>
+                  <Button>Edit</Button>
+                </td>
+              </tr>
             );
           })}
-        </Table.Body>
+        </tbody>
       </Table>
+      <BudgetModal month={month} loadExpenses={loadExpenses} />
     </div>
   );
 };
 export default LoadBudget;
-
-/**
- *         <Table.Row>
-            <Table.Cell>
-              <Header as="h2" textAlign="center">
-                A
-              </Header>
-            </Table.Cell>
-            <Table.Cell singleLine>Power Output</Table.Cell>
-            <Table.Cell>
-              <Rating icon="star" defaultRating={3} maxRating={3} />
-            </Table.Cell>
-            <Table.Cell textAlign="right">
-              80% <br />
-              <a href="#">18 studies</a>
-            </Table.Cell>
-            <Table.Cell>
-              Creatine supplementation is the reference compound for increasing
-              muscular creatine levels; there is variability in this increase,
-              however, with some nonresponders.
-            </Table.Cell>
-          </Table.Row>
- */
