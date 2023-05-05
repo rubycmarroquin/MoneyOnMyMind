@@ -11,13 +11,18 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.0.2",
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@mui/material": "^5.12.3",
+    "@mui/styled-engine-sc": "^5.12.0",
     "bootstrap": "^5.2.3",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
-    "react-router-dom": "^6.9.0"
+    "react-router-dom": "^6.9.0",
+    "styled-components": "^5.3.10"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",

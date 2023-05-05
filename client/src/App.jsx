@@ -1,23 +1,33 @@
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import MyNavBar from "./components/Navbar";
-import ListStudents from "./components/ListStudents";
-import LoginButton from "./components/LoginButton";
-import LogoutButton from "./components/LogoutButton";
-import Profile from "./components/UserProfile";
+import WelcomePage from "./pages/WelcomePage";
+import Dashboard from "./pages/Dashboard";
+import AccountSettings from "./pages/AccountSettings";
+import "./styles/App.css";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Route, Routes } from "react-router-dom";
+import { AuthGuard } from "./components/AuthGuard";
+import { SnackbarProvider } from "./components/SnackbarContext";
 
 function App() {
   const { user } = useAuth0();
 
+  // return <div className="App">{!user ? <WelcomePage /> : <Dashboard />}</div>;
   return (
-    <div className="App">
-      <MyNavBar />
-      <ListStudents />
-      {!user ? <LoginButton /> : null}
-      {user ? <LogoutButton /> : null}
-      <Profile />
-    </div>
+    <SnackbarProvider>
+      <Routes>
+        <Route path="/">
+          <Route index element={<WelcomePage />} />
+          <Route
+            path="dashboard"
+            element={<AuthGuard component={Dashboard} />}
+          />
+          <Route
+            path="settings"
+            element={<AuthGuard component={AccountSettings} />}
+          />
+        </Route>
+      </Routes>
+    </SnackbarProvider>
   );
 }
 
