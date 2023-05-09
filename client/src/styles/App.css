@@ -7,20 +7,20 @@
 .list-students {
   text-align: center;
   margin-top: 25px;
-  flex: 1
+  flex: 1;
 }
 
 ul {
   list-style-type: none;
 }
 
-input[type=text] {
+input[type="text"] {
   display: inline-block;
   margin-top: -10px;
   width: 100%;
   font-size: 15px;
   border-radius: 2px;
-  border: 3px solid #7fd0ff
+  border: 3px solid #7fd0ff;
 }
 
 .myicon {
@@ -42,11 +42,89 @@ input[type=text] {
 
 /* Changes to Modify Homepage */
 #WelcomePageOuterDiv {
-  background-color: orange;
-        margin: auto 0 auto auto;
-      height: 100vh;
+  background-color: rgb(216, 235, 205);
+  margin: auto 0 auto auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
 }
 
 #ProfileDiv {
   padding: 10px;
+}
+
+#WelcomePageInnerDiv {
+  display: flex;
+  width: 70%;
+  padding-right: 50px;
+  padding-left: 50px;
+  margin: 10px;
+}
+
+#WelcomeOuter {
+  margin-top: 100px;
+}
+
+#LoginButton {
+  border-radius: 20px;
+  appearance: none;
+    background-color: #FAFBFC;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    border-radius: 6px;
+    box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+    box-sizing: border-box;
+    color: #24292E;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    padding: 6px 16px;
+    position: relative;
+    transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    white-space: nowrap;
+    word-wrap: break-word;
+}
+
+#Logout {
+  margin-left: 5px;
+  border-radius: 20px;
+  appearance: none;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+#WelcomePageWelcomeText {
+
+}
+
+#Pig {
+  margin-top: 100px;
 }
