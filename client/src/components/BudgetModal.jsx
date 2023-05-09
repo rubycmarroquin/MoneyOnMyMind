@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import BudgetForm from "./BudgetForm";
 
-const BudgetModal = ({ month, editExpense, loadExpenses }) => {
+const BudgetModal = ({ month, year, editExpense, loadExpenses }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -16,12 +16,15 @@ const BudgetModal = ({ month, editExpense, loadExpenses }) => {
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add / Edit Expense </Modal.Title>
+          <Modal.Title>
+            {!editExpense ? "Add Expense" : "Edit Expense"}{" "}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <BudgetForm
             editExpense={editExpense}
             month={month}
+            year={year}
             handleClose={handleClose}
             loadExpenses={loadExpenses}
           />
