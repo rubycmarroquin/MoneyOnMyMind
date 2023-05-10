@@ -8,11 +8,11 @@ import { AuthContext } from "./AuthContext";
 const LoadBudget = ({ month, year }) => {
   const { user } = useAuth0();
   const [expenses, setExpenses] = useState([]);
+  const [incomes, setIncomes] = useState([]);
   const { authToken } = useContext(AuthContext);
 
   // load expenses from database
   async function loadExpenses() {
-    // fetch the data from the backend
     const response = await fetch(
       `http://localhost:8080/expenses/${user.sub}&${month}&${year}`,
       {
@@ -22,6 +22,20 @@ const LoadBudget = ({ month, year }) => {
     );
     const json = await response.json();
     setExpenses(json);
+    console.log("this is the json", json);
+  }
+
+  // load expenses from database
+  async function loadIncomes() {
+    const response = await fetch(
+      `http://localhost:8080/incomes/${user.sub}&${month}&${year}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${authToken}` },
+      }
+    );
+    const json = await response.json();
+    setIncomes(json);
     console.log("this is the json", json);
   }
 
@@ -38,6 +52,16 @@ const LoadBudget = ({ month, year }) => {
     });
   }
 
+  // delete an expense from database
+  async function deleteIncome(income_id) {
+    await fetch(`http://localhost:8080/income/${income_id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${authToken}` },
+    }).then((response) => {
+      if (response.ok) loadExpenses();
+    });
+  }
+
   const parseDate = (expenseDate) => {
     if (expenseDate === null) return "";
     let date = new Date(expenseDate);
@@ -46,6 +70,7 @@ const LoadBudget = ({ month, year }) => {
 
   useEffect(() => {
     loadExpenses();
+    loadIncomes();
   }, [month, year, authToken]);
 
   return (
@@ -53,6 +78,40 @@ const LoadBudget = ({ month, year }) => {
       <h1>
         Viewing: {month} {year}
       </h1>
+      <h2>Income</h2>
+      <Table bordered hover>
+        <thead>
+          <tr>
+            <th>Expense</th>
+            <th>Amount</th>
+            <th>Date Received</th>
+            <th>...</th>
+          </tr>
+        </thead>
+        <tbody>
+          {incomes.map((income, index) => {
+            return (
+              <tr key={index}>
+                <td>{income.income_name}</td>
+                <td>{income.amount}</td>
+                <td>{parseDate(income.date)}</td>
+                <td>
+                  <Button onClick={() => deleteIncome(icome.income_id)}>
+                    Delete
+                  </Button>
+                  {/* <BudgetModal
+                    month={month}
+                    year={year}
+                    editExpense={expense}
+                    loadExpenses={loadExpenses}
+                  /> */}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+      <h2>Expenses</h2>
       <Table bordered hover>
         <thead>
           <tr>
