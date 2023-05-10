@@ -13,7 +13,6 @@ import { AuthContext } from "./components/AuthContext";
 
 function App() {
   const { getAccessTokenSilently, user } = useAuth0();
-  //TODO: AuthContext should return a setAuthToken & setUser function
   const { setAuthToken } = useContext(AuthContext);
   useEffect(() => {
     if (user) {
@@ -23,7 +22,6 @@ function App() {
     }
   }, [user, getAccessTokenSilently]);
 
-  // return <div className="App">{!user ? <WelcomePage /> : <Dashboard />}</div>;
   return (
     <SnackbarProvider>
       <Routes>
