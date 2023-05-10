@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "./AuthContext";
+import { getMonthNum, getDayNum } from "./handleDates";
 
 const BudgetForm = ({
   handleClose,
@@ -28,16 +29,6 @@ const BudgetForm = ({
   const [hasDueDate, setHasDueDate] = useState(
     editExpense && editExpense.duedate ? true : false
   );
-
-  function getMonthNum(monthName) {
-    let monthNum = new Date(`${monthName} 1, 2023`).getMonth() + 1;
-    return monthNum > 10 ? monthNum : `0${monthNum}`;
-  }
-
-  function getDayNum(month) {
-    const date = new Date(2023, getMonthNum(month), 0);
-    return date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-  }
 
   const handleChange = (field, value) => {
     if (field === "amount") value = Math.round(value * 100) / 100;
