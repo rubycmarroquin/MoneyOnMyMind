@@ -3,7 +3,13 @@ import { Form, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "./AuthContext";
 
-const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
+const BudgetForm = ({
+  handleClose,
+  month,
+  year,
+  editExpense,
+  loadExpenses,
+}) => {
   const { user } = useAuth0();
   const { authToken } = useContext(AuthContext);
 
@@ -15,6 +21,7 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
       datepaid: "",
       expense_name: "",
       month: month,
+      year: year,
     }
   );
 
@@ -33,6 +40,7 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
   }
 
   const handleChange = (field, value) => {
+    if (field === "amount") value = Math.round(value * 100) / 100;
     setExpense({ ...expense, [field]: value });
   };
 
@@ -60,11 +68,12 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
       })
       .then((data) => {
         console.log(data);
+        // reload expenses to show changes made
         loadExpenses();
       });
   }
 
-  //A function to handle the post request
+  //A function to handle the put request
   async function editExpenseDB() {
     console.log(expense);
     await fetch(`http://localhost:8080/expense/${expense.expense_id}`, {
@@ -91,6 +100,8 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
     else addExpense();
     handleClose();
   };
+
+  const parseDate = (dateObj) => dateObj.substring(0, 10);
 
   return (
     authToken && (
@@ -132,9 +143,9 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
               type="date"
               id="add-duedate"
               required
-              min={`2023-${getMonthNum(month)}-01`}
-              max={`2023-${getMonthNum(month)}-${getDayNum(month)}`}
-              value={expense.duedate || ""}
+              min={`${year}-${getMonthNum(month)}-01`}
+              max={`${year}-${getMonthNum(month)}-${getDayNum(month)}`}
+              value={expense.duedate ? parseDate(expense.duedate) : ""}
               onChange={(event) => handleChange("duedate", event.target.value)}
             />
           </Form.Group>
@@ -144,7 +155,7 @@ const BudgetForm = ({ handleClose, month, editExpense, loadExpenses }) => {
           <input
             type="Date"
             id="add-datepaid"
-            value={expense.datepaid || ""}
+            value={expense.datepaid ? parseDate(expense.datepaid) : ""}
             onChange={(event) => handleChange("datepaid", event.target.value)}
           />
         </Form.Group>

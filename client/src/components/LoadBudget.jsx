@@ -5,7 +5,7 @@ import BudgetModal from "./BudgetModal";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "./AuthContext";
 
-const LoadBudget = ({ month }) => {
+const LoadBudget = ({ month, year }) => {
   const { user } = useAuth0();
   const [expenses, setExpenses] = useState([]);
   const { authToken } = useContext(AuthContext);
@@ -14,7 +14,7 @@ const LoadBudget = ({ month }) => {
   async function loadExpenses() {
     // fetch the data from the backend
     const response = await fetch(
-      `http://localhost:8080/expenses/${user.sub}&${month}`,
+      `http://localhost:8080/expenses/${user.sub}&${month}&${year}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${authToken}` },
@@ -46,11 +46,13 @@ const LoadBudget = ({ month }) => {
 
   useEffect(() => {
     loadExpenses();
-  }, [month, authToken]);
+  }, [month, year, authToken]);
 
   return (
     <div id="LoadBudgetOuterDiv">
-      <h1>Viewing: {month}</h1>
+      <h1>
+        Viewing: {month} {year}
+      </h1>
       <Table bordered hover>
         <thead>
           <tr>
@@ -75,6 +77,7 @@ const LoadBudget = ({ month }) => {
                   </Button>
                   <BudgetModal
                     month={month}
+                    year={year}
                     editExpense={expense}
                     loadExpenses={loadExpenses}
                   />
@@ -84,7 +87,7 @@ const LoadBudget = ({ month }) => {
           })}
         </tbody>
       </Table>
-      <BudgetModal month={month} loadExpenses={loadExpenses} />
+      <BudgetModal month={month} year={year} loadExpenses={loadExpenses} />
     </div>
   );
 };

@@ -1,6 +1,14 @@
 import { Dropdown } from "react-bootstrap";
 
-const MonthDropDown = ({ month, setMonth }) => {
+const MonthDropDown = ({ month, setMonth, year, setYear }) => {
+  // create drop down of years
+  const currYear = new Date().getFullYear();
+
+  // create array of years for drop down
+  const years = Array.from(new Array(20), (val, index) =>
+    index <= 5 ? currYear - index : index + currYear
+  ).sort((a, b) => a - b);
+
   return (
     <div>
       <h2>Select Month</h2>
@@ -12,7 +20,7 @@ const MonthDropDown = ({ month, setMonth }) => {
         <Dropdown.Toggle variant="secondary" id="dropdown-basic">
           {month ? month : "Select Month"}
         </Dropdown.Toggle>
-        <Dropdown.Menu style={{ overflowY: "scroll" }}>
+        <Dropdown.Menu style={{ overflowY: "scroll", height: "200px" }}>
           <Dropdown.Item eventKey="January">January</Dropdown.Item>
           <Dropdown.Item eventKey="Feburary">February</Dropdown.Item>
           <Dropdown.Item eventKey="March">March</Dropdown.Item>
@@ -27,6 +35,29 @@ const MonthDropDown = ({ month, setMonth }) => {
           <Dropdown.Item eventKey="December">December</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
+      {month ? (
+        <div>
+          <Dropdown
+            variant="secondary"
+            id="dropdown-basic"
+            onSelect={(e) => setYear(e)}
+          >
+            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+              {year ? year : "Select Year"}
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{ overflowY: "scroll", height: "200px" }}>
+              {years.map((currentYear) => (
+                <Dropdown.Item
+                  key={`Year+${currentYear}`}
+                  eventKey={`${currentYear}`}
+                >
+                  {currentYear}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+      ) : null}
     </div>
   );
 };

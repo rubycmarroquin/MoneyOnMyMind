@@ -1,22 +1,27 @@
 import { React, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import LoadBudget from "../components/LoadBudget";
-import MonthDropDown from "../components/MonthDropDown";
-import BudgetModal from "../components/BudgetModal";
+import MonthDropDown from "../components/YearMonthDropDown";
 
 const Budget = () => {
-  // keep track of the month that is being added to
+  // keeps track of the month / year that is being added to
   const [month, setMonth] = useState(null);
+  const [year, setYear] = useState(null);
 
   return (
     <>
       <NavigationBar />
       <div id="BudgetPageOuterDiv">
         <h1>Budget Plans</h1>
-        <MonthDropDown month={month} setMonth={setMonth} />
-        {month ? (
+        <MonthDropDown
+          month={month}
+          setMonth={setMonth}
+          year={year}
+          setYear={setYear}
+        />
+        {month && year ? (
           <>
-            <LoadBudget month={month} />
+            <LoadBudget month={month} year={year} />
           </>
         ) : null}
       </div>
