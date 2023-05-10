@@ -2,6 +2,7 @@ import { React, useState, useEffect, useContext } from "react";
 import Table from "react-bootstrap/Table";
 import { useAuth0 } from "@auth0/auth0-react";
 import BudgetModal from "./BudgetModal";
+import IncomeModal from "./IncomeModal";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "./AuthContext";
 
@@ -41,13 +42,10 @@ const LoadBudget = ({ month, year }) => {
 
   // delete an expense from database
   async function deleteExpense(expense_id) {
-    const response = await fetch(
-      `http://localhost:8080/expense/${expense_id}`,
-      {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${authToken}` },
-      }
-    ).then((response) => {
+    await fetch(`http://localhost:8080/expense/${expense_id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${authToken}` },
+    }).then((response) => {
       if (response.ok) loadExpenses();
     });
   }
@@ -96,21 +94,22 @@ const LoadBudget = ({ month, year }) => {
                 <td>{income.amount}</td>
                 <td>{parseDate(income.date)}</td>
                 <td>
-                  <Button onClick={() => deleteIncome(icome.income_id)}>
+                  <Button onClick={() => deleteIncome(income.income_id)}>
                     Delete
                   </Button>
-                  {/* <BudgetModal
+                  <IncomeModal
                     month={month}
                     year={year}
-                    editExpense={expense}
-                    loadExpenses={loadExpenses}
-                  /> */}
+                    editIncome={income}
+                    loadIncomes={loadIncomes}
+                  />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </Table>
+      <IncomeModal month={month} year={year} loadIncomes={loadIncomes} />
       <h2>Expenses</h2>
       <Table bordered hover>
         <thead>
