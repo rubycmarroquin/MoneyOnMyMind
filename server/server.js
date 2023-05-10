@@ -27,7 +27,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Hola, from My template ExpressJS with React-Vite" });
 });
 
-/***************** Auth0 Connection **************/
+/***************************************************************************************************
+ ***************************************** USER API CALLS ******************************************
+ ***************************************************************************************************/
 
 // create the get request for students in the endpoint '/api/students'
 app.get("/user/:userId", cors(), async (req, res) => {
@@ -64,8 +66,6 @@ app.post("/user", cors(), async (req, res) => {
   }
 });
 
-/**************** Account Settings - Updating User Information ****************/
-
 // update a user's info
 app.put("/user/:userId", cors(), async (req, res) => {
   const user_id = req.params.userId;
@@ -87,7 +87,10 @@ app.put("/user/:userId", cors(), async (req, res) => {
   }
 });
 
-/*************** Expense Table METHODS *****************/
+/***************************************************************************************************
+ **************************************** EXPENSE API CALLS ****************************************
+ ***************************************************************************************************/
+
 // grab data by user id and month and year
 app.get("/expenses/:userId&:monthName&:yearNum", cors(), async (req, res) => {
   const user_id = req.params.userId;
@@ -180,7 +183,10 @@ app.put("/expense/:expenseId", cors(), async (req, res) => {
   }
 });
 
-/*************** Income Table METHODS *****************/
+/***************************************************************************************************
+ **************************************** INCOME API CALLS  ****************************************
+ ***************************************************************************************************/
+
 // grab income data by user id and month and year
 app.get("/incomes/:userId&:monthName&:yearNum", cors(), async (req, res) => {
   const user_id = req.params.userId;
@@ -208,7 +214,7 @@ app.post("/incomes", cors(), async (req, res) => {
       user_id: req.body.user_id,
       income_name: req.body.income_name,
       month: req.body.month,
-      year: req.body.year
+      year: req.body.year,
     };
 
     const result = await db.query(
@@ -234,9 +240,7 @@ app.post("/incomes", cors(), async (req, res) => {
 app.delete("/income/:incomeId", cors(), async (req, res) => {
   try {
     const income_id = req.params.incomeId;
-    await db.query("DELETE FROM incomes WHERE income_id=$1", [
-      income_id,
-    ]);
+    await db.query("DELETE FROM incomes WHERE income_id=$1", [income_id]);
     console.log("From the delete request-url", income_id);
     res.status(200).end();
   } catch (e) {
@@ -245,7 +249,7 @@ app.delete("/income/:incomeId", cors(), async (req, res) => {
   }
 });
 
-// edit a user's income entry 
+// edit a user's income entry
 app.put("/income/:incomeId", cors(), async (req, res) => {
   const income_id = req.params.incomeId;
   try {
@@ -261,7 +265,7 @@ app.put("/income/:incomeId", cors(), async (req, res) => {
         editedIncome.amount,
         editedIncome.date,
         editedIncome.income_name,
-        income_id
+        income_id,
       ]
     );
     res.json(result.rows[0]);
