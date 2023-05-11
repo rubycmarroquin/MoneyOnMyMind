@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "./AuthContext";
 import { getMonthNum, getDayNum } from "./handleDates";
+import { removeTimeZone } from "./handleDates";
 
 const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
   const { user } = useAuth0();
@@ -72,8 +73,6 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
     handleClose();
   };
 
-  const parseDate = (dateObj) => dateObj.substring(0, 10);
-
   return (
     authToken && (
       <Form className="form-students" onSubmit={handleSubmit}>
@@ -108,7 +107,7 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
             id="add-date-received"
             min={`${year}-MM-01`}
             max={`${year}-${getMonthNum(month)}-${getDayNum(month)}`}
-            value={income.date ? parseDate(income.date) : ""}
+            value={income.date ? removeTimeZone(income.date) : ""}
             onChange={(event) => handleChange("date", event.target.value)}
           />
         </Form.Group>
