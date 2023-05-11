@@ -128,3 +128,8 @@ input[type="text"] {
 #Pig {
   margin-top: 100px;
 }
+
+#MonthYearDD {
+  display: flex;
+  flex-direction: row;
+}
