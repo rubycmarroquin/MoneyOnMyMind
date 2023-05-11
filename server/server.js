@@ -91,23 +91,6 @@ app.put("/user/:userId", cors(), async (req, res) => {
  **************************************** EXPENSE API CALLS ****************************************
  ***************************************************************************************************/
 
- // grab users expense amounts only by user id and month and year
-app.get("/expenses/amount/:userId&:monthName&:yearNum", cors(), async (req, res) => {
-  const user_id = req.params.userId;
-  const monthName = req.params.monthName;
-  const yearNum = req.params.yearNum;
-  try {
-    const { rows: budgets } = await db.query(
-      `SELECT amount FROM expenses WHERE user_id = $1 AND month iLIKE $2 AND year iLike $3`,
-      [user_id, monthName, yearNum]
-    );
-    console.log(budgets);
-    res.send(budgets);
-  } catch (e) {
-    return res.status(400).json({ e });
-  }
-});
-
 // grab data by user id and month and year
 app.get("/expenses/:userId&:monthName&:yearNum", cors(), async (req, res) => {
   const user_id = req.params.userId;
@@ -135,12 +118,13 @@ app.post("/expenses", cors(), async (req, res) => {
       duedate: req.body.duedate || null,
       datepaid: req.body.datepaid || null,
       expense_name: req.body.expense_name,
+      tags: req.body.tags || "Other",
       month: req.body.month,
       year: req.body.year,
     };
 
     const result = await db.query(
-      "insert into expenses(user_id, amount, duedate, datepaid, reminded, expense_name, month, year, expense_id) values($1, $2, $3, $4, false, $5, $6, $7, $8) RETURNING *",
+      "insert into expenses(user_id, amount, duedate, datepaid, reminded, expense_name, month, year, expense_id, tags) values($1, $2, $3, $4, false, $5, $6, $7, $8, $9) RETURNING *",
       [
         newExpense.user_id,
         newExpense.amount,
@@ -150,6 +134,7 @@ app.post("/expenses", cors(), async (req, res) => {
         newExpense.month,
         newExpense.year,
         generated_id,
+        newExpense.tags
       ]
     );
     res.json(result.rows[0]);
@@ -176,20 +161,22 @@ app.delete("/expense/:expenseId", cors(), async (req, res) => {
 app.put("/expense/:expenseId", cors(), async (req, res) => {
   const expense_id = req.params.expenseId;
   try {
-    const newExpense = {
+    const updateExpense = {
       amount: req.body.amount,
       duedate: req.body.duedate || null,
       datepaid: req.body.datepaid || null,
       expense_name: req.body.expense_name,
+      tags: req.body.tags || "Other"
     };
 
     const result = await db.query(
-      "update expenses set amount=$1, duedate=$2, datepaid=$3, expense_name=$4 where expense_id=$5 RETURNING *",
+      "update expenses set amount=$1, duedate=$2, datepaid=$3, expense_name=$4, tags=$5 where expense_id=$6 RETURNING *",
       [
-        newExpense.amount,
-        newExpense.duedate,
-        newExpense.datepaid,
-        newExpense.expense_name,
+        updateExpense.amount,
+        updateExpense.duedate,
+        updateExpense.datepaid,
+        updateExpense.expense_name,
+        updateExpense.tags,
         expense_id,
       ]
     );
@@ -203,23 +190,6 @@ app.put("/expense/:expenseId", cors(), async (req, res) => {
 /***************************************************************************************************
  **************************************** INCOME API CALLS  ****************************************
  ***************************************************************************************************/
-
- // grab only amounts from user incomes by user id and month and year 
- app.get("/incomes/amounts/:userId&:monthName&:yearNum", cors(), async (req, res) => {
-  const user_id = req.params.userId;
-  const monthName = req.params.monthName;
-  const yearNum = req.params.yearNum;
-  try {
-    const { rows: incomes } = await db.query(
-      "SELECT amount FROM incomes WHERE user_id = $1 AND month iLIKE $2 AND year iLike $3",
-      [user_id, monthName, yearNum]
-    );
-    console.log(incomes);
-    res.send(incomes);
-  } catch (e) {
-    return res.status(400).json({ e });
-  }
-});
 
 // grab income data by user id and month and year
 app.get("/incomes/:userId&:monthName&:yearNum", cors(), async (req, res) => {
