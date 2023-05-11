@@ -5,6 +5,7 @@ import BudgetModal from "./BudgetModal";
 import IncomeModal from "./IncomeModal";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "./AuthContext";
+import { parseDate } from "./handleDates";
 
 const LoadBudget = ({ month, year }) => {
   const { user } = useAuth0();
@@ -60,12 +61,6 @@ const LoadBudget = ({ month, year }) => {
     });
   }
 
-  const parseDate = (expenseDate) => {
-    if (expenseDate === null) return "";
-    let date = new Date(expenseDate);
-    return date.toDateString();
-  };
-
   useEffect(() => {
     loadExpenses();
     loadIncomes();
@@ -80,7 +75,7 @@ const LoadBudget = ({ month, year }) => {
       <Table bordered hover>
         <thead>
           <tr>
-            <th>Expense</th>
+            <th>Paid By</th>
             <th>Amount</th>
             <th>Date Received</th>
             <th>...</th>

@@ -3,6 +3,8 @@ import { Form, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "./AuthContext";
 import { getMonthNum, getDayNum } from "./handleDates";
+import TagsDropDown from "./TagsDropDown";
+import { removeTimeZone } from "./handleDates";
 
 const BudgetForm = ({
   handleClose,
@@ -21,6 +23,7 @@ const BudgetForm = ({
       duedate: "",
       datepaid: "",
       expense_name: "",
+      tags: "",
       month: month,
       year: year,
     }
@@ -92,8 +95,6 @@ const BudgetForm = ({
     handleClose();
   };
 
-  const parseDate = (dateObj) => dateObj.substring(0, 10);
-
   return (
     authToken && (
       <Form className="form-students" onSubmit={handleSubmit}>
@@ -136,7 +137,7 @@ const BudgetForm = ({
               required
               min={`${year}-${getMonthNum(month)}-01`}
               max={`${year}-${getMonthNum(month)}-${getDayNum(month)}`}
-              value={expense.duedate ? parseDate(expense.duedate) : ""}
+              value={expense.duedate ? removeTimeZone(expense.duedate) : ""}
               onChange={(event) => handleChange("duedate", event.target.value)}
             />
           </Form.Group>
@@ -146,9 +147,12 @@ const BudgetForm = ({
           <input
             type="Date"
             id="add-datepaid"
-            value={expense.datepaid ? parseDate(expense.datepaid) : ""}
+            value={expense.datepaid ? removeTimeZone(expense.datepaid) : ""}
             onChange={(event) => handleChange("datepaid", event.target.value)}
           />
+        </Form.Group>
+        <Form.Group>
+          <TagsDropDown expense={expense} setExpense={setExpense} />
         </Form.Group>
         <Form.Group>
           {editExpense ? (
