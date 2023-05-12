@@ -2,7 +2,6 @@ import { Table } from "react-bootstrap";
 import { parseDate } from "./handleDates";
 
 const GenerateTables = ({ expenses }) => {
-  console.log(expenses);
   return expenses && expenses.length ? (
     <>
       <h2>Spendings</h2>
