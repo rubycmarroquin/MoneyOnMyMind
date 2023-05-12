@@ -147,15 +147,18 @@ const BudgetForm = ({
           <input
             type="Date"
             id="add-datepaid"
+            max={`${year}-${getMonthNum(month)}-${getDayNum(month)}`}
             value={expense.datepaid ? removeTimeZone(expense.datepaid) : ""}
             onChange={(event) => handleChange("datepaid", event.target.value)}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group required>
           <TagsDropDown expense={expense} setExpense={setExpense} />
         </Form.Group>
         <Form.Group>
           {editExpense ? (
+            // TODO: disable button toggle
+            // Checkout isRequired from material UI
             <Button type="submit" variant="success">
               Edit Expense
             </Button>
