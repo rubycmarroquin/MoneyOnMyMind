@@ -1,0 +1,17 @@
+#Pig {
+  width: 8%;
+}
+
+#user-img {
+  width: 15%;
+}
+
+#Logout {
+  border-style: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+}
+
+#Logout:hover {
+  color: gray;
+}

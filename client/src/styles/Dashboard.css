@@ -1,0 +1,30 @@
+#DashBoardOuterDiv {
+  height: 100vh;
+  width: 100%;
+}
+
+.GenerateSpendingsDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: beige;
+}
+
+.chart {
+  width: 600px;
+  height: 400px;
+  border-radius: 10px;
+}
+
+#MonthYearDD {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}
+
+#GeneratedContentsDiv {
+  background-color: aqua;
+}

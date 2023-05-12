@@ -31,15 +31,14 @@ const Profile = () => {
   }, [authToken]);
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <div className="loader">Loading ...</div>;
   }
 
   return (
     isAuthenticated && (
-      <div>
-        <img src={user.picture} alt={user.name} />
-        <h2>Welcome, {user.name}!</h2>
-        <p>{user.email}</p>
+      <div id="UserInfo">
+        {/* <img id="userImg" src={user.picture} alt={user.name} />
+        <h3>Welcome, {user.nickname}!</h3> */}
       </div>
     )
   );

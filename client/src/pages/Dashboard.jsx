@@ -4,8 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "../components/AuthContext";
 import GenerateCharts from "../components/GenerateCharts";
-import GenerateTables from "../components/GenTable";
 import { convertToNumber } from "../components/handleStringNumbers";
+import "../styles/Dashboard.css";
 
 const Dashboard = () => {
   const [totalIncome, setTotalIncome] = useState(null);
@@ -15,6 +15,8 @@ const Dashboard = () => {
     new Date().toLocaleString("default", { month: "long" })
   );
   const [viewYear, setViewYear] = useState(new Date().getFullYear());
+  const [yearlyExpenses, setYearlyExpenses] = useState(null);
+  const [yearlyIncome, setYearlyIncome] = useState(null);
   const { user } = useAuth0();
   const { authToken } = useContext(AuthContext);
 
@@ -69,31 +71,70 @@ const Dashboard = () => {
     }
   }
 
+  // load total amount of income for viewing month
+  async function loadYearIncome() {
+    const response = await fetch(
+      `http://localhost:8080/yearly/income/${user.sub}&${viewYear}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${authToken}` },
+      }
+    );
+    const json = await response.json();
+    setYearlyIncome(json);
+    console.log(json);
+  }
+
+  // load total amount of income for viewing month
+  async function loadYearExpenses() {
+    const response = await fetch(
+      `http://localhost:8080/yearly/expenses/${user.sub}&${viewYear}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${authToken}` },
+      }
+    );
+    const json = await response.json();
+    setYearlyExpenses(json);
+    console.log(json);
+  }
+
   useEffect(() => {
     if (authToken) {
       loadTotalExpenses();
       loadTotalIncome();
+      loadYearExpenses();
+      loadYearIncome();
     }
   }, [authToken, viewMonth, viewYear]);
 
   return (
     <div id="DashBoardOuterDiv">
       <NavigationBar />
-      <div id="ProfileDiv">
-        <Profile />
-        <div>
-          <h2>
-            Amount Remaining: ${convertToNumber(totalIncome - totalExpenses)}
-          </h2>
-          <GenerateCharts
-            expenses={expenses}
-            month={viewMonth}
-            setMonth={setViewMonth}
-            year={viewYear}
-            setYear={setViewYear}
-          />
-          <GenerateTables expenses={expenses} />
-        </div>
+      <Profile />
+      <div className="GenerateSpendingsDiv">
+        <h2>
+          Amount Remaining:
+          <span
+            style={{
+              color:
+                convertToNumber(totalIncome - totalExpenses) < 0
+                  ? "red"
+                  : "green",
+            }}
+          >
+            ${convertToNumber(totalIncome - totalExpenses)}
+          </span>
+        </h2>
+        <GenerateCharts
+          yearExpenses={yearlyExpenses}
+          yearIncome={yearlyIncome}
+          expenses={expenses}
+          month={viewMonth}
+          setMonth={setViewMonth}
+          year={viewYear}
+          setYear={setViewYear}
+        />
       </div>
     </div>
   );
