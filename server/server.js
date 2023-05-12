@@ -279,6 +279,45 @@ app.put("/income/:incomeId", cors(), async (req, res) => {
   }
 });
 
+
+/***************************************************************************************************
+ **************************************** YEAR API CALLS  ******************************************
+ ***************************************************************************************************/
+// grab income amount by year and user id 
+app.get("/yearly/income/:userId&:yearNum", cors(), async (req, res) => {
+  const user_id = req.params.userId;
+  const yearNum = req.params.yearNum;
+  try {
+    const { rows: incomes } = await db.query(
+      "SELECT amount, month FROM incomes WHERE user_id = $1 AND year iLike $2",
+      [user_id, yearNum]
+    );
+    console.log(incomes);
+    res.send(incomes);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
+// grab expenses amount + tags by year and user id 
+app.get("/yearly/expenses/:userId&:yearNum", cors(), async (req, res) => {
+  const user_id = req.params.userId;
+  const yearNum = req.params.yearNum;
+  try {
+    const { rows: expenses } = await db.query(
+      "SELECT amount, month FROM expenses WHERE user_id = $1 AND year iLike $2",
+      [user_id, yearNum]
+    );
+    console.log(expenses);
+    res.send(expenses);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
+
+
+
 // console.log that your server is up and running
 app.listen(PORT, () => {
   console.log(`Hola, Server listening on ${PORT}`);

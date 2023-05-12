@@ -2,9 +2,20 @@ import { useEffect, useState } from "react";
 import MonthDropDown from "./YearMonthDropDown";
 import { Chart } from "react-google-charts";
 import { convertToNumber } from "./handleStringNumbers";
+import GenerateTables from "./GenTable";
+import { getMonthNum } from "./handleDates";
 
-const GenerateCharts = ({ expenses, month, setMonth, year, setYear }) => {
+const GenerateCharts = ({
+  expenses,
+  month,
+  setMonth,
+  year,
+  setYear,
+  yearExpenses,
+  yearIncome,
+}) => {
   const [chartData, setChartData] = useState(null);
+  const [lineChartData, setLineChartData] = useState(null);
 
   const options = {
     title: "Spending Habits",
@@ -12,27 +23,52 @@ const GenerateCharts = ({ expenses, month, setMonth, year, setYear }) => {
     is3D: false,
   };
 
+  const options2 = {
+    title: `Monthly Spendings and Income (${year})`,
+    vAxis: { title: "in Dollars (USD)" },
+    hAxis: { title: "Month" },
+    seriesType: "bars",
+    series: { 5: { type: "line" } },
+  };
+
   useEffect(() => {
     if (expenses) setChartData(generateData(expenses));
-  }, [expenses, month, year]);
+    if (yearExpenses && yearIncome)
+      setLineChartData(generateLineChartData(yearExpenses, yearIncome));
+  }, [expenses, month, year, yearExpenses, yearIncome]);
 
   return (
-    <div>
-      <h1>Viewing</h1>
+    <div className="GenCharts">
+      <h3>
+        Viewing {month}, {year}
+      </h3>
       <MonthDropDown
         month={month}
         setMonth={setMonth}
         year={year}
         setYear={setYear}
       />
-      {expenses ? (
-        <Chart
-          chartType="PieChart"
-          width="100%"
-          height="400px"
-          data={chartData}
-          options={options}
-        />
+      {expenses && lineChartData ? (
+        <div id="GeneratedContentsDiv">
+          <div id="HoldsCharts">
+            <Chart
+              className="chart"
+              chartType="PieChart"
+              data={chartData}
+              options={options}
+            />
+            <Chart
+              chartType="ComboChart"
+              width="100%"
+              height="400px"
+              data={lineChartData}
+              options={options2}
+            />
+          </div>
+          <div>
+            <GenerateTables expenses={expenses} />
+          </div>
+        </div>
       ) : (
         <h2>Nothing to Show</h2>
       )}
@@ -67,4 +103,44 @@ function generateData(expenseArray) {
   // append the chart data to the beginning of array
   expenseData.unshift(["Expenses", "Dollars"]);
   return expenseData;
+}
+
+function generateYearlyData(data) {
+  const result = Array(12).fill(0);
+  if (data.length === 0) return result;
+
+  data.forEach((obj) => {
+    const index = Number(getMonthNum(obj.month)) - 1;
+    result[index] += convertToNumber(obj.amount);
+  });
+
+  return result;
+}
+
+function generateLineChartData(expensesData, incomeData) {
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  let expenses = generateYearlyData(expensesData);
+  let incomes = generateYearlyData(incomeData);
+
+  let dataRotated = [];
+  months.forEach((currMonth, index) =>
+    dataRotated.push([currMonth, incomes[index], expenses[index]])
+  );
+
+  dataRotated.unshift(["Month", "Income", "Expenses"]);
+  return dataRotated;
 }

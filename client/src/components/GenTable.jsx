@@ -2,7 +2,7 @@ import { Table } from "react-bootstrap";
 import { parseDate } from "./handleDates";
 
 const GenerateTables = ({ expenses }) => {
-  return (
+  return expenses && expenses.length ? (
     <>
       <h2>Spendings</h2>
       <Table bordered hover>
@@ -15,21 +15,21 @@ const GenerateTables = ({ expenses }) => {
           </tr>
         </thead>
         <tbody>
-          {expenses
-            ? expenses.map((expense, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{expense.expense_name}</td>
-                    <td>{expense.amount}</td>
-                    <td>{parseDate(expense.duedate)}</td>
-                    <td>{parseDate(expense.datepaid)}</td>
-                  </tr>
-                );
-              })
-            : null}
+          {expenses.map((expense, index) => {
+            return (
+              <tr key={index}>
+                <td>{expense.expense_name}</td>
+                <td>{expense.amount}</td>
+                <td>{parseDate(expense.duedate)}</td>
+                <td>{parseDate(expense.datepaid)}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </>
+  ) : (
+    <h2> No Spendings to Show </h2>
   );
 };
 export default GenerateTables;
