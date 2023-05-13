@@ -113,19 +113,21 @@ const Dashboard = () => {
       <NavigationBar />
       <Profile />
       <div className="GenerateSpendingsDiv">
-        <h2>
-          Amount Remaining:
-          <span
-            style={{
-              color:
-                convertToNumber(totalIncome - totalExpenses) < 0
-                  ? "red"
-                  : "green",
-            }}
-          >
-            ${convertToNumber(totalIncome - totalExpenses)}
-          </span>
-        </h2>
+        <div id="AmountRemaining">
+          <h2 id="RemainingText">
+            Amount Remaining:{" "}
+            <span
+              style={{
+                color:
+                  convertToNumber(totalIncome - totalExpenses) <= 0
+                    ? "red"
+                    : "green",
+              }}
+            >
+              ${convertToNumber(totalIncome - totalExpenses)}
+            </span>
+          </h2>
+        </div>
         <GenerateCharts
           yearExpenses={yearlyExpenses}
           yearIncome={yearlyIncome}
