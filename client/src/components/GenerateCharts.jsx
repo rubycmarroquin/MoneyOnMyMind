@@ -17,18 +17,36 @@ const GenerateCharts = ({
   const [chartData, setChartData] = useState(null);
   const [lineChartData, setLineChartData] = useState(null);
 
-  const options = {
-    title: "Spending Habits",
+  const donutOptions = {
+    title: `Spending Habits (${month} ${year})`,
     pieHole: 0.4,
     is3D: false,
+    colors: [
+      "#e60049",
+      "#0bb4ff",
+      "#50e991",
+      "#e6d800",
+      "#9b19f5",
+      "#ffa300",
+      "#dc0ab4",
+      "#b3d4ff",
+      "#00bfa0",
+    ],
   };
 
-  const options2 = {
+  const columnChartOptions = {
     title: `Monthly Spendings and Income (${year})`,
     vAxis: { title: "in Dollars (USD)" },
     hAxis: { title: "Month" },
     seriesType: "bars",
     series: { 5: { type: "line" } },
+    colors: ["#00bfa0", "#e60049"],
+    chartArea: {
+      backgroundColor: {
+        fill: "#F4F4F4",
+        opacity: 100,
+      },
+    },
   };
 
   useEffect(() => {
@@ -51,21 +69,26 @@ const GenerateCharts = ({
       {expenses && lineChartData ? (
         <div id="GeneratedContentsDiv">
           <div id="HoldsCharts">
-            <Chart
-              className="chart"
-              chartType="PieChart"
-              data={chartData}
-              options={options}
-            />
-            <Chart
-              chartType="ComboChart"
-              width="100%"
-              height="400px"
-              data={lineChartData}
-              options={options2}
-            />
+            <div id="DonutChart">
+              <Chart
+                chartType="PieChart"
+                width="100%"
+                height="100%"
+                data={chartData}
+                options={donutOptions}
+              />
+            </div>
+            <div id="LineChart">
+              <Chart
+                chartType="ComboChart"
+                width="100%"
+                height="100%"
+                data={lineChartData}
+                options={columnChartOptions}
+              />
+            </div>
           </div>
-          <div>
+          <div id="GenTableOnly">
             <GenerateTables expenses={expenses} />
           </div>
         </div>
