@@ -6,6 +6,8 @@ import IncomeModal from "./IncomeModal";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "./AuthContext";
 import { parseDate } from "./handleDates";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const LoadBudget = ({ month, year }) => {
   const { user } = useAuth0();
@@ -55,7 +57,7 @@ const LoadBudget = ({ month, year }) => {
       method: "DELETE",
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((response) => {
-      if (response.ok) loadExpenses();
+      if (response.ok) loadIncomes();
     });
   }
 
@@ -91,15 +93,18 @@ const LoadBudget = ({ month, year }) => {
                     <td>{income.amount}</td>
                     <td>{parseDate(income.date)}</td>
                     <td>
-                      <Button onClick={() => deleteIncome(income.income_id)}>
-                        Delete
-                      </Button>
                       <IncomeModal
                         month={month}
                         year={year}
                         editIncome={income}
                         loadIncomes={loadIncomes}
                       />
+                      <Button
+                        className="DeleteButton"
+                        onClick={() => deleteIncome(income.income_id)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
                     </td>
                   </tr>
                 );
@@ -129,15 +134,18 @@ const LoadBudget = ({ month, year }) => {
                     <td>{parseDate(expense.duedate)}</td>
                     <td>{parseDate(expense.datepaid)}</td>
                     <td>
-                      <Button onClick={() => deleteExpense(expense.expense_id)}>
-                        Delete
-                      </Button>
                       <BudgetModal
                         month={month}
                         year={year}
                         editExpense={expense}
                         loadExpenses={loadExpenses}
                       />
+                      <Button
+                        className="DeleteButton"
+                        onClick={() => deleteExpense(expense.expense_id)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
                     </td>
                   </tr>
                 );

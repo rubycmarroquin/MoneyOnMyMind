@@ -5,6 +5,13 @@ import { AuthContext } from "./AuthContext";
 import { getMonthNum, getDayNum } from "./handleDates";
 import TagsDropDown from "./TagsDropDown";
 import { removeTimeZone } from "./handleDates";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCartShopping,
+  faMoneyBill,
+  faCalendar,
+  faCalendarCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 const BudgetForm = ({
   handleClose,
@@ -94,8 +101,10 @@ const BudgetForm = ({
   return (
     authToken && (
       <Form className="form-students" onSubmit={handleSubmit}>
-        <Form.Group>
-          <Form.Label>Expense</Form.Label>
+        <Form.Group className="FormOption">
+          <Form.Label>
+            <FontAwesomeIcon icon={faCartShopping} /> Expense
+          </Form.Label>
           <input
             type="text"
             id="add-expense"
@@ -107,8 +116,10 @@ const BudgetForm = ({
             }
           />
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Amount: </Form.Label>
+        <Form.Group className="FormOption">
+          <Form.Label>
+            <FontAwesomeIcon icon={faMoneyBill} /> Amount:{" "}
+          </Form.Label>
           <input
             type="number"
             id="add-amount"
@@ -119,14 +130,17 @@ const BudgetForm = ({
           />
         </Form.Group>
         <Form.Check
+          className="CheckMark"
           type={"checkbox"}
           checked={hasDueDate}
           onChange={handleCheckChange}
           label={"Has due date?"}
         />
         {hasDueDate ? (
-          <Form.Group>
-            <Form.Label>Due Date: </Form.Label>
+          <Form.Group className="FormOption">
+            <Form.Label>
+              <FontAwesomeIcon icon={faCalendar} /> Due Date:
+            </Form.Label>
             <input
               type="date"
               id="add-duedate"
@@ -138,8 +152,10 @@ const BudgetForm = ({
             />
           </Form.Group>
         ) : null}
-        <Form.Group>
-          <Form.Label>Date Paid: </Form.Label>
+        <Form.Group className="FormOption">
+          <Form.Label>
+            <FontAwesomeIcon icon={faCalendarCheck} /> Date Paid:
+          </Form.Label>
           <input
             type="Date"
             id="add-datepaid"
@@ -148,19 +164,22 @@ const BudgetForm = ({
             onChange={(event) => handleChange("datepaid", event.target.value)}
           />
         </Form.Group>
-        <Form.Group required>
+        <Form.Group className="FormOption">
           <TagsDropDown expense={expense} setExpense={setExpense} />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="FormOption">
           {editExpense ? (
-            // TODO: disable button toggle
-            // Checkout isRequired from material UI
-            <Button type="submit" variant="success">
+            <Button type="submit" variant="success" className="EditButton">
               Edit Expense
             </Button>
           ) : (
-            <Button type="submit" variant="outline-success">
-              Add Budget
+            <Button
+              type="submit"
+              variant="outline-success"
+              disabled={expense && expense.tags !== "" ? false : true}
+              className="ButtonTheme"
+            >
+              Add Expense
             </Button>
           )}
         </Form.Group>
