@@ -40,7 +40,7 @@ export default function WelcomePage() {
             </div>
             <div id="PigDiv">
               <img id="PigWP" src={PigPicture} />
-            </div>{" "}
+            </div>
           </>
         ) : null}
       </div>
