@@ -18,7 +18,6 @@ const Profile = () => {
       body: JSON.stringify(userObj),
     })
       .then((response) => {
-        console.log("Response from post method ", response);
         return response.json();
       })
       .then((data) => {
@@ -34,14 +33,7 @@ const Profile = () => {
     return <div className="loader">Loading ...</div>;
   }
 
-  return (
-    isAuthenticated && (
-      <div id="UserInfo">
-        {/* <img id="userImg" src={user.picture} alt={user.name} />
-        <h3>Welcome, {user.nickname}!</h3> */}
-      </div>
-    )
-  );
+  return isAuthenticated && <div id="UserInfo"></div>;
 };
 
 export default Profile;

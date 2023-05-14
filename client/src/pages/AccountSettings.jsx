@@ -10,7 +10,7 @@ import "../styles/AccountSettings.css";
 const AccountSettings = () => {
   const { user } = useAuth0();
   const [userInfo, setUserInfo] = useState({});
-  const { open, handleOpen, handleClose } = useContext(SnackbarContext);
+  const { handleOpen } = useContext(SnackbarContext);
   const { authToken } = useContext(AuthContext);
 
   async function loadUserData() {
@@ -50,8 +50,6 @@ const AccountSettings = () => {
     const phone = event.target.value;
     setUserInfo((user) => ({ ...userInfo, phone }));
   };
-
-  useEffect(() => {}, [userInfo]);
 
   useEffect(() => {
     if (authToken) loadUserData();

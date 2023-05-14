@@ -57,11 +57,9 @@ const BudgetForm = ({
       body: JSON.stringify(expense),
     })
       .then((response) => {
-        console.log("Response from post method ", response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         // reload expenses to show changes made
         loadExpenses();
       });
@@ -79,11 +77,9 @@ const BudgetForm = ({
       body: JSON.stringify(expense),
     })
       .then((response) => {
-        console.log("Response from post method ", response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         loadExpenses();
       });
   }

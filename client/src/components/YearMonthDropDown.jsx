@@ -10,55 +10,66 @@ const MonthDropDown = ({ month, setMonth, year, setYear }) => {
   ).sort((a, b) => a - b);
 
   return (
-    <div id="MonthYearDD">
-      <div>
-        <Dropdown
-          variant="secondary"
-          id="dropdown-basic"
-          onSelect={(e) => setMonth(e)}
-        >
-          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-            {month ? month : "Select Month"}
-          </Dropdown.Toggle>
-          <Dropdown.Menu style={{ overflowY: "scroll", height: "200px" }}>
-            <Dropdown.Item eventKey="January">January</Dropdown.Item>
-            <Dropdown.Item eventKey="Feburary">February</Dropdown.Item>
-            <Dropdown.Item eventKey="March">March</Dropdown.Item>
-            <Dropdown.Item eventKey="April">April</Dropdown.Item>
-            <Dropdown.Item eventKey="May">May</Dropdown.Item>
-            <Dropdown.Item eventKey="June">June</Dropdown.Item>
-            <Dropdown.Item eventKey="July">July</Dropdown.Item>
-            <Dropdown.Item eventKey="August">August</Dropdown.Item>
-            <Dropdown.Item eventKey="September">September</Dropdown.Item>
-            <Dropdown.Item eventKey="October">October</Dropdown.Item>
-            <Dropdown.Item eventKey="November">November</Dropdown.Item>
-            <Dropdown.Item eventKey="December">December</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
-      {month ? (
+    <div id="MYDropOuterDiv">
+      <h3>Select Month and Year:</h3>
+      <div id="MonthYearDD">
         <div>
           <Dropdown
             variant="secondary"
             id="dropdown-basic"
-            onSelect={(e) => setYear(e)}
+            onSelect={(e) => setMonth(e)}
           >
-            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-              {year ? year : "Select Year"}
+            <Dropdown.Toggle
+              variant="secondary"
+              id="dropdown-basic"
+              className="MDDropDown"
+            >
+              {month ? month : "Select Month"}
             </Dropdown.Toggle>
             <Dropdown.Menu style={{ overflowY: "scroll", height: "200px" }}>
-              {years.map((currentYear) => (
-                <Dropdown.Item
-                  key={`Year+${currentYear}`}
-                  eventKey={`${currentYear}`}
-                >
-                  {currentYear}
-                </Dropdown.Item>
-              ))}
+              <Dropdown.Item eventKey="January">January</Dropdown.Item>
+              <Dropdown.Item eventKey="Feburary">February</Dropdown.Item>
+              <Dropdown.Item eventKey="March">March</Dropdown.Item>
+              <Dropdown.Item eventKey="April">April</Dropdown.Item>
+              <Dropdown.Item eventKey="May">May</Dropdown.Item>
+              <Dropdown.Item eventKey="June">June</Dropdown.Item>
+              <Dropdown.Item eventKey="July">July</Dropdown.Item>
+              <Dropdown.Item eventKey="August">August</Dropdown.Item>
+              <Dropdown.Item eventKey="September">September</Dropdown.Item>
+              <Dropdown.Item eventKey="October">October</Dropdown.Item>
+              <Dropdown.Item eventKey="November">November</Dropdown.Item>
+              <Dropdown.Item eventKey="December">December</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
-      ) : null}
+        {month ? (
+          <div>
+            <Dropdown
+              variant="secondary"
+              id="dropdown-basic"
+              onSelect={(e) => setYear(e)}
+            >
+              <Dropdown.Toggle
+                variant="secondary"
+                id="dropdown-basic"
+                className="MDDropDown"
+              >
+                {year ? year : "Select Year"}
+              </Dropdown.Toggle>
+              <Dropdown.Menu style={{ overflowY: "scroll", height: "200px" }}>
+                {years.map((currentYear) => (
+                  <Dropdown.Item
+                    key={`Year+${currentYear}`}
+                    eventKey={`${currentYear}`}
+                  >
+                    {currentYear}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };
