@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+
+#BudgetPageOuterDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#WrapBudgetTables {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  margin-bottom: 3%;
+  width: 90%;
+  border-radius: 40px;
+  background-color: rgb(0, 128, 128);
+  padding: 30px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+#BudgetTitle {
+  font-family: "Montserrat", sans-serif;
+  font-size: 50px;
+  margin-top: 2%;
+}
+
+#LoadBudgetOuterDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+
+#IncomeTableOuterDiv {
+  background-color: rgb(247, 247, 247);
+  border-radius: 30px;
+  padding: 5%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  width: 100%;
+}
+
+#ExpenseTableOuterDiv {
+  background-color: rgb(247, 247, 247);
+  border-radius: 30px;
+  padding: 5%;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  margin-top: 5%;
+}
+
+#MYDropOuterDiv {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(221, 221, 221, 0.169);
+  padding: 2%;
+  width: 80%;
+  align-items: center;
+  margin-bottom: 2%;
+  border-radius: 30px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+    rgb(209, 213, 219) 0px 0px 0px 1px inset;
+}
+
+.BudgetTables {
+  background-color: rgb(226, 226, 226);
+  border-color: rgb(169, 169, 169);
+}
+
+.MDDropDown {
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-right: 10px
+}

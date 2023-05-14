@@ -32,6 +32,7 @@
 #GeneratedContentsDiv {
   display: flex;
   margin-top: 1%;
+  width: 100%;
   margin-bottom: 3%;
   flex-direction: column;
   border-radius: 40px;
@@ -46,6 +47,10 @@
 
 .GenCharts {
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  /* background-color: orange; */
+  align-items: center;
 }
 
 #HoldsCharts {
@@ -91,7 +96,7 @@
 }
 
 #SummaryTitleDiv {
-  background-color: orange;
+  /* background-color: orange; */
 }
 
 #Container{
