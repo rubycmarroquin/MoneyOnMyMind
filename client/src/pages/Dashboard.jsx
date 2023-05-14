@@ -33,13 +33,10 @@ const Dashboard = () => {
     setExpenses(json);
     if (json.length !== 0) {
       setTotalExpenses(
-        json
-          .reduce(
-            (total, currAmount) =>
-              (total += convertToNumber(currAmount.amount)),
-            0
-          )
-          .toFixed(2)
+        json.reduce(
+          (total, currAmount) => (total += convertToNumber(currAmount.amount)),
+          0
+        )
       );
     } else {
       setTotalExpenses(0);
@@ -58,13 +55,10 @@ const Dashboard = () => {
     const json = await response.json();
     if (json.length > 0) {
       setTotalIncome(
-        json
-          .reduce(
-            (total, currAmount) =>
-              (total += convertToNumber(currAmount.amount)),
-            0
-          )
-          .toFixed(2)
+        json.reduce(
+          (total, currAmount) => (total += convertToNumber(currAmount.amount)),
+          0
+        )
       );
     } else {
       setTotalIncome(0);
