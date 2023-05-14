@@ -32,6 +32,7 @@ const ResetButtonComp = ({ user_email }) => {
         type="button"
         variant="primary"
         id="ResetPasswordButton"
+        className="ButtonTheme"
         onClick={resetPassword}
       >
         Send Reset Password Email
