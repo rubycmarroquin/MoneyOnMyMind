@@ -4,6 +4,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "./AuthContext";
 import { getMonthNum, getDayNum } from "./handleDates";
 import { removeTimeZone } from "./handleDates";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUser,
+  faMoneyBill,
+  faCalendar,
+} from "@fortawesome/free-solid-svg-icons";
 
 const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
   const { user } = useAuth0();
@@ -39,7 +45,6 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         // reload expenses to show changes made
         loadIncomes();
       });
@@ -57,11 +62,9 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
       body: JSON.stringify(income),
     })
       .then((response) => {
-        console.log("Response from put method ", response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         loadIncomes();
       });
   }
@@ -76,8 +79,10 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
   return (
     authToken && (
       <Form className="form-students" onSubmit={handleSubmit}>
-        <Form.Group>
-          <Form.Label>Income</Form.Label>
+        <Form.Group className="FormOption">
+          <Form.Label>
+            <FontAwesomeIcon icon={faUser} /> Received From
+          </Form.Label>
           <input
             type="text"
             id="add-income"
@@ -89,8 +94,10 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
             }
           />
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Amount: </Form.Label>
+        <Form.Group className="FormOption">
+          <Form.Label>
+            <FontAwesomeIcon icon={faMoneyBill} /> Amount:
+          </Form.Label>
           <input
             type="number"
             id="add-income-amount"
@@ -100,8 +107,10 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
             onChange={(event) => handleChange("amount", event.target.value)}
           />
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Date Received: </Form.Label>
+        <Form.Group className="FormOption">
+          <Form.Label>
+            <FontAwesomeIcon icon={faCalendar} /> Date Received:
+          </Form.Label>
           <input
             type="Date"
             id="add-date-received"
@@ -111,13 +120,17 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
             onChange={(event) => handleChange("date", event.target.value)}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="FormOption">
           {editIncome ? (
-            <Button type="submit" variant="success">
+            <Button type="submit" variant="success" className="EditButton">
               Edit Income
             </Button>
           ) : (
-            <Button type="submit" variant="outline-success">
+            <Button
+              type="submit"
+              variant="outline-success"
+              className="ButtonTheme"
+            >
               Add Income
             </Button>
           )}

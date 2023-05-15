@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { SnackbarContext } from "../components/SnackbarContext";
 
 const ResetButtonComp = ({ user_email }) => {
-  const { open, handleOpen, handleClose } = useContext(SnackbarContext);
+  const { handleOpen } = useContext(SnackbarContext);
 
   async function resetPassword() {
     await fetch(
@@ -32,6 +32,7 @@ const ResetButtonComp = ({ user_email }) => {
         type="button"
         variant="primary"
         id="ResetPasswordButton"
+        className="ButtonTheme"
         onClick={resetPassword}
       >
         Send Reset Password Email

@@ -1,0 +1,190 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+
+#BudgetPageOuterDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#WrapBudgetTables {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  margin-bottom: 3%;
+  width: 90%;
+  border-radius: 40px;
+  background-color: rgb(0, 128, 128);
+  padding: 30px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+#BudgetTitle {
+  font-family: "Montserrat", sans-serif;
+  font-size: 50px;
+  margin-top: 2%;
+}
+
+#LoadBudgetOuterDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+
+#IncomeTableOuterDiv {
+  background-color: rgb(247, 247, 247);
+  border-radius: 30px;
+  padding: 5%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  width: 100%;
+}
+
+#ExpenseTableOuterDiv {
+  background-color: rgb(247, 247, 247);
+  border-radius: 30px;
+  padding: 5%;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  margin-top: 5%;
+}
+
+#MYDropOuterDiv {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(221, 221, 221, 0.169);
+  padding: 2%;
+  width: 80%;
+  align-items: center;
+  margin-bottom: 2%;
+  border-radius: 30px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+    rgb(209, 213, 219) 0px 0px 0px 1px inset;
+}
+
+.BudgetTables {
+  background-color: rgb(226, 226, 226);
+  border-color: rgb(169, 169, 169);
+}
+
+.MDDropDown {
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-right: 10px;
+}
+
+.AddButton {
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(0, 128, 128, 0.778);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.AddButton:hover {
+  background-color: rgba(0, 128, 128, 0.897);
+}
+
+.AddButton:active {
+  background-color: rgb(0, 128, 128);
+}
+
+.EditButton {
+  border-radius: 10px;
+  background-color: #ff8903;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.EditButton:hover {
+  background-color: #d37000;
+}
+
+.EditButton:active {
+  background-color: #8d4b00;
+}
+
+.DeleteButton {
+  border-radius: 10px;
+  background-color: #d80505;
+  margin-left: 4%;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.DeleteButton:hover {
+  background-color: #950505;
+}
+
+.DeleteButton::after {
+  background-color: #610202;
+}
+
+.IncomeModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.form-students {
+  width: 100%;
+}
+
+input {
+  border-width: 0 0 2px;
+  border-color: gray;
+}
+
+.FormOption {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3%;
+}
+
+.TitleModal {
+  font-family: "Montserrat", sans-serif;
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 128, 128);
+}
+
+.CheckMark {
+  margin-bottom: 3%;
+}
+
+.ButtonTheme {
+  border-radius: 30px;
+  background-color: rgba(0, 128, 128, 0.876);
+  color: white;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.ButtonTheme:disabled {
+  background-color: rgba(128, 128, 128, 0.301);
+  color: gray;
+}
+
+.ButtonTheme:hover {
+  background-color: rgba(0, 92, 92, 0.959);
+}
+
+.ButtonTheme::after {
+  background-color: rgba(1, 46, 46, 0.959);
+}

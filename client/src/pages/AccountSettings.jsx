@@ -5,12 +5,14 @@ import NavigationBar from "../components/NavigationBar";
 import ResetButtonComp from "../components/ResetPassword";
 import { SnackbarContext } from "../components/SnackbarContext";
 import { AuthContext } from "../components/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPhone, faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import "../styles/AccountSettings.css";
 
 const AccountSettings = () => {
   const { user } = useAuth0();
   const [userInfo, setUserInfo] = useState({});
-  const { open, handleOpen, handleClose } = useContext(SnackbarContext);
+  const { handleOpen } = useContext(SnackbarContext);
   const { authToken } = useContext(AuthContext);
 
   async function loadUserData() {
@@ -51,8 +53,6 @@ const AccountSettings = () => {
     setUserInfo((user) => ({ ...userInfo, phone }));
   };
 
-  useEffect(() => {}, [userInfo]);
-
   useEffect(() => {
     if (authToken) loadUserData();
   }, [authToken]);
@@ -70,9 +70,12 @@ const AccountSettings = () => {
           <div id="SettingsFormOuterDiv">
             <h1>Account Settings</h1>
             <Form className="SettingsForm" onSubmit={handleSubmit}>
-              <Form.Group as={Col}>
-                <Form.Label>Name</Form.Label>
+              <Form.Group className="FormOption" as={Col}>
+                <Form.Label>
+                  <FontAwesomeIcon icon={faUserAlt} /> Name
+                </Form.Label>
                 <input
+                  className="AccountText"
                   type="text"
                   id="add-name"
                   placeholder="name"
@@ -81,8 +84,10 @@ const AccountSettings = () => {
                   onChange={handleNameChange}
                 />
               </Form.Group>
-              <Form.Group as={Col}>
-                <Form.Label>Phone Number </Form.Label>
+              <Form.Group className="FormOption" as={Col}>
+                <Form.Label>
+                  <FontAwesomeIcon icon={faPhone} /> Phone Number{" "}
+                </Form.Label>
                 <input
                   type="text"
                   id="add-phone"
@@ -90,10 +95,16 @@ const AccountSettings = () => {
                   required
                   value={userInfo.phone || ""}
                   onChange={handlePhoneChange}
+                  className="AccountText"
                 />
               </Form.Group>
-              <Form.Group as={Col} id="ButtonsGroups">
-                <Button type="submit" variant="outline-success" id="FormButton">
+              <Form.Group className="FormOption" as={Col} id="ButtonsGroups">
+                <Button
+                  className="ButtonTheme"
+                  type="submit"
+                  variant="outline-success"
+                  id="FormButton"
+                >
                   Save Changes
                 </Button>
               </Form.Group>

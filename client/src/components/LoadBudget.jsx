@@ -6,6 +6,8 @@ import IncomeModal from "./IncomeModal";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "./AuthContext";
 import { parseDate } from "./handleDates";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const LoadBudget = ({ month, year }) => {
   const { user } = useAuth0();
@@ -24,10 +26,9 @@ const LoadBudget = ({ month, year }) => {
     );
     const json = await response.json();
     setExpenses(json);
-    console.log("this is the json", json);
   }
 
-  // load expenses from database
+  // load income from database
   async function loadIncomes() {
     const response = await fetch(
       `http://localhost:8080/incomes/${user.sub}&${month}&${year}`,
@@ -38,7 +39,6 @@ const LoadBudget = ({ month, year }) => {
     );
     const json = await response.json();
     setIncomes(json);
-    console.log("this is the json", json);
   }
 
   // delete an expense from database
@@ -51,13 +51,13 @@ const LoadBudget = ({ month, year }) => {
     });
   }
 
-  // delete an expense from database
+  // delete an income from database
   async function deleteIncome(income_id) {
     await fetch(`http://localhost:8080/income/${income_id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((response) => {
-      if (response.ok) loadExpenses();
+      if (response.ok) loadIncomes();
     });
   }
 
@@ -68,79 +68,93 @@ const LoadBudget = ({ month, year }) => {
 
   return (
     <div id="LoadBudgetOuterDiv">
-      <h1>
-        Viewing: {month} {year}
-      </h1>
-      <h2>Income</h2>
-      <Table bordered hover>
-        <thead>
-          <tr>
-            <th>Paid By</th>
-            <th>Amount</th>
-            <th>Date Received</th>
-            <th>...</th>
-          </tr>
-        </thead>
-        <tbody>
-          {incomes.map((income, index) => {
-            return (
-              <tr key={index}>
-                <td>{income.income_name}</td>
-                <td>{income.amount}</td>
-                <td>{parseDate(income.date)}</td>
-                <td>
-                  <Button onClick={() => deleteIncome(income.income_id)}>
-                    Delete
-                  </Button>
-                  <IncomeModal
-                    month={month}
-                    year={year}
-                    editIncome={income}
-                    loadIncomes={loadIncomes}
-                  />
-                </td>
+      <div id="ViewingDiv">
+        <h3>
+          Viewing: {month} {year}
+        </h3>
+      </div>
+      <div id="WrapBudgetTables">
+        <div id="IncomeTableOuterDiv">
+          <h2>Income</h2>
+          <Table bordered hover>
+            <thead className="BudgetTables">
+              <tr>
+                <th>Paid By</th>
+                <th>Amount</th>
+                <th>Date Received</th>
+                <th>...</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-      <IncomeModal month={month} year={year} loadIncomes={loadIncomes} />
-      <h2>Expenses</h2>
-      <Table bordered hover>
-        <thead>
-          <tr>
-            <th>Expense</th>
-            <th>Amount</th>
-            <th>Due Date</th>
-            <th>Date Paid</th>
-            <th>...</th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenses.map((expense, index) => {
-            return (
-              <tr key={index}>
-                <td>{expense.expense_name}</td>
-                <td>{expense.amount}</td>
-                <td>{parseDate(expense.duedate)}</td>
-                <td>{parseDate(expense.datepaid)}</td>
-                <td>
-                  <Button onClick={() => deleteExpense(expense.expense_id)}>
-                    Delete
-                  </Button>
-                  <BudgetModal
-                    month={month}
-                    year={year}
-                    editExpense={expense}
-                    loadExpenses={loadExpenses}
-                  />
-                </td>
+            </thead>
+            <tbody>
+              {incomes.map((income, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{income.income_name}</td>
+                    <td>{income.amount}</td>
+                    <td>{parseDate(income.date)}</td>
+                    <td>
+                      <IncomeModal
+                        month={month}
+                        year={year}
+                        editIncome={income}
+                        loadIncomes={loadIncomes}
+                      />
+                      <Button
+                        className="DeleteButton"
+                        onClick={() => deleteIncome(income.income_id)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+          <IncomeModal month={month} year={year} loadIncomes={loadIncomes} />
+        </div>
+        <div id="ExpenseTableOuterDiv">
+          <h2>Expenses</h2>
+          <Table bordered hover>
+            <thead className="BudgetTables">
+              <tr>
+                <th>Expense</th>
+                <th>Amount</th>
+                <th>Due Date</th>
+                <th>Date Paid</th>
+                <th>...</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-      <BudgetModal month={month} year={year} loadExpenses={loadExpenses} />
+            </thead>
+            <tbody>
+              {expenses.map((expense, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{expense.expense_name}</td>
+                    <td>{expense.amount}</td>
+                    <td>{parseDate(expense.duedate)}</td>
+                    <td>{parseDate(expense.datepaid)}</td>
+                    <td>
+                      <BudgetModal
+                        month={month}
+                        year={year}
+                        editExpense={expense}
+                        loadExpenses={loadExpenses}
+                      />
+                      <Button
+                        className="DeleteButton"
+                        onClick={() => deleteExpense(expense.expense_id)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+          <BudgetModal month={month} year={year} loadExpenses={loadExpenses} />
+        </div>
+      </div>
     </div>
   );
 };

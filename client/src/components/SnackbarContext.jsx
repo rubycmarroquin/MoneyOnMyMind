@@ -11,6 +11,7 @@ export const SnackbarProvider = ({ children }) => {
     setMessage(message);
     setOpen(true);
   };
+
   const handleClose = () => {
     setMessage("");
     setOpen(false);
