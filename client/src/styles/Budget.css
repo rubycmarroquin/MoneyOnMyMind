@@ -146,8 +146,8 @@
 }
 
 input {
-    border-width: 0 0 2px;
-    border-color: gray
+  border-width: 0 0 2px;
+  border-color: gray;
 }
 
 .FormOption {
@@ -182,9 +182,9 @@ input {
 }
 
 .ButtonTheme:hover {
-    background-color: rgba(0, 92, 92, 0.959);
+  background-color: rgba(0, 92, 92, 0.959);
 }
 
 .ButtonTheme::after {
-      background-color: rgba(1, 46, 46, 0.959);
+  background-color: rgba(1, 46, 46, 0.959);
 }
