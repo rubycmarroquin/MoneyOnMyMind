@@ -22,17 +22,13 @@ export default function WelcomePage() {
               </div>
               <h3 id="WelcomePageTitle">Budget smarter, not harder.</h3>
               <p id="WelcomePageText">
-                Welcome to Money on My Mind. A budgeting application, where
-                managing your finances has never been easier. Money on My Mind
-                is designed to help you take control of your money and achieve
-                your financial goals. With our user-friendly interface and
-                customizable features, you can easily create budgets, track your
-                expenses, and monitor your savings all in one place. Whether
-                you're looking to pay off debt, save for a big purchase, or
-                simply improve your overall financial health, Money on My Mind
-                is here to help. Thank you for choosing our budgeting app. We're
-                excited to help you take control of your finances and reach your
-                financial goals.
+                Money on My Mind is a budgeting app that helps users plan their
+                budget, track expenses through charts and tables, and provides
+                counseling through videos, text, and an in-app chatbot. The app
+                is designed to help users take control of their finances and
+                achieve their financial goals, with a user-friendly interface
+                that is easy to navigate for both technical and non-technical
+                users.
               </p>
               <div id="LoginButtonDiv">
                 <LoginButton />
