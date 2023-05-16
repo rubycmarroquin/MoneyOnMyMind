@@ -39,7 +39,7 @@ const GenerateCharts = ({
     vAxis: { title: "in Dollars (USD)" },
     hAxis: { title: "Month" },
     seriesType: "bars",
-    series: { 5: { type: "line" } },
+    series: { 2: { type: "line" } },
     colors: ["#00bfa0", "#e60049"],
     chartArea: {
       backgroundColor: {
@@ -161,9 +161,15 @@ function generateLineChartData(expensesData, incomeData) {
 
   let dataRotated = [];
   months.forEach((currMonth, index) =>
-    dataRotated.push([currMonth, incomes[index], expenses[index]])
+    dataRotated.push([
+      currMonth,
+      incomes[index],
+      expenses[index],
+      incomes[index] - expenses[index],
+    ])
   );
 
-  dataRotated.unshift(["Month", "Income", "Expenses"]);
+  // add average
+  dataRotated.unshift(["Month", "Income", "Expenses", "Average"]);
   return dataRotated;
 }

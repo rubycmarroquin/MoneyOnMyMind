@@ -43,8 +43,6 @@ Here's why:
 - Expense and income tracking is offered so that you can view your finances as a table or as a chart if you like visuals.
 - Provide an informative, financial literacy tab with an in-app chat bot that you can ask for financial advice.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ### Built With
 
 - ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
@@ -55,8 +53,6 @@ Here's why:
 - [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 - ![Semantic UI React](https://img.shields.io/badge/Semantic%20UI%20React-%2335BDB2.svg?style=for-the-badge&logo=SemanticUIReact&logoColor=white)
 - ![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- API Reference -->
 
@@ -150,6 +146,7 @@ Project Link: [Money on My Mind](https://github.com/rubycmarroquin/MoneyOnMyMind
 - [Img Shields](https://shields.io)
 - [Font Awesome](https://fontawesome.com)
 - [React Icons](https://react-icons.github.io/react-icons/search)
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
