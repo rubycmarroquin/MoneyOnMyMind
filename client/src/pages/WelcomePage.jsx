@@ -38,7 +38,9 @@ export default function WelcomePage() {
               <img id="PigWP" src={PigPicture} />
             </div>
           </>
-        ) : null}
+        ) : (
+          <h1>Is Authenticated, redirecting...</h1>
+        )}
       </div>
     </div>
   );

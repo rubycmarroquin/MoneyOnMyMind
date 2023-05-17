@@ -6,7 +6,7 @@ const GenerateTables = ({ expenses }) => {
     <>
       <h2>Spendings</h2>
       <Table bordered hover>
-        <thead class="GenTableCols">
+        <thead className="GenTableCols">
           <tr>
             <th>Expense</th>
             <th>Amount</th>
@@ -17,7 +17,7 @@ const GenerateTables = ({ expenses }) => {
         <tbody>
           {expenses.map((expense, index) => {
             return (
-              <tr class="GenTableRows" key={index}>
+              <tr className="GenTableRows" key={index}>
                 <td>{expense.expense_name}</td>
                 <td>{expense.amount}</td>
                 <td>{parseDate(expense.duedate)}</td>
