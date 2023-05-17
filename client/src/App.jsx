@@ -10,6 +10,7 @@ import { SnackbarProvider } from "./components/SnackbarContext";
 import Budget from "./pages/Budget";
 import { useEffect, useContext } from "react";
 import { AuthContext } from "./components/AuthContext";
+import FinancialPage from "./pages/FInancialPage";
 
 function App() {
   const { getAccessTokenSilently, user } = useAuth0();
@@ -36,6 +37,10 @@ function App() {
             element={<AuthGuard component={AccountSettings} />}
           />
           <Route path="budget" element={<AuthGuard component={Budget} />} />
+          <Route
+            path="financial-counseling"
+            element={<AuthGuard component={FinancialPage} />}
+          />
         </Route>
       </Routes>
     </SnackbarProvider>
