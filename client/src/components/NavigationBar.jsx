@@ -9,7 +9,9 @@ import "../styles/NavBar.css";
 
 const NavigationBar = () => {
   const { user, isAuthenticated } = useAuth0();
+
   return (
+    // Only show the navigation bar if the user is authenticated
     isAuthenticated && (
       <Navbar
         collapseOnSelect
@@ -19,19 +21,20 @@ const NavigationBar = () => {
         data-testid="navbar"
       >
         <Container>
+          {/* Brand logo and text */}
           <Navbar.Brand href="/">
-            <img id="Pig" src={Pig} />
+            <img id="Pig" src={Pig} alt="ProjectLogoOfPig" />
             Money on My Mind
           </Navbar.Brand>
+
+          {/* Hamburger menu icon */}
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
+          {/* Navigation links */}
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Item>
-                <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="/budget">Budgets</Nav.Link>
-              </Nav.Item>
+              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+              <Nav.Link href="/budget">Budgets</Nav.Link>
               <NavDropdown
                 title="More Options"
                 id="nav-dropdown"
@@ -49,13 +52,14 @@ const NavigationBar = () => {
                 <LogoutButton />
               </NavDropdown>
             </Nav>
+
+            {/* Display user's given name or nickname if given name is undefined */}
             <Navbar.Text>
               Signed in as:{" "}
               <span style={{ color: "white" }}>
                 {user.given_name || user.nickname}
               </span>
             </Navbar.Text>
-            <br />
           </Navbar.Collapse>
         </Container>
       </Navbar>
