@@ -1,0 +1,18 @@
+services:
+  - name: server
+    plan: free
+    type: web
+    env: node
+    repo: https://github.com/Yosolita1978/chaGPTandSQL
+    buildCommand: cd client && npm install && npm run build && cd ../server && npm install
+    startCommand: cd server && node server.js
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: db
+          property: connectionString
+
+databases:
+  - name: db
+    plan: free
+    ipAllowList: []
