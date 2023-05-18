@@ -8,6 +8,7 @@ import { AuthContext } from "./AuthContext";
 import { parseDate } from "./handleDates";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useCalendar } from "./useCalendar";
 
 const LoadBudget = ({ month, year }) => {
   const { user } = useAuth0();
@@ -65,6 +66,8 @@ const LoadBudget = ({ month, year }) => {
     loadExpenses();
     loadIncomes();
   }, [month, year, authToken]);
+
+  const { createEvent, updateEvent, deleteEvent } = useCalendar();
 
   return (
     <div id="LoadBudgetOuterDiv">
@@ -145,6 +148,9 @@ const LoadBudget = ({ month, year }) => {
                         onClick={() => deleteExpense(expense.expense_id)}
                       >
                         <FontAwesomeIcon icon={faTrash} />
+                      </Button>
+                      <Button onClick={() => createEvent(expense)}>
+                        Calendar Invite
                       </Button>
                     </td>
                   </tr>
