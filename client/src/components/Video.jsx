@@ -7,13 +7,10 @@ function YouTubeVideos({ videoType }) {
   const { authToken } = useContext(AuthContext);
 
   const loadVideos = async (keyword) => {
-    const response = await fetch(
-      `http://localhost:8080/api/videos/${keyword}`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${authToken}` },
-      }
-    );
+    const response = await fetch(`/api/api/videos/${keyword}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
     const json = await response.json();
     setVideos(json);
   };

@@ -9,7 +9,7 @@ const Profile = () => {
   //A function to handle the post request
   async function insertUserToDB() {
     const userObj = { user_id: user.sub, email: user.email };
-    await fetch("http://localhost:8080/user", {
+    await fetch("/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

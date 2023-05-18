@@ -10,7 +10,12 @@ const Calendar = require("./calendar.js")
 const { auth } = require("express-oauth2-jwt-bearer");
 
 const app = express();
+
+const REACT_BUILD_DIR = path.join(__dirname, "..", "client", "dist");
+app.use(express.static(REACT_BUILD_DIR));
+
 const PORT = process.env.PORT || 8080;
+
 
 //JWT middleware
 const jwtCheck = auth({
@@ -25,7 +30,8 @@ app.use(jwtCheck);
 
 // creates an endpoint for the route "/""
 app.get("/", (req, res) => {
-  res.json({ message: "Hola, from My template ExpressJS with React-Vite" });
+  // res.json({ message: "Hola, from My template ExpressJS with React-Vite" });
+  res.sendFile(path.join(REACT_BUILD_DIR, "index.html"));
 });
 
 /***************************************************************************************************
@@ -33,7 +39,7 @@ app.get("/", (req, res) => {
  ***************************************************************************************************/
 
 // create the get request for students in the endpoint '/api/students'
-app.get("/user/:userId", cors(), async (req, res) => {
+app.get("/api/user/:userId", cors(), async (req, res) => {
   const user_id = req.params.userId;
   try {
     const { rows: users } = await db.query(
@@ -47,7 +53,7 @@ app.get("/user/:userId", cors(), async (req, res) => {
 });
 
 // creates new entry for user, else does nothing
-app.post("/user", cors(), async (req, res) => {
+app.post("/api/user", cors(), async (req, res) => {
   console.log(req.body.user_id, req.body.email);
   try {
     const newUser = {
@@ -68,7 +74,7 @@ app.post("/user", cors(), async (req, res) => {
 });
 
 // update a user's info
-app.put("/user/:userId", cors(), async (req, res) => {
+app.put("/api/user/:userId", cors(), async (req, res) => {
   const user_id = req.params.userId;
   const updatedUser = {
     name: req.body.name,
@@ -93,7 +99,7 @@ app.put("/user/:userId", cors(), async (req, res) => {
  ***************************************************************************************************/
 
 // grab data by user id and month and year
-app.get("/expenses/:userId&:monthName&:yearNum", cors(), async (req, res) => {
+app.get("/api/expenses/:userId&:monthName&:yearNum", cors(), async (req, res) => {
   const user_id = req.params.userId;
   const monthName = req.params.monthName;
   const yearNum = req.params.yearNum;
@@ -110,7 +116,7 @@ app.get("/expenses/:userId&:monthName&:yearNum", cors(), async (req, res) => {
 });
 
 // post expense to database
-app.post("/expenses", cors(), async (req, res) => {
+app.post("/api/expenses", cors(), async (req, res) => {
   const generated_id = randomUUID();
   try {
     const newExpense = {
@@ -146,7 +152,7 @@ app.post("/expenses", cors(), async (req, res) => {
 });
 
 // delete an expense entry
-app.delete("/expense/:expenseId", cors(), async (req, res) => {
+app.delete("/api/expense/:expenseId", cors(), async (req, res) => {
   try {
     const expense_id = req.params.expenseId;
     await db.query("DELETE FROM expenses WHERE expense_id=$1", [expense_id]);
@@ -159,7 +165,7 @@ app.delete("/expense/:expenseId", cors(), async (req, res) => {
 });
 
 // edit a user's expense
-app.put("/expense/:expenseId", cors(), async (req, res) => {
+app.put("/api/expense/:expenseId", cors(), async (req, res) => {
   const expense_id = req.params.expenseId;
   try {
     const updateExpense = {
@@ -193,7 +199,7 @@ app.put("/expense/:expenseId", cors(), async (req, res) => {
  ***************************************************************************************************/
 
 // grab income data by user id and month and year
-app.get("/incomes/:userId&:monthName&:yearNum", cors(), async (req, res) => {
+app.get("/api/incomes/:userId&:monthName&:yearNum", cors(), async (req, res) => {
   const user_id = req.params.userId;
   const monthName = req.params.monthName;
   const yearNum = req.params.yearNum;
@@ -210,7 +216,7 @@ app.get("/incomes/:userId&:monthName&:yearNum", cors(), async (req, res) => {
 });
 
 // post an income entry to database
-app.post("/incomes", cors(), async (req, res) => {
+app.post("/api/incomes", cors(), async (req, res) => {
   const income_id = randomUUID();
   try {
     const newIncome = {
@@ -242,7 +248,7 @@ app.post("/incomes", cors(), async (req, res) => {
 });
 
 // delete an income entry
-app.delete("/income/:incomeId", cors(), async (req, res) => {
+app.delete("/api/income/:incomeId", cors(), async (req, res) => {
   try {
     const income_id = req.params.incomeId;
     await db.query("DELETE FROM incomes WHERE income_id=$1", [income_id]);
@@ -255,7 +261,7 @@ app.delete("/income/:incomeId", cors(), async (req, res) => {
 });
 
 // edit a user's income entry
-app.put("/income/:incomeId", cors(), async (req, res) => {
+app.put("/api/income/:incomeId", cors(), async (req, res) => {
   const income_id = req.params.incomeId;
   try {
     const editedIncome = {
@@ -284,7 +290,7 @@ app.put("/income/:incomeId", cors(), async (req, res) => {
  **************************************** YEAR API CALLS  ******************************************
  ***************************************************************************************************/
 // grab income amount by year and user id
-app.get("/yearly/income/:userId&:yearNum", cors(), async (req, res) => {
+app.get("/api/yearly/income/:userId&:yearNum", cors(), async (req, res) => {
   const user_id = req.params.userId;
   const yearNum = req.params.yearNum;
   try {
@@ -300,7 +306,7 @@ app.get("/yearly/income/:userId&:yearNum", cors(), async (req, res) => {
 });
 
 // grab expenses amount + tags by year and user id
-app.get("/yearly/expenses/:userId&:yearNum", cors(), async (req, res) => {
+app.get("/api/yearly/expenses/:userId&:yearNum", cors(), async (req, res) => {
   const user_id = req.params.userId;
   const yearNum = req.params.yearNum;
   try {
@@ -315,7 +321,7 @@ app.get("/yearly/expenses/:userId&:yearNum", cors(), async (req, res) => {
   }
 });
 
-app.post("/calendar", cors(), async (req, res) => {
+app.post("/api/calendar", cors(), async (req, res) => {
  let { expenseName, expenseDate, email } = req.body;
   try{
        Calendar.createEvent({

@@ -17,7 +17,7 @@ const AccountSettings = () => {
 
   async function loadUserData() {
     // fetch the data from the backend
-    const response = await fetch(`http://localhost:8080/user/${user.sub}`, {
+    const response = await fetch(`/api/user/${user.sub}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${authToken}` },
     });
@@ -27,7 +27,7 @@ const AccountSettings = () => {
 
   // updates a user's name & phone number
   async function editUserInfo(updatedInfo) {
-    return fetch(`http://localhost:8080/user/${user.sub}`, {
+    return fetch(`/api/user/${user.sub}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

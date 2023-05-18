@@ -23,7 +23,7 @@ const Dashboard = () => {
   // load total amount of expenses for viewing month
   async function loadTotalExpenses() {
     const response = await fetch(
-      `http://localhost:8080/expenses/${user.sub}&${viewMonth}&${viewYear}`,
+      `/api/expenses/${user.sub}&${viewMonth}&${viewYear}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${authToken}` },
@@ -46,7 +46,7 @@ const Dashboard = () => {
   // load total amount of income for viewing month
   async function loadTotalIncome() {
     const response = await fetch(
-      `http://localhost:8080/incomes/${user.sub}&${viewMonth}&${viewYear}`,
+      `/api/incomes/${user.sub}&${viewMonth}&${viewYear}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${authToken}` },
@@ -67,13 +67,10 @@ const Dashboard = () => {
 
   // load total amount of income for viewing month
   async function loadYearIncome() {
-    const response = await fetch(
-      `http://localhost:8080/yearly/income/${user.sub}&${viewYear}`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${authToken}` },
-      }
-    );
+    const response = await fetch(`/api/yearly/income/${user.sub}&${viewYear}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
     const json = await response.json();
     setYearlyIncome(json);
     console.log(json);
@@ -82,7 +79,7 @@ const Dashboard = () => {
   // load total amount of income for viewing month
   async function loadYearExpenses() {
     const response = await fetch(
-      `http://localhost:8080/yearly/expenses/${user.sub}&${viewYear}`,
+      `/api/yearly/expenses/${user.sub}&${viewYear}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${authToken}` },

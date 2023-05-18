@@ -2,9 +2,8 @@ import { useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "./AuthContext";
-import { getMonthNum, getDayNum } from "./handleDates";
+import { getMonthNum, getDayNum, removeTimeZone } from "./handleDates";
 import TagsDropDown from "./TagsDropDown";
-import { removeTimeZone } from "./handleDates";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartShopping,
@@ -37,7 +36,7 @@ const BudgetForm = ({
   );
 
   const [hasDueDate, setHasDueDate] = useState(
-    editExpense && editExpense.duedate ? true : false
+    !!(editExpense && editExpense.duedate)
   );
 
   const handleChange = (field, value) => {
@@ -47,15 +46,13 @@ const BudgetForm = ({
 
   const handleCheckChange = (e) => {
     const check = e.target.checked;
-    // resets the expenses due date
-    if (!check) setExpense({ ...expense, ["duedate"]: "" });
+    setExpense({ ...expense, ["duedate"]: check ? expense.duedate : "" });
     setHasDueDate(check);
   };
 
-  //A function to handle the post request
   async function addExpense() {
     if (!hasDueDate) expense.duedate = "";
-    await fetch("http://localhost:8080/expenses", {
+    await fetch(`/api/expenses`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,19 +60,12 @@ const BudgetForm = ({
       },
       body: JSON.stringify(expense),
     })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        // reload expenses to show changes made
-        loadExpenses();
-      });
+      .then((response) => response.json())
+      .then((data) => loadExpenses());
   }
 
-  //A function to handle the put request
   async function editExpenseDB() {
-    console.log(expense);
-    await fetch(`http://localhost:8080/expense/${expense.expense_id}`, {
+    await fetch(`/api/expense/${expense.expense_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -83,12 +73,8 @@ const BudgetForm = ({
       },
       body: JSON.stringify(expense),
     })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        loadExpenses();
-      });
+      .then((response) => response.json())
+      .then((data) => loadExpenses());
   }
 
   const handleSubmit = (e) => {
@@ -116,6 +102,7 @@ const BudgetForm = ({
             }
           />
         </Form.Group>
+
         <Form.Group className="FormOption">
           <Form.Label>
             <FontAwesomeIcon icon={faMoneyBill} /> Amount:{" "}
@@ -129,6 +116,7 @@ const BudgetForm = ({
             onChange={(event) => handleChange("amount", event.target.value)}
           />
         </Form.Group>
+
         <Form.Check
           className="CheckMark"
           type={"checkbox"}
@@ -136,6 +124,7 @@ const BudgetForm = ({
           onChange={handleCheckChange}
           label={"Has due date?"}
         />
+
         {hasDueDate ? (
           <Form.Group className="FormOption">
             <Form.Label>
@@ -152,6 +141,7 @@ const BudgetForm = ({
             />
           </Form.Group>
         ) : null}
+
         <Form.Group className="FormOption">
           <Form.Label>
             <FontAwesomeIcon icon={faCalendarCheck} /> Date Paid:
@@ -164,9 +154,11 @@ const BudgetForm = ({
             onChange={(event) => handleChange("datepaid", event.target.value)}
           />
         </Form.Group>
+
         <Form.Group className="FormOption">
           <TagsDropDown expense={expense} setExpense={setExpense} />
         </Form.Group>
+
         <Form.Group className="FormOption">
           {editExpense ? (
             <Button type="submit" variant="success" className="EditButton">
@@ -176,7 +168,8 @@ const BudgetForm = ({
             <Button
               type="submit"
               variant="outline-success"
-              disabled={expense && expense.tags !== "" ? false : true}
+              // disabled={expense && expense.tags !== "" ? false : true}
+              disabled={!expense.tags}
               className="ButtonTheme"
             >
               Add Expense

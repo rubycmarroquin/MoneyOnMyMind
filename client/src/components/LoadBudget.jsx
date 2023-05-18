@@ -20,33 +20,27 @@ const LoadBudget = ({ month, year }) => {
 
   // load expenses from database
   async function loadExpenses() {
-    const response = await fetch(
-      `http://localhost:8080/expenses/${user.sub}&${month}&${year}`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${authToken}` },
-      }
-    );
+    const response = await fetch(`/api/expenses/${user.sub}&${month}&${year}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
     const json = await response.json();
     setExpenses(json);
   }
 
   // load income from database
   async function loadIncomes() {
-    const response = await fetch(
-      `http://localhost:8080/incomes/${user.sub}&${month}&${year}`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${authToken}` },
-      }
-    );
+    const response = await fetch(`/api/incomes/${user.sub}&${month}&${year}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
     const json = await response.json();
     setIncomes(json);
   }
 
   // delete an expense from database
   async function deleteExpense(expense_id) {
-    await fetch(`http://localhost:8080/expense/${expense_id}`, {
+    await fetch(`/api/expense/${expense_id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((response) => {
@@ -56,7 +50,7 @@ const LoadBudget = ({ month, year }) => {
 
   // delete an income from database
   async function deleteIncome(income_id) {
-    await fetch(`http://localhost:8080/income/${income_id}`, {
+    await fetch(`/api/income/${income_id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((response) => {
