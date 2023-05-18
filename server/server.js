@@ -4,6 +4,7 @@ require("dotenv").config();
 const { randomUUID } = require("crypto");
 const path = require("path");
 const db = require("./db/db-connection.js");
+const Calendar = require("./calendar.js")
 
 //auth0 jwt
 const { auth } = require("express-oauth2-jwt-bearer");
@@ -309,6 +310,31 @@ app.get("/yearly/expenses/:userId&:yearNum", cors(), async (req, res) => {
     );
     console.log(expenses);
     res.send(expenses);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
+app.post("/calendar", cors(), async (req, res) => {
+ let { expenseName, expenseDate, email } = req.body;
+  try{
+       Calendar.createEvent({
+        summary: expenseName,
+        description: "Upcoming due date.",
+        start: {
+          date: (new Date(expenseDate).toISOString().slice(0, 10)),
+        },
+        end: {
+          date: (new Date(expenseDate).toISOString().slice(0, 10)),
+        },
+        attendees: [
+          { email: email },
+        ],
+        reminders: {
+          useDefault: true,
+        }
+      });
+    res.status(200);
   } catch (e) {
     return res.status(400).json({ e });
   }

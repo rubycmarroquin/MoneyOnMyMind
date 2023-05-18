@@ -24,3 +24,7 @@ server/.DS_Store
 DS_Store
 
 .env
+
+# Google Calendar API
+token.json
+credentials.json

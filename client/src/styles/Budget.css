@@ -116,14 +116,17 @@
   background-color: #8d4b00;
 }
 
-.DeleteButton {
+.DeleteButton, .GoogleCalendarButton {
   border-radius: 10px;
-  background-color: #d80505;
   margin-left: 4%;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
     rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
     rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.DeleteButton {
+    background-color: #d80505;
 }
 
 .DeleteButton:hover {
@@ -134,6 +137,17 @@
   background-color: #610202;
 }
 
+.GoogleCalendarButton {
+  background-color: rgb(31, 204, 31);
+}
+
+.GoogleCalendarButton:hover {
+  background-color: rgb(32, 134, 32);
+}
+
+.GoogleCalendarButton:disabled {
+  background-color: gray;
+}
 .IncomeModal {
   display: flex;
   justify-content: center;
