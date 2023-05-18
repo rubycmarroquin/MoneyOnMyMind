@@ -97,7 +97,8 @@ function createEvent (event) {
     auth: oauthClient,
     calendarId: 'primary',
     resource: event,
-    sendUpdates: 'externalOnly'
+    sendUpdates: 'externalOnly',
+    sendNotifications: true
   }, (err, res) => {
     if (err) {
       console.log("Error creating event");
