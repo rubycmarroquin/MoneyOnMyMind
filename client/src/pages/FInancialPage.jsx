@@ -8,8 +8,12 @@ const FinancialPage = () => {
       <NavigationBar />
       <div className="FinancialPageMainDiv">
         <div className="FinancialPageSection">
-          <h1>Money Matters: Empowering You with Financial Literacy</h1>
-          <h2>Financial Literacy: What is it and why is it important?</h2>
+          <h1 id="FPTitle">
+            Money Matters: Empowering You with Financial Literacy
+          </h1>
+          <h2 className="FPSubTitles">
+            Financial Literacy: What is it and why is it important?
+          </h2>
           <p>
             In today's complex financial landscape, financial literacy is more
             important than ever before. It's the foundation for making smart
@@ -28,7 +32,9 @@ const FinancialPage = () => {
           <YouTubeVideos videoType={"Tackling Debt"} />
         </div>
         <div className="FinancialPageSection">
-          <h2>Tackling Debt: What can you do? How do you get started?</h2>
+          <h2 className="FPSubTitles">
+            Tackling Debt: What can you do? How do you get started?
+          </h2>
           <p>
             Debt can be overwhelming, but it's important to remember that you
             have options. The first step to tackling debt is to understand what
@@ -51,7 +57,9 @@ const FinancialPage = () => {
           <YouTubeVideos videoType={"Financial Literacy"} />
         </div>
         <div className="FinancialPageSection">
-          <h2>Loans: Different types and what they do</h2>
+          <h2 className="FPSubTitles">
+            Loans: Different types and what they do
+          </h2>
           <p>
             Loans are a common way to finance large purchases or investments.
             There are several different types of loans available to borrowers,
