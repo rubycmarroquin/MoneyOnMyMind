@@ -42,6 +42,7 @@ Here's why:
 - Money on My Mind has a user-friendly interface to make it easy for technical and non-technical people to use.
 - Expense and income tracking is offered so that you can view your finances as a table or as a chart if you like visuals.
 - Provide an informative, financial literacy tab with an in-app chat bot that you can ask for financial advice.
+- Get a Google Calendar invite for upcoming expenses with due dates so that you don't forget!
 
 ### Built With
 
@@ -58,7 +59,6 @@ Here's why:
 
 ## API Reference
 
-- [Gmail API](https://developers.google.com/gmail/api/guide)
 - [Google Calendar API](https://developers.google.com/calendar/api/guides/overview)
 - [OpenAI GPT-3 API](https://platform.openai.com/docs/api-reference)
 - [YouTube API](https://developers.google.com/youtube/v3)
@@ -108,7 +108,7 @@ TBA
 ## Roadmap
 
 - [x] Create Dashboard
-  - [ ] Display a summary of user spending using Google Charts React Library
+  - [x] Display a summary of user spending using Google Charts React Library
     - [x] Current month uses Donut Chart
     - [x] Year overview using Combo Chart
   - [x] Display a table of the expenses
@@ -117,9 +117,8 @@ TBA
   - [x] Let users add, modify and delete income items
   - [x] Let users add, modify and expense income items
   - [x] Allow users to select each month and year they want to add to
-  - [ ] Button that allows users to get an email with a google calendar invite
-    - [ ] Generate calendar invite using Google Calendar API
-    - [ ] Send generated invite to user's email using Gmail API
+  - [x] Button that allows users to receive a google calendar invite for expenses with upcoming due dates.
+    - [x] Generate calendar invite using Google Calendar API
 - [x] Create Account Settings Page
   - [x] Reset password email
   - [x] Form for user's name and phone number
