@@ -32,7 +32,7 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
 
   //A function to handle the post request
   async function addIncome() {
-    await fetch("http://localhost:8080/incomes", {
+    await fetch("/api/incomes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
   //A function to handle the put request
   async function editIncomeDB() {
     console.log(income);
-    await fetch(`http://localhost:8080/income/${income.income_id}`, {
+    await fetch(`/api/income/${income.income_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -10,7 +10,7 @@ export const useCalendar = () => {
   const createEvent = async (data) => {
     const userData = { expenseName: data.expense_name, expenseDate: data.duedate, email: user.email };
     await fetch(
-      `http://localhost:8080/calendar`,
+      `/api/calendar`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
