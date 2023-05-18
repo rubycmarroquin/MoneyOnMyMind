@@ -3,7 +3,7 @@ services:
     plan: free
     type: web
     env: node
-    repo: https://github.com/rubycmarroquin/MoneyOnMyMind.git
+    repo: https://github.com/rubycmarroquin/MoneyOnMyMind
     buildCommand: cd client && npm install && npm run build && cd ../server && npm install
     startCommand: cd server && node server.js
     envVars:
