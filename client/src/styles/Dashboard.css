@@ -49,7 +49,6 @@
   width: 80%;
   display: flex;
   flex-direction: column;
-  /* background-color: orange; */
   align-items: center;
 }
 
@@ -74,7 +73,6 @@
 }
 
 #GenTableOnly {
-  /* background-color: gray; */
   width: 100%;
   padding: 20px;
   margin-top: 3%;
@@ -88,15 +86,6 @@
 .GenTableCols {
   background-color: rgb(226, 226, 226);
   border-color: rgb(169, 169, 169);
-  /* border-radius: 30px; */
-}
-
-.GenTableRows {
-  /* background-color: red; */
-}
-
-#SummaryTitleDiv {
-  /* background-color: orange; */
 }
 
 #Container{

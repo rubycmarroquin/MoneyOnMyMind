@@ -40,7 +40,7 @@ const GenerateCharts = ({
     hAxis: { title: "Month" },
     seriesType: "bars",
     series: { 2: { type: "line" } },
-    colors: ["#00bfa0", "#e60049"],
+    colors: ["#00bfa0", "#e60049", "#ffa300"],
     chartArea: {
       backgroundColor: {
         fill: "#F4F4F4",
@@ -170,6 +170,6 @@ function generateLineChartData(expensesData, incomeData) {
   );
 
   // add average
-  dataRotated.unshift(["Month", "Income", "Expenses", "Average"]);
+  dataRotated.unshift(["Month", "Income", "Expenses", "Money Left"]);
   return dataRotated;
 }

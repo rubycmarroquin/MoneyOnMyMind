@@ -60,7 +60,7 @@ Here's why:
 ## API Reference
 
 - [Google Calendar API](https://developers.google.com/calendar/api/guides/overview)
-- [OpenAI GPT-3 3 API](https://platform.openai.com/docs/api-reference)
+- [OpenAI GPT-3 API](https://platform.openai.com/docs/api-reference)
 - [YouTube API](https://developers.google.com/youtube/v3)
 
 <!-- Installation -->

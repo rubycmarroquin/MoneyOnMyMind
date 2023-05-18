@@ -7,7 +7,10 @@ import { Button } from "react-bootstrap";
 import { AuthContext } from "./AuthContext";
 import { parseDate } from "./handleDates";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faBell } from "@fortawesome/free-solid-svg-icons";
+import { useCalendar } from "./useCalendar";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 const LoadBudget = ({ month, year }) => {
   const { user } = useAuth0();
@@ -65,6 +68,14 @@ const LoadBudget = ({ month, year }) => {
     loadExpenses();
     loadIncomes();
   }, [month, year, authToken]);
+
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Get a calendar reminder!
+    </Tooltip>
+  );
+
+  const { createEvent, updateEvent, deleteEvent } = useCalendar();
 
   return (
     <div id="LoadBudgetOuterDiv">
@@ -146,6 +157,25 @@ const LoadBudget = ({ month, year }) => {
                       >
                         <FontAwesomeIcon icon={faTrash} />
                       </Button>
+                      {expense.duedate ? (
+                        <OverlayTrigger
+                          placement="right"
+                          delay={{ show: 250, hide: 400 }}
+                          overlay={renderTooltip}
+                        >
+                          <Button
+                            className="GoogleCalendarButton"
+                            onClick={() => createEvent(expense)}
+                            disabled={
+                              new Date(expense.duedate) > new Date()
+                                ? false
+                                : true
+                            }
+                          >
+                            <FontAwesomeIcon icon={faBell} />
+                          </Button>
+                        </OverlayTrigger>
+                      ) : null}
                     </td>
                   </tr>
                 );
