@@ -6,6 +6,7 @@ import LogoutButton from "./LogoutButton";
 import Pig from "../assets/Pig_Removed.png";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import "../styles/NavBar.css";
+import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   const { user, isAuthenticated } = useAuth0();
@@ -19,7 +20,7 @@ const NavigationBar = () => {
         data-testid="navbar"
       >
         <Container>
-          <Navbar.Brand href="/">
+          <Navbar.Brand to="/" as={Link}>
             <img id="Pig" src={Pig} />
             Money on My Mind
           </Navbar.Brand>
@@ -27,10 +28,14 @@ const NavigationBar = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               <Nav.Item>
-                <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                <Nav.Link to="/dashboard" as={Link}>
+                  Dashboard
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/budget">Budgets</Nav.Link>
+                <Nav.Link to="/budget" as={Link}>
+                  Budgets
+                </Nav.Link>
               </Nav.Item>
               <NavDropdown
                 title="More Options"
@@ -38,12 +43,17 @@ const NavigationBar = () => {
                 menuVariant="dark"
               >
                 <NavDropdown.Item
-                  href="/financial-counseling"
+                  to="/financial-counseling"
                   eventKey="Financial Literacy"
+                  as={Link}
                 >
                   Financial Literacy
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/settings" eventKey="Account Settings">
+                <NavDropdown.Item
+                  to="/settings"
+                  as={Link}
+                  eventKey="Account Settings"
+                >
                   Account Settings
                 </NavDropdown.Item>
                 <LogoutButton />
