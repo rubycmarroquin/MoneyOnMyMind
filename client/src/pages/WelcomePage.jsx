@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/WelcomePage.css";
 import LoginButton from "../components/LoginButton.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import PigPicture from "../assets/Pig_WP.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function WelcomePage() {
   const { isAuthenticated } = useAuth0();
+  const navigate = useNavigate();
 
-  if (isAuthenticated) {
-    window.location.href = "http://localhost:5173/dashboard";
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated]);
 
   return (
     <div id="OuterWelcomePageDiv">

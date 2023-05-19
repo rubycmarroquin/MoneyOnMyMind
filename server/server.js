@@ -17,21 +17,20 @@ app.use(express.static(REACT_BUILD_DIR));
 const PORT = process.env.PORT || 8080;
 
 
-function getAuthHandler() {
-  try {
+function jwtCheck(req, res, next) {
+
+    //ignore jwt check for these paths
+    if (req.path === "/") return next();
+
     const handler = auth({
       audience: "https://money-on-my-mind/api",
       issuerBaseURL: "https://dev-xy4didc5bijpholc.us.auth0.com/",
       tokenSigningAlg: "RS256",
     });
-    return handler;
-  }catch (e) {
-    console.error(JSON.stringify(e))
-  }
+    return handler(req, res, next);
 }
 
 //JWT middleware
-const jwtCheck = getAuthHandler();
 
 app.use(cors());
 app.use(express.json());
