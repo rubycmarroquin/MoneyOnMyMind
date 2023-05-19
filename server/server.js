@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 8080;
 function jwtCheck(req, res, next) {
 
     //ignore jwt check for these paths
-    if (req.path === "/") return next();
+    if (!req.path.startsWith("/api")) return next();
 
     const handler = auth({
       audience: "https://money-on-my-mind/api",
@@ -36,11 +36,11 @@ app.use(cors());
 app.use(express.json());
 app.use(jwtCheck);
 
-// creates an endpoint for the route "/""
-app.get("/", (req, res) => {
-  // res.json({ message: "Hola, from My template ExpressJS with React-Vite" });
-  res.sendFile(path.join(REACT_BUILD_DIR, "index.html"));
-});
+// // creates an endpoint for the route "/""
+// app.get("/", (req, res) => {
+//   // res.json({ message: "Hola, from My template ExpressJS with React-Vite" });
+//   res.sendFile(path.join(REACT_BUILD_DIR, "index.html"));
+// });
 
 /***************************************************************************************************
  ***************************************** USER API CALLS ******************************************
@@ -491,6 +491,11 @@ app.get("/api/videos/:keyword", async (req, res) => {
   //   });
 
    res.send(mockData);
+});
+
+app.get("/:any", (req, res) => {
+  // res.json({ message: "Hola, from My template ExpressJS with React-Vite" });
+  res.sendFile(path.join(REACT_BUILD_DIR, "index.html"));
 });
 
 // console.log that your server is up and running
