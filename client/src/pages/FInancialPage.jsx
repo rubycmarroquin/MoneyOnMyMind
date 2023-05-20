@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import YouTubeVideos from "../components/Video";
 import NavigationBar from "../components/NavigationBar";
+import Chatbot from "../components/Chatbot";
 
 const FinancialPage = () => {
   return (
@@ -80,6 +81,12 @@ const FinancialPage = () => {
             type of loan is best suited for your needs.
           </p>
           <YouTubeVideos videoType={"different loans and what they do"} />
+        </div>
+        <div className="FinancialPageSection">
+          <h2 className="FPSubTitles">
+            Chat with our financial assisstant bot for real-time advice!
+          </h2>
+          <Chatbot />
         </div>
       </div>
     </div>
