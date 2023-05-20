@@ -7,6 +7,11 @@ const Chatbot = () => {
   const [userInput, setUserInput] = useState("");
   const [chatLog, setChatLog] = useState([]);
   const { authToken } = useContext(AuthContext);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleChatbot = () => {
+    setIsOpen(!isOpen);
+  };
 
   const sendMessage = async () => {
     if (userInput.trim() === "") {
@@ -29,7 +34,7 @@ const Chatbot = () => {
           },
         }
       );
-      console.log(response);
+
       const generatedMessage = response.data.advice;
 
       setChatLog((prevChatLog) => [
@@ -42,27 +47,35 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="financial-assistant-container">
-      <div className="chat-log-container">
-        {chatLog.map((message, index) => (
-          <div key={index} className={`message ${message.role}`}>
-            <span>{message.role === "user" ? "User: " : "Chatbot: "}</span>
-            <span>{message.content}</span>
+    <div className="chatbot-container">
+      <button className="chatbot-toggle-button" onClick={toggleChatbot}>
+        {isOpen ? "Close Chatbot" : "Open Chatbot"}
+      </button>
+
+      {isOpen && (
+        <div className="chatbot-popup">
+          <div className="chat-log-container">
+            {chatLog.map((message, index) => (
+              <div key={index} className={`message ${message.role}`}>
+                <span>{message.role === "user" ? "User: " : "Chatbot: "}</span>
+                <span>{message.content}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className="user-input-container">
-        <input
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          placeholder="Type your message"
-          className="user-input"
-        />
-        <button onClick={sendMessage} className="send-button">
-          Send
-        </button>
-      </div>
+          <div className="user-input-container">
+            <input
+              type="text"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              placeholder="Type your message"
+              className="user-input"
+            />
+            <button onClick={sendMessage} className="send-button">
+              Send
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
