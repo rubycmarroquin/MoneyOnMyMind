@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import BudgetForm from "./BudgetForm";
@@ -23,9 +23,7 @@ const BudgetModal = ({ month, year, editExpense, loadExpenses }) => {
             <FontAwesomeIcon icon={faPlus} /> Add Expense
           </>
         ) : (
-          <>
-            <FontAwesomeIcon icon={faEdit} />
-          </>
+          <FontAwesomeIcon icon={faEdit} />
         )}
       </Button>
       <Modal show={show} onHide={handleClose}>
@@ -43,7 +41,6 @@ const BudgetModal = ({ month, year, editExpense, loadExpenses }) => {
             loadExpenses={loadExpenses}
           />
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );
