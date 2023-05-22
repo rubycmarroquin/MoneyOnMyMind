@@ -12,13 +12,7 @@ import {
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
-const BudgetForm = ({
-  handleClose,
-  month,
-  year,
-  editExpense,
-  loadExpenses,
-}) => {
+const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
   const { user } = useAuth0();
   const { authToken } = useContext(AuthContext);
 
@@ -35,52 +29,53 @@ const BudgetForm = ({
     }
   );
 
+  // handles to see whether editedExpense has a due date checkbox in form
   const [hasDueDate, setHasDueDate] = useState(
     !!(editExpense && editExpense.duedate)
   );
 
   const handleChange = (field, value) => {
+    // rounds amount to two decimal points
     if (field === "amount") value = Math.round(value * 100) / 100;
     setExpense({ ...expense, [field]: value });
   };
 
   const handleCheckChange = (e) => {
     const check = e.target.checked;
+    // clears duedate field of expense that goes from having a due date to not having one
     setExpense({ ...expense, ["duedate"]: check ? expense.duedate : "" });
     setHasDueDate(check);
   };
 
-  async function addExpense() {
-    if (!hasDueDate) expense.duedate = "";
-    await fetch(`/api/expenses`, {
-      method: "POST",
+  const apiCall = async (url, method) => {
+    const requestData = {
+      method: method,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${authToken}`,
       },
       body: JSON.stringify(expense),
-    })
-      .then((response) => response.json())
-      .then((data) => loadExpenses());
-  }
+    };
 
-  async function editExpenseDB() {
-    await fetch(`/api/expense/${expense.expense_id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`,
-      },
-      body: JSON.stringify(expense),
-    })
+    await fetch(url, requestData)
       .then((response) => response.json())
-      .then((data) => loadExpenses());
-  }
+      .then((data) => loadData("expenses"));
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editExpense && editExpense.expense_id) editExpenseDB();
-    else addExpense();
+    let url, method;
+
+    // makes a put request if expense is being edited, else makes a post
+    if (editExpense && editExpense.expense_id) {
+      url = `/api/expense/${expense.expense_id}`;
+      method = "PUT";
+    } else {
+      url = `/api/expenses`;
+      method = "POST";
+    }
+
+    await apiCall(url, method);
     handleClose();
   };
 
@@ -125,7 +120,7 @@ const BudgetForm = ({
           label={"Has due date?"}
         />
 
-        {hasDueDate ? (
+        {hasDueDate && (
           <Form.Group className="FormOption">
             <Form.Label>
               <FontAwesomeIcon icon={faCalendar} /> Due Date:
@@ -140,7 +135,7 @@ const BudgetForm = ({
               onChange={(event) => handleChange("duedate", event.target.value)}
             />
           </Form.Group>
-        ) : null}
+        )}
 
         <Form.Group className="FormOption">
           <Form.Label>
@@ -168,7 +163,6 @@ const BudgetForm = ({
             <Button
               type="submit"
               variant="outline-success"
-              // disabled={expense && expense.tags !== "" ? false : true}
               disabled={!expense.tags}
               className="ButtonTheme"
             >

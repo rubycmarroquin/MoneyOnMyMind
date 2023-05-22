@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import BudgetForm from "./BudgetForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 
-const BudgetModal = ({ month, year, editExpense, loadExpenses }) => {
+const BudgetModal = ({ month, year, editExpense, loadData }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -23,9 +23,7 @@ const BudgetModal = ({ month, year, editExpense, loadExpenses }) => {
             <FontAwesomeIcon icon={faPlus} /> Add Expense
           </>
         ) : (
-          <>
-            <FontAwesomeIcon icon={faEdit} />
-          </>
+          <FontAwesomeIcon icon={faEdit} />
         )}
       </Button>
       <Modal show={show} onHide={handleClose}>
@@ -40,10 +38,9 @@ const BudgetModal = ({ month, year, editExpense, loadExpenses }) => {
             month={month}
             year={year}
             handleClose={handleClose}
-            loadExpenses={loadExpenses}
+            loadData={loadData}
           />
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );
