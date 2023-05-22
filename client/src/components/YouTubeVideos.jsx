@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "./AuthContext";
-import "../styles/FinancialPage.css";
 
 function YouTubeVideos({ videoType }) {
   const [videos, setVideos] = useState([]);
