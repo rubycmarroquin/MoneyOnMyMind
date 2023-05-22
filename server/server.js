@@ -336,7 +336,7 @@ app.put("/api/incomes/:incomeId", cors(), async (req, res) => {
  **************************************** YEAR API CALLS  ******************************************
  ***************************************************************************************************/
 // grab income amount by year and user id
-app.get("/api/yearly/income/:userId&:yearNum", cors(), async (req, res) => {
+app.get("/api/yearly/incomes/:userId&:yearNum", cors(), async (req, res) => {
   const user_id = req.params.userId;
   const yearNum = req.params.yearNum;
   try {
