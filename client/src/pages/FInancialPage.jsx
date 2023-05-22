@@ -82,13 +82,8 @@ const FinancialPage = () => {
           </p>
           <YouTubeVideos videoType={"different loans and what they do"} />
         </div>
-        <div className="FinancialPageSection">
-          <h2 className="FPSubTitles">
-            Chat with our financial assisstant bot for real-time advice!
-          </h2>
-          <Chatbot />
-        </div>
       </div>
+      <Chatbot />
     </div>
   );
 };
