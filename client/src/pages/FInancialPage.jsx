@@ -1,7 +1,8 @@
 import NavigationBar from "../components/NavigationBar";
-import FinancialPageSection from "../components/FInancialPageSection";
+import FinancialPageSection from "../components/FinancialPageSection";
 import Chatbot from "../components/Chatbot";
 import "../styles/FinancialPage.css";
+
 const FinancialPage = () => {
   return (
     <div>
