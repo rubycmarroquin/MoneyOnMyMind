@@ -2,8 +2,7 @@ import { useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "./AuthContext";
-import { getMonthNum, getDayNum } from "./handleDates";
-import { removeTimeZone } from "./handleDates";
+import { getMonthNum, getDayNum, removeTimeZone } from "./handleDates";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -30,54 +29,41 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
     setIncome({ ...income, [field]: value });
   };
 
-  //A function to handle the post request
-  async function addIncome() {
-    await fetch("/api/incomes", {
-      method: "POST",
+  const apiCall = async (url, method) => {
+    const requestData = {
+      method: method,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${authToken}`,
       },
       body: JSON.stringify(income),
-    })
-      .then((response) => {
-        console.log("Response from post method ", response);
-        return response.json();
-      })
-      .then((data) => {
-        // reload expenses to show changes made
-        loadIncomes();
-      });
-  }
+    };
 
-  //A function to handle the put request
-  async function editIncomeDB() {
-    console.log(income);
-    await fetch(`/api/income/${income.income_id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`,
-      },
-      body: JSON.stringify(income),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        loadIncomes();
-      });
-  }
+    await fetch(url, requestData)
+      .then((response) => response.json())
+      .then((data) => loadIncomes());
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editIncome && editIncome.income_id) editIncomeDB();
-    else addIncome();
+    let url, method;
+
+    // makes a put request if income is being edited, else makes a post
+    if (editIncome && editIncome.income_id) {
+      url = `/api/incomes/${income.income_id}`;
+      method = "PUT";
+    } else {
+      url = `/api/incomes`;
+      method = "POST";
+    }
+
+    await apiCall(url, method);
     handleClose();
   };
 
   return (
-    authToken && (
+    <>
+      authToken && (
       <Form className="form-students" onSubmit={handleSubmit}>
         <Form.Group className="FormOption">
           <Form.Label>
@@ -136,7 +122,8 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
           )}
         </Form.Group>
       </Form>
-    )
+      )
+    </>
   );
 };
 

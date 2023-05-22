@@ -307,7 +307,7 @@ app.delete("/api/income/:incomeId", cors(), async (req, res) => {
 });
 
 // edit a user's income entry
-app.put("/api/income/:incomeId", cors(), async (req, res) => {
+app.put("/api/incomes/:incomeId", cors(), async (req, res) => {
   const income_id = req.params.incomeId;
   try {
     const editedIncome = {
