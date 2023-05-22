@@ -1,15 +1,16 @@
+import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { useAuth0 } from "@auth0/auth0-react";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import LogoutButton from "./LogoutButton";
 import Pig from "../assets/Pig_Removed.png";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import "../styles/NavBar.css";
-import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   const { user, isAuthenticated } = useAuth0();
+
   return (
     isAuthenticated && (
       <Navbar
