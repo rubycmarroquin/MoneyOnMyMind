@@ -5,7 +5,7 @@ import BudgetForm from "./BudgetForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 
-const BudgetModal = ({ month, year, editExpense, loadExpenses }) => {
+const BudgetModal = ({ month, year, editExpense, loadData }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -38,7 +38,7 @@ const BudgetModal = ({ month, year, editExpense, loadExpenses }) => {
             month={month}
             year={year}
             handleClose={handleClose}
-            loadExpenses={loadExpenses}
+            loadData={loadData}
           />
         </Modal.Body>
       </Modal>

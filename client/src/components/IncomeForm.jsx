@@ -10,7 +10,7 @@ import {
   faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
 
-const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
+const IncomeForm = ({ handleClose, month, year, editIncome, loadData }) => {
   const { user } = useAuth0();
   const { authToken } = useContext(AuthContext);
 
@@ -41,7 +41,7 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
 
     await fetch(url, requestData)
       .then((response) => response.json())
-      .then((data) => loadIncomes());
+      .then((data) => loadData("incomes"));
   };
 
   const handleSubmit = async (e) => {
@@ -63,66 +63,66 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadIncomes }) => {
 
   return (
     <>
-      authToken && (
-      <Form className="form-students" onSubmit={handleSubmit}>
-        <Form.Group className="FormOption">
-          <Form.Label>
-            <FontAwesomeIcon icon={faUser} /> Received From
-          </Form.Label>
-          <input
-            type="text"
-            id="add-income"
-            placeholder="Income Received From"
-            required
-            value={income.income_name || ""}
-            onChange={(event) =>
-              handleChange("income_name", event.target.value)
-            }
-          />
-        </Form.Group>
-        <Form.Group className="FormOption">
-          <Form.Label>
-            <FontAwesomeIcon icon={faMoneyBill} /> Amount:
-          </Form.Label>
-          <input
-            type="number"
-            id="add-income-amount"
-            placeholder="Amount"
-            required
-            value={income.amount || ""}
-            onChange={(event) => handleChange("amount", event.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="FormOption">
-          <Form.Label>
-            <FontAwesomeIcon icon={faCalendar} /> Date Received:
-          </Form.Label>
-          <input
-            type="Date"
-            id="add-date-received"
-            min={`${year}-MM-01`}
-            max={`${year}-${getMonthNum(month)}-${getDayNum(month)}`}
-            value={income.date ? removeTimeZone(income.date) : ""}
-            onChange={(event) => handleChange("date", event.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="FormOption">
-          {editIncome ? (
-            <Button type="submit" variant="success" className="EditButton">
-              Edit Income
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              variant="outline-success"
-              className="ButtonTheme"
-            >
-              Add Income
-            </Button>
-          )}
-        </Form.Group>
-      </Form>
-      )
+      {authToken && (
+        <Form className="form-students" onSubmit={handleSubmit}>
+          <Form.Group className="FormOption">
+            <Form.Label>
+              <FontAwesomeIcon icon={faUser} /> Received From
+            </Form.Label>
+            <input
+              type="text"
+              id="add-income"
+              placeholder="Income Received From"
+              required
+              value={income.income_name || ""}
+              onChange={(event) =>
+                handleChange("income_name", event.target.value)
+              }
+            />
+          </Form.Group>
+          <Form.Group className="FormOption">
+            <Form.Label>
+              <FontAwesomeIcon icon={faMoneyBill} /> Amount:
+            </Form.Label>
+            <input
+              type="number"
+              id="add-income-amount"
+              placeholder="Amount"
+              required
+              value={income.amount || ""}
+              onChange={(event) => handleChange("amount", event.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="FormOption">
+            <Form.Label>
+              <FontAwesomeIcon icon={faCalendar} /> Date Received:
+            </Form.Label>
+            <input
+              type="Date"
+              id="add-date-received"
+              min={`${year}-MM-01`}
+              max={`${year}-${getMonthNum(month)}-${getDayNum(month)}`}
+              value={income.date ? removeTimeZone(income.date) : ""}
+              onChange={(event) => handleChange("date", event.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="FormOption">
+            {editIncome ? (
+              <Button type="submit" variant="success" className="EditButton">
+                Edit Income
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                variant="outline-success"
+                className="ButtonTheme"
+              >
+                Add Income
+              </Button>
+            )}
+          </Form.Group>
+        </Form>
+      )}
     </>
   );
 };

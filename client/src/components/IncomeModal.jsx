@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import IncomeForm from "./IncomeForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 
-const IncomeModal = ({ month, year, editIncome, loadIncomes }) => {
+const IncomeModal = ({ month, year, editIncome, loadData }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -23,9 +23,7 @@ const IncomeModal = ({ month, year, editIncome, loadIncomes }) => {
             <FontAwesomeIcon icon={faPlus} /> Add Income
           </>
         ) : (
-          <>
-            <FontAwesomeIcon icon={faEdit} />
-          </>
+          <FontAwesomeIcon icon={faEdit} />
         )}
       </Button>
       <Modal show={show} onHide={handleClose}>
@@ -40,10 +38,9 @@ const IncomeModal = ({ month, year, editIncome, loadIncomes }) => {
             month={month}
             year={year}
             handleClose={handleClose}
-            loadIncomes={loadIncomes}
+            loadData={loadData}
           />
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );

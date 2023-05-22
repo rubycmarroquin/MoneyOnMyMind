@@ -12,13 +12,7 @@ import {
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
-const BudgetForm = ({
-  handleClose,
-  month,
-  year,
-  editExpense,
-  loadExpenses,
-}) => {
+const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
   const { user } = useAuth0();
   const { authToken } = useContext(AuthContext);
 
@@ -65,7 +59,7 @@ const BudgetForm = ({
 
     await fetch(url, requestData)
       .then((response) => response.json())
-      .then((data) => loadExpenses());
+      .then((data) => loadData("expenses"));
   };
 
   const handleSubmit = async (e) => {
