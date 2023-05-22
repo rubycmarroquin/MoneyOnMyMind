@@ -21,81 +21,50 @@ const Dashboard = () => {
   const { authToken } = useContext(AuthContext);
 
   // load total amount of expenses for viewing month
-  async function loadTotalExpenses() {
+  async function loadTotalData(type) {
     const response = await fetch(
-      `/api/expenses/${user.sub}&${viewMonth}&${viewYear}`,
+      `/api/${type}/${user.sub}&${viewMonth}&${viewYear}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${authToken}` },
       }
     );
     const json = await response.json();
-    setExpenses(json);
-    if (json.length !== 0) {
-      setTotalExpenses(
-        json.reduce(
-          (total, currAmount) => (total += convertToNumber(currAmount.amount)),
-          0
-        )
-      );
+    let amount =
+      json.length !== 0
+        ? json.reduce(
+            (total, currAmount) =>
+              (total += convertToNumber(currAmount.amount)),
+            0
+          )
+        : 0;
+
+    if (type === "expenses") {
+      setExpenses(json);
+      setTotalExpenses(amount);
     } else {
-      setTotalExpenses(0);
+      setTotalIncome(amount);
     }
   }
 
-  // load total amount of income for viewing month
-  async function loadTotalIncome() {
+  async function loadYearData(type) {
     const response = await fetch(
-      `/api/incomes/${user.sub}&${viewMonth}&${viewYear}`,
+      `/api/yearly/${type}/${user.sub}&${viewYear}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${authToken}` },
       }
     );
     const json = await response.json();
-    if (json.length > 0) {
-      setTotalIncome(
-        json.reduce(
-          (total, currAmount) => (total += convertToNumber(currAmount.amount)),
-          0
-        )
-      );
-    } else {
-      setTotalIncome(0);
-    }
-  }
-
-  // load total amount of income for viewing month
-  async function loadYearIncome() {
-    const response = await fetch(`/api/yearly/income/${user.sub}&${viewYear}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${authToken}` },
-    });
-    const json = await response.json();
-    setYearlyIncome(json);
-    console.log(json);
-  }
-
-  // load total amount of income for viewing month
-  async function loadYearExpenses() {
-    const response = await fetch(
-      `/api/yearly/expenses/${user.sub}&${viewYear}`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${authToken}` },
-      }
-    );
-    const json = await response.json();
-    setYearlyExpenses(json);
-    console.log(json);
+    type === "expenses" ? setYearlyExpenses(json) : setYearlyIncome(json);
   }
 
   useEffect(() => {
     if (authToken) {
-      loadTotalExpenses();
-      loadTotalIncome();
-      loadYearExpenses();
-      loadYearIncome();
+      loadYearData("expenses");
+      loadYearData("incomes");
+      loadTotalData("expenses");
+      loadTotalData("incomes");
     }
   }, [authToken, viewMonth, viewYear]);
 
