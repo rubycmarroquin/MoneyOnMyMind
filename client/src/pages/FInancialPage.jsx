@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import YouTubeVideos from "../components/Video";
 import NavigationBar from "../components/NavigationBar";
 import Chatbot from "../components/Chatbot";
