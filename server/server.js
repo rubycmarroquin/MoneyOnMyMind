@@ -4,7 +4,8 @@ require("dotenv").config();
 const { randomUUID } = require("crypto");
 const path = require("path");
 const db = require("./db/db-connection.js");
-const Calendar = require("./calendar.js")
+const Calendar = require("./calendar.js");
+const { Configuration, OpenAIApi } = require("openai");
 
 //auth0 jwt
 const { auth } = require("express-oauth2-jwt-bearer");
@@ -16,18 +17,16 @@ app.use(express.static(REACT_BUILD_DIR));
 
 const PORT = process.env.PORT || 8080;
 
-
 function jwtCheck(req, res, next) {
+  //ignore jwt check for these paths
+  if (!req.path.startsWith("/api")) return next();
 
-    //ignore jwt check for these paths
-    if (!req.path.startsWith("/api")) return next();
-
-    const handler = auth({
-      audience: "https://money-on-my-mind/api",
-      issuerBaseURL: "https://dev-xy4didc5bijpholc.us.auth0.com/",
-      tokenSigningAlg: "RS256",
-    });
-    return handler(req, res, next);
+  const handler = auth({
+    audience: "https://money-on-my-mind/api",
+    issuerBaseURL: "https://dev-xy4didc5bijpholc.us.auth0.com/",
+    tokenSigningAlg: "RS256",
+  });
+  return handler(req, res, next);
 }
 
 //JWT middleware
@@ -36,11 +35,42 @@ app.use(cors());
 app.use(express.json());
 app.use(jwtCheck);
 
-// // creates an endpoint for the route "/""
-// app.get("/", (req, res) => {
-//   // res.json({ message: "Hola, from My template ExpressJS with React-Vite" });
-//   res.sendFile(path.join(REACT_BUILD_DIR, "index.html"));
-// });
+const configuration = new Configuration({
+  organization: process.env.ORGANIZATION,
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+const openai = new OpenAIApi(configuration);
+
+app.post("/api/chat", async (req, res) => {
+  const { userInput } = req.body;
+  console.log(userInput);
+  try {
+    // const response = await openai.createCompletion({
+    // 	model: "text-davinci-003",
+    // 	prompt: `Generate me only one piece of financial advice based on this inquiry " ${userInput} ". The topic of the answer will be financial such as loans and debt. Structure response as a sentence or small paragraph in a JSON object. This would be an example of returned object {
+    // 		"advice": "",
+    // 	}`,
+    // 	max_tokens: 2048,
+    // 	temperature: 1,
+    // 	top_p: 1.0,
+    // 	frequency_penalty: 0.0,
+    // 	presence_penalty: 0.0,
+    // });
+
+    // console.log(response.data.choices[0].text);
+    // res.send(response.data.choices[0].text);
+    
+    // mock data
+    res.send({
+      advice:
+        "Pay your bills on time and use no more than 30% of your available credit limit to ensure your credit score stays high.",
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ e });
+  }
+});
 
 /***************************************************************************************************
  ***************************************** USER API CALLS ******************************************
@@ -107,21 +137,25 @@ app.put("/api/user/:userId", cors(), async (req, res) => {
  ***************************************************************************************************/
 
 // grab data by user id and month and year
-app.get("/api/expenses/:userId&:monthName&:yearNum", cors(), async (req, res) => {
-  const user_id = req.params.userId;
-  const monthName = req.params.monthName;
-  const yearNum = req.params.yearNum;
-  try {
-    const { rows: budgets } = await db.query(
-      `SELECT * FROM expenses WHERE user_id = $1 AND month iLIKE $2 AND year iLike $3`,
-      [user_id, monthName, yearNum]
-    );
-    console.log(budgets);
-    res.send(budgets);
-  } catch (e) {
-    return res.status(400).json({ e });
+app.get(
+  "/api/expenses/:userId&:monthName&:yearNum",
+  cors(),
+  async (req, res) => {
+    const user_id = req.params.userId;
+    const monthName = req.params.monthName;
+    const yearNum = req.params.yearNum;
+    try {
+      const { rows: budgets } = await db.query(
+        `SELECT * FROM expenses WHERE user_id = $1 AND month iLIKE $2 AND year iLike $3`,
+        [user_id, monthName, yearNum]
+      );
+      console.log(budgets);
+      res.send(budgets);
+    } catch (e) {
+      return res.status(400).json({ e });
+    }
   }
-});
+);
 
 // post expense to database
 app.post("/api/expenses", cors(), async (req, res) => {
@@ -207,21 +241,25 @@ app.put("/api/expense/:expenseId", cors(), async (req, res) => {
  ***************************************************************************************************/
 
 // grab income data by user id and month and year
-app.get("/api/incomes/:userId&:monthName&:yearNum", cors(), async (req, res) => {
-  const user_id = req.params.userId;
-  const monthName = req.params.monthName;
-  const yearNum = req.params.yearNum;
-  try {
-    const { rows: incomes } = await db.query(
-      "SELECT * FROM incomes WHERE user_id = $1 AND month iLIKE $2 AND year iLike $3",
-      [user_id, monthName, yearNum]
-    );
-    console.log(incomes);
-    res.send(incomes);
-  } catch (e) {
-    return res.status(400).json({ e });
+app.get(
+  "/api/incomes/:userId&:monthName&:yearNum",
+  cors(),
+  async (req, res) => {
+    const user_id = req.params.userId;
+    const monthName = req.params.monthName;
+    const yearNum = req.params.yearNum;
+    try {
+      const { rows: incomes } = await db.query(
+        "SELECT * FROM incomes WHERE user_id = $1 AND month iLIKE $2 AND year iLike $3",
+        [user_id, monthName, yearNum]
+      );
+      console.log(incomes);
+      res.send(incomes);
+    } catch (e) {
+      return res.status(400).json({ e });
+    }
   }
-});
+);
 
 // post an income entry to database
 app.post("/api/incomes", cors(), async (req, res) => {
@@ -330,24 +368,22 @@ app.get("/api/yearly/expenses/:userId&:yearNum", cors(), async (req, res) => {
 });
 
 app.post("/api/calendar", cors(), async (req, res) => {
- let { expenseName, expenseDate, email } = req.body;
-  try{
-       Calendar.createEvent({
-        summary: expenseName,
-        description: "Upcoming due date.",
-        start: {
-          date: (new Date(expenseDate).toISOString().slice(0, 10)),
-        },
-        end: {
-          date: (new Date(expenseDate).toISOString().slice(0, 10)),
-        },
-        attendees: [
-          { email: email },
-        ],
-        reminders: {
-          useDefault: true,
-        }
-      });
+  let { expenseName, expenseDate, email } = req.body;
+  try {
+    Calendar.createEvent({
+      summary: expenseName,
+      description: "Upcoming due date.",
+      start: {
+        date: new Date(expenseDate).toISOString().slice(0, 10),
+      },
+      end: {
+        date: new Date(expenseDate).toISOString().slice(0, 10),
+      },
+      attendees: [{ email: email }],
+      reminders: {
+        useDefault: true,
+      },
+    });
     res.status(200);
   } catch (e) {
     return res.status(400).json({ e });
@@ -466,7 +502,7 @@ app.get("/api/videos/:keyword", async (req, res) => {
       },
     },
   ];
-  const maxResults = 3;
+  // const maxResults = 3;
 
   // const params = new URLSearchParams({
   //   part: "snippet",
@@ -487,10 +523,10 @@ app.get("/api/videos/:keyword", async (req, res) => {
   //   })
   //   .catch((error) => {
   //     console.error(error);
-  //     res.status(500).send("Error fetching videos");
+  //     return res.status(400).json({ e });
   //   });
 
-   res.send(mockData);
+  res.send(mockData);
 });
 
 app.get("/:any", (req, res) => {

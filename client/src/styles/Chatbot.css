@@ -1,0 +1,93 @@
+/* Chatbot container */
+.chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Chatbot toggle button */
+.chatbot-toggle-button {
+  background-color: #4c4cff;
+  color: #ffffff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Chatbot popup */
+.chatbot-popup {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 350px;
+  height: 500px;
+  background-color: #292f3f;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow-y: auto;
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+}
+
+/* Chat log container */
+.chat-log-container {
+  padding: 15px;
+  height: 350px;
+  overflow-y: auto;
+}
+
+/* Message */
+.message {
+  margin-bottom: 10px;
+}
+
+/* User message */
+.message.user {
+  text-align: right;
+}
+
+/* Chatbot message */
+.message.chatbot {
+  text-align: left;
+}
+
+/* User input container */
+.user-input-container {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+/* User input field */
+.user-input {
+  flex-grow: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #292f3f;
+  font-family: Arial, sans-serif;
+}
+
+/* Send button */
+.send-button {
+  background-color: #4c4cff;
+  color: #ffffff;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.user {
+  color: red;
+}
+
+.mentor {
+  color: green
+}
+
+.messageColor {
+  color: white;
+}
