@@ -2,16 +2,16 @@ import React, { useState, useContext } from "react";
 import "../styles/Chatbot.css";
 import axios from "axios";
 import { AuthContext } from "./AuthContext";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Chatbot = () => {
   const [userInput, setUserInput] = useState("");
   const [chatLog, setChatLog] = useState([]);
   const { authToken } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth0();
 
-  const toggleChatbot = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleChatbot = () => setIsOpen(!isOpen);
 
   const sendMessage = async () => {
     if (userInput.trim() === "") {
@@ -39,7 +39,7 @@ const Chatbot = () => {
 
       setChatLog((prevChatLog) => [
         ...prevChatLog,
-        { role: "chatbot", content: generatedMessage },
+        { role: "Money Mentor", content: generatedMessage },
       ]);
     } catch (error) {
       console.error(error);
@@ -49,7 +49,7 @@ const Chatbot = () => {
   return (
     <div className="chatbot-container">
       <button className="chatbot-toggle-button" onClick={toggleChatbot}>
-        {isOpen ? "Close Chatbot" : "Open Chatbot"}
+        {isOpen ? "Close Money Mentor" : "Open Money Mentor"}
       </button>
 
       {isOpen && (
@@ -57,8 +57,14 @@ const Chatbot = () => {
           <div className="chat-log-container">
             {chatLog.map((message, index) => (
               <div key={index} className={`message ${message.role}`}>
-                <span>{message.role === "user" ? "User: " : "Chatbot: "}</span>
-                <span>{message.content}</span>
+                <p>
+                  <span className={message.role === "user" ? `user` : `mentor`}>
+                    {message.role === "user"
+                      ? `${user.nickname}`
+                      : "Money Mentor: "}
+                  </span>
+                </p>
+                <span className="messageColor">{message.content}</span>
               </div>
             ))}
           </div>
