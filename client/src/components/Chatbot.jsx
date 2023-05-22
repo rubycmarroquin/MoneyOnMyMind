@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import "../styles/Chatbot.css";
 import axios from "axios";
 import { AuthContext } from "./AuthContext";
@@ -13,37 +13,43 @@ const Chatbot = () => {
 
   const toggleChatbot = () => setIsOpen(!isOpen);
 
+  // checks to see if the key pressed is Enter to be similar to pushing send button
+  const handleKeyDown = (pressedKey) => {
+    if (pressedKey === "Enter") sendMessage();
+  };
+
   const sendMessage = async () => {
+    // remove white spaces from front and back of user input
     if (userInput.trim() === "") {
       return;
     }
 
+    // adds the user message to the chatlog
     setChatLog((prevChatLog) => [
       ...prevChatLog,
       { role: "user", content: userInput },
     ]);
     setUserInput("");
 
-    try {
-      const response = await axios.post(
-        "/api/chat",
-        { userInput },
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
+    // get response from openai api
+    const response = await axios.post(
+      "/api/chat",
+      { userInput },
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
 
-      const generatedMessage = response.data.advice;
+    // grab message from response
+    const generatedMessage = response.data.advice;
 
-      setChatLog((prevChatLog) => [
-        ...prevChatLog,
-        { role: "Money Mentor", content: generatedMessage },
-      ]);
-    } catch (error) {
-      console.error(error);
-    }
+    // add generated message to chat log
+    setChatLog((prevChatLog) => [
+      ...prevChatLog,
+      { role: "Money Mentor", content: generatedMessage },
+    ]);
   };
 
   return (
@@ -73,8 +79,10 @@ const Chatbot = () => {
               type="text"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
+              onKeyDown={(e) => handleKeyDown(e.key)}
               placeholder="Type your message"
               className="user-input"
+              maxLength={400}
             />
             <button onClick={sendMessage} className="send-button">
               Send
