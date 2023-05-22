@@ -18,50 +18,29 @@ const LoadBudget = ({ month, year }) => {
   const [incomes, setIncomes] = useState([]);
   const { authToken } = useContext(AuthContext);
 
-  // load expenses from database
-  async function loadExpenses() {
-    const response = await fetch(`/api/expenses/${user.sub}&${month}&${year}`, {
+  async function loadData(type) {
+    const response = await fetch(`/api/${type}/${user.sub}&${month}&${year}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${authToken}` },
     });
     const json = await response.json();
-    setExpenses(json);
-  }
-
-  // load income from database
-  async function loadIncomes() {
-    const response = await fetch(`/api/incomes/${user.sub}&${month}&${year}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${authToken}` },
-    });
-    const json = await response.json();
-    setIncomes(json);
-  }
-
-  // delete an expense from database
-  async function deleteExpense(expense_id) {
-    await fetch(`/api/expense/${expense_id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${authToken}` },
-    }).then((response) => {
-      if (response.ok) loadExpenses();
-    });
-  }
-
-  // delete an income from database
-  async function deleteIncome(income_id) {
-    await fetch(`/api/income/${income_id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${authToken}` },
-    }).then((response) => {
-      if (response.ok) loadIncomes();
-    });
+    if (type === "expenses") setExpenses(json);
+    if (type === "incomes") setIncomes(json);
   }
 
   useEffect(() => {
-    loadExpenses();
-    loadIncomes();
+    loadData("expenses");
+    loadData("incomes");
   }, [month, year, authToken]);
+
+  async function deleteData(type, data_id) {
+    await fetch(`/api/${type}/${data_id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${authToken}` },
+    }).then((response) => {
+      if (response.ok) loadData(type);
+    });
+  }
 
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -69,7 +48,7 @@ const LoadBudget = ({ month, year }) => {
     </Tooltip>
   );
 
-  const { createEvent, updateEvent, deleteEvent } = useCalendar();
+  const { createEvent } = useCalendar();
 
   return (
     <div id="LoadBudgetOuterDiv">
@@ -102,11 +81,11 @@ const LoadBudget = ({ month, year }) => {
                         month={month}
                         year={year}
                         editIncome={income}
-                        loadIncomes={loadIncomes}
+                        loadData={loadData}
                       />
                       <Button
                         className="DeleteButton"
-                        onClick={() => deleteIncome(income.income_id)}
+                        onClick={() => deleteData("incomes", income.income_id)}
                       >
                         <FontAwesomeIcon icon={faTrash} />
                       </Button>
@@ -116,7 +95,7 @@ const LoadBudget = ({ month, year }) => {
               })}
             </tbody>
           </Table>
-          <IncomeModal month={month} year={year} loadIncomes={loadIncomes} />
+          <IncomeModal month={month} year={year} loadData={loadData} />
         </div>
         <div id="ExpenseTableOuterDiv">
           <h2>Expenses</h2>
@@ -143,11 +122,13 @@ const LoadBudget = ({ month, year }) => {
                         month={month}
                         year={year}
                         editExpense={expense}
-                        loadExpenses={loadExpenses}
+                        loadData={loadData}
                       />
                       <Button
                         className="DeleteButton"
-                        onClick={() => deleteExpense(expense.expense_id)}
+                        onClick={() =>
+                          deleteData("expenses", expense.expense_id)
+                        }
                       >
                         <FontAwesomeIcon icon={faTrash} />
                       </Button>
@@ -176,7 +157,7 @@ const LoadBudget = ({ month, year }) => {
               })}
             </tbody>
           </Table>
-          <BudgetModal month={month} year={year} loadExpenses={loadExpenses} />
+          <BudgetModal month={month} year={year} loadData={loadData} />
         </div>
       </div>
     </div>

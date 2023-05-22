@@ -194,7 +194,7 @@ app.post("/api/expenses", cors(), async (req, res) => {
 });
 
 // delete an expense entry
-app.delete("/api/expense/:expenseId", cors(), async (req, res) => {
+app.delete("/api/expenses/:expenseId", cors(), async (req, res) => {
   try {
     const expense_id = req.params.expenseId;
     await db.query("DELETE FROM expenses WHERE expense_id=$1", [expense_id]);
@@ -294,7 +294,7 @@ app.post("/api/incomes", cors(), async (req, res) => {
 });
 
 // delete an income entry
-app.delete("/api/income/:incomeId", cors(), async (req, res) => {
+app.delete("/api/incomes/:incomeId", cors(), async (req, res) => {
   try {
     const income_id = req.params.incomeId;
     await db.query("DELETE FROM incomes WHERE income_id=$1", [income_id]);
