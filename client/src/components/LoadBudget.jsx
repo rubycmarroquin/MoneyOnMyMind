@@ -5,7 +5,7 @@ import BudgetModal from "./BudgetModal";
 import IncomeModal from "./IncomeModal";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "./AuthContext";
-import { parseDate } from "./handleDates";
+import { parseDate } from "./dateHelperFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faBell } from "@fortawesome/free-solid-svg-icons";
 import { useCalendar } from "./useCalendar";
