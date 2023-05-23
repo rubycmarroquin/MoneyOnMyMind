@@ -26,7 +26,11 @@ export function getDayNum(month) {
  * @param {object} dateObj 
  * @returns date without the timezone 
  */
-export const removeTimeZone = (dateObj) => dateObj.substring(0, 10);
+export const removeTimeZone = (dateObj) => {
+  // dateObj.substring(0, 10);
+  const date = new Date(dateObj);
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+}
 
 /**
  * Takes date and converts it to a human-readable date 
