@@ -32,7 +32,6 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
     }
   );
 
-  console.log("Edit expense", editExpense);
   // handles to see whether editedExpense has a due date checkbox in form
   const [hasDueDate, setHasDueDate] = useState(
     !!(editExpense && editExpense.duedate)
@@ -41,13 +40,28 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
   const handleChange = (field, value) => {
     // rounds amount to two decimal points
     if (field === "amount") value = Math.round(value * 100) / 100;
-    setExpense({ ...expense, [field]: value });
+    if (field === "datepaid" || field === "duedate") {
+      let dateFormat = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Los_Angeles",
+        timeZoneName: "short",
+      });
+
+      // use the format() method to display the date and time in the specified format
+      // (e.g. "12/8/2020, EST")
+      const formatted = dateFormat.format(value);
+      setExpense({ ...expense, [field]: formatted });
+    } else {
+      setExpense({ ...expense, [field]: value });
+    }
   };
 
   const handleCheckChange = (e) => {
     const check = e.target.checked;
     // clears duedate field of expense that goes from having a due date to not having one
-    setExpense({ ...expense, ["duedate"]: check ? expense.duedate : "" });
+    setExpense({
+      ...expense,
+      ["duedate"]: undefined,
+    });
     setHasDueDate(check);
   };
 
@@ -132,7 +146,7 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
               minDate={getFirstDayOfMonth(month, year)}
               maxDate={getLastDayOfMonth(month, year)}
               selected={
-                typeof expense.duedate === "string"
+                typeof expense.duedate === "string" && expense.duedate !== ""
                   ? new Date(expense.duedate)
                   : expense.duedate
               }
@@ -149,7 +163,7 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
           <DatePicker
             maxDate={getLastDayOfMonth(month, year)}
             selected={
-              typeof expense.datepaid === "string"
+              typeof expense.datepaid === "string" && expense.datepaid !== ""
                 ? new Date(expense.datepaid)
                 : expense.datepaid
             }
