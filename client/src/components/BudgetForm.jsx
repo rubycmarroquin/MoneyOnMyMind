@@ -41,7 +41,11 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
     // rounds amount to two decimal points
     if (field === "amount") value = Math.round(value * 100) / 100;
     if (field === "datepaid" || field === "duedate") {
-      setExpense({ ...expense, [field]: new Date(value) });
+      const date = new Date(value);
+      date.setUTCHours(8);
+      date.setUTCMinutes(0);
+      date.setUTCSeconds(0);
+      setExpense({ ...expense, [field]: date });
     } else {
       setExpense({ ...expense, [field]: value });
     }
@@ -139,7 +143,7 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
               maxDate={getLastDayOfMonth(month, year)}
               selected={
                 typeof expense.duedate === "string" && expense.duedate !== ""
-                  ? new Date(expense.duedate).toLocaleDateString()
+                  ? new Date(expense.duedate)
                   : expense.duedate
               }
               onChange={(date) => handleChange("duedate", date)}
