@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "./AuthContext";
-import { getMonthNum, getDayNum, removeTimeZone } from "./handleDates";
+import { getLastDayOfMonth } from "./dateHelperFunctions";
 import TagsDropDown from "./TagsDropDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
@@ -23,8 +23,8 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
     editExpense || {
       user_id: user.sub,
       amount: "",
-      duedate: "",
-      datepaid: "",
+      duedate: undefined,
+      datepaid: undefined,
       expense_name: "",
       tags: "",
       month: month,
@@ -41,7 +41,6 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
   const handleChange = (field, value) => {
     // rounds amount to two decimal points
     if (field === "amount") value = Math.round(value * 100) / 100;
-    if (field === "duedate") console.log(value);
     setExpense({ ...expense, [field]: value });
   };
 
@@ -131,6 +130,7 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
               <FontAwesomeIcon icon={faCalendar} /> Due Date:
             </Form.Label>
             <DatePicker
+              maxDate={getLastDayOfMonth(month, year)}
               selected={
                 typeof expense.duedate === "string"
                   ? new Date(expense.duedate)

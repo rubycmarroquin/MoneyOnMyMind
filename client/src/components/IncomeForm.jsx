@@ -2,7 +2,9 @@ import { useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "./AuthContext";
-import { getMonthNum, getDayNum, removeTimeZone } from "./handleDates";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { getLastDayOfMonth } from "./dateHelperFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -18,7 +20,7 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadData }) => {
     editIncome || {
       user_id: user.sub,
       amount: "",
-      date: "",
+      date: undefined,
       month: month,
       year: year,
     }
@@ -97,13 +99,15 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadData }) => {
             <Form.Label>
               <FontAwesomeIcon icon={faCalendar} /> Date Received:
             </Form.Label>
-            <input
-              type="Date"
-              id="add-date-received"
-              min={`${year}-MM-01`}
-              max={`${year}-${getMonthNum(month)}-${getDayNum(month)}`}
-              value={income.date ? removeTimeZone(income.date) : ""}
-              onChange={(event) => handleChange("date", event.target.value)}
+            <DatePicker
+              maxDate={getLastDayOfMonth(month, year)}
+              selected={
+                typeof income.date === "string"
+                  ? new Date(income.date)
+                  : income.date
+              }
+              onChange={(date) => handleChange("date", date)}
+              dateFormat="yyyy-MM-dd"
             />
           </Form.Group>
           <Form.Group className="FormOption">
