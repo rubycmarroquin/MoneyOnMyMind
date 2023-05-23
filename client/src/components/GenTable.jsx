@@ -1,5 +1,5 @@
 import { Table } from "react-bootstrap";
-import { parseDate } from "./handleDates";
+import { parseDate } from "./dateHelperFunctions";
 
 const GenerateTables = ({ expenses }) => {
   return expenses && expenses.length ? (

@@ -1,5 +1,5 @@
 import { convertToNumber } from "./handleStringNumbers";
-import { getMonthNum } from "./handleDates";
+import { monthStringToNumber } from "./dateHelperFunctions";
 
 /**
  * Generates the data needed for the donut chart by iterating through the expense array
@@ -44,8 +44,8 @@ export function generateYearlyData(data) {
   if (data.length === 0) return result;
 
   data.forEach((obj) => {
-    // get the numeric value of the month - 1 to add to its according spot
-    const index = Number(getMonthNum(obj.month)) - 1;
+    // get the numeric value of the month to add to its according spot
+    const index = Number(monthStringToNumber(obj.month));
     result[index] += convertToNumber(obj.amount);
   });
 
