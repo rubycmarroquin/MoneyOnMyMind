@@ -5,6 +5,9 @@ import { AuthContext } from "./AuthContext";
 import { getMonthNum, getDayNum, removeTimeZone } from "./handleDates";
 import TagsDropDown from "./TagsDropDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import {
   faCartShopping,
   faMoneyBill,
@@ -29,6 +32,7 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
     }
   );
 
+  console.log("Edit expense", editExpense);
   // handles to see whether editedExpense has a due date checkbox in form
   const [hasDueDate, setHasDueDate] = useState(
     !!(editExpense && editExpense.duedate)
@@ -37,6 +41,7 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
   const handleChange = (field, value) => {
     // rounds amount to two decimal points
     if (field === "amount") value = Math.round(value * 100) / 100;
+    if (field === "duedate") console.log(value);
     setExpense({ ...expense, [field]: value });
   };
 
@@ -125,14 +130,14 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
             <Form.Label>
               <FontAwesomeIcon icon={faCalendar} /> Due Date:
             </Form.Label>
-            <input
-              type="date"
-              id="add-duedate"
-              required
-              min={`${year}-${getMonthNum(month)}-01`}
-              max={`${year}-${getMonthNum(month)}-${getDayNum(month)}`}
-              value={expense.duedate ? removeTimeZone(expense.duedate) : ""}
-              onChange={(event) => handleChange("duedate", event.target.value)}
+            <DatePicker
+              selected={
+                typeof expense.duedate === "string"
+                  ? new Date(expense.duedate)
+                  : expense.duedate
+              }
+              onChange={(date) => handleChange("duedate", date)}
+              dateFormat="yyyy-MM-dd"
             />
           </Form.Group>
         )}
@@ -141,12 +146,14 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
           <Form.Label>
             <FontAwesomeIcon icon={faCalendarCheck} /> Date Paid:
           </Form.Label>
-          <input
-            type="Date"
-            id="add-datepaid"
-            max={`${year}-${getMonthNum(month)}-${getDayNum(month)}`}
-            value={expense.datepaid ? removeTimeZone(expense.datepaid) : ""}
-            onChange={(event) => handleChange("datepaid", event.target.value)}
+          <DatePicker
+            selected={
+              typeof expense.datepaid === "string"
+                ? new Date(expense.datepaid)
+                : expense.datepaid
+            }
+            onChange={(date) => handleChange("datepaid", date)}
+            dateFormat="yyyy-MM-dd"
           />
         </Form.Group>
 
