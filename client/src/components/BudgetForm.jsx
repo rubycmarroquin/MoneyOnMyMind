@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "./AuthContext";
-import { getLastDayOfMonth } from "./dateHelperFunctions";
+import { getLastDayOfMonth, getFirstDayOfMonth } from "./dateHelperFunctions";
 import TagsDropDown from "./TagsDropDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
@@ -78,7 +78,6 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
       url = `/api/expenses`;
       method = "POST";
     }
-
     await apiCall(url, method);
     handleClose();
   };
@@ -130,6 +129,7 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
               <FontAwesomeIcon icon={faCalendar} /> Due Date:
             </Form.Label>
             <DatePicker
+              minDate={getFirstDayOfMonth(month, year)}
               maxDate={getLastDayOfMonth(month, year)}
               selected={
                 typeof expense.duedate === "string"
@@ -147,6 +147,7 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
             <FontAwesomeIcon icon={faCalendarCheck} /> Date Paid:
           </Form.Label>
           <DatePicker
+            maxDate={getLastDayOfMonth(month, year)}
             selected={
               typeof expense.datepaid === "string"
                 ? new Date(expense.datepaid)
