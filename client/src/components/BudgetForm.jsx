@@ -41,15 +41,7 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
     // rounds amount to two decimal points
     if (field === "amount") value = Math.round(value * 100) / 100;
     if (field === "datepaid" || field === "duedate") {
-      let dateFormat = new Intl.DateTimeFormat("en-US", {
-        timeZone: "America/Los_Angeles",
-        timeZoneName: "short",
-      });
-
-      // use the format() method to display the date and time in the specified format
-      // (e.g. "12/8/2020, EST")
-      const formatted = dateFormat.format(value);
-      setExpense({ ...expense, [field]: formatted });
+      setExpense({ ...expense, [field]: new Date(value) });
     } else {
       setExpense({ ...expense, [field]: value });
     }
@@ -147,7 +139,7 @@ const BudgetForm = ({ handleClose, month, year, editExpense, loadData }) => {
               maxDate={getLastDayOfMonth(month, year)}
               selected={
                 typeof expense.duedate === "string" && expense.duedate !== ""
-                  ? new Date(expense.duedate)
+                  ? new Date(expense.duedate).toLocaleDateString()
                   : expense.duedate
               }
               onChange={(date) => handleChange("duedate", date)}

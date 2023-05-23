@@ -28,17 +28,8 @@ const IncomeForm = ({ handleClose, month, year, editIncome, loadData }) => {
 
   const handleChange = (field, value) => {
     if (field === "amount") value = Math.round(value * 100) / 100;
-    if (field === "date") {
-      let dateFormat = new Intl.DateTimeFormat("en-US", {
-        timeZone: "America/Los_Angeles",
-        timeZoneName: "short",
-      });
-      const formatted = dateFormat.format(value);
-      console.log(formatted);
-      setIncome({ ...income, [field]: formatted });
-    } else {
-      setIncome({ ...income, [field]: value });
-    }
+    if (field === "date") value = new Date(value);
+    setIncome({ ...income, [field]: value });
   };
 
   const apiCall = async (url, method) => {
