@@ -60,7 +60,7 @@ app.post("/api/chat", async (req, res) => {
     .then((result) => {
       console.log(result);
       // format data to remove all \n from response
-      let openAiResponse = result.data.choices[0].text.replaceAll("\n", "");
+      let openAiResponse = result.data.choices[0].text;
       res.send({ advice: openAiResponse });
     })
     .catch((err) => {
