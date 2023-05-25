@@ -36,11 +36,14 @@ app.use(jwtCheck);
 
 app.post("/api/chat", async (req, res) => {
   const { userInput } = req.body;
+  console.log(userInput);
   const client = axios.create({
     headers: {
       Authorization: "Bearer " + process.env.OPENAI_API_KEY,
     },
   });
+
+  console.log(process.env.OPENAI_API_KEY);
 
   const params = {
     model: "text-davinci-003",
@@ -55,11 +58,14 @@ app.post("/api/chat", async (req, res) => {
   client
     .post("https://api.openai.com/v1/completions", params)
     .then((result) => {
+      console.log(result);
       // format data to remove all \n from response
       let openAiResponse = result.data.choices[0].text.replaceAll("\n", "");
       res.send({ advice: openAiResponse });
     })
     .catch((err) => {
+      console.log(err);
+      console.error(err);
       return res.status(400).json({ err });
     });
 });
@@ -374,24 +380,24 @@ app.post("/api/calendar", cors(), async (req, res) => {
 
 // mock video api payload
 app.get("/api/videos/:keyword", async (req, res) => {
-  const maxResults = 3;
-  const params = new URLSearchParams({
-    part: "snippet",
-    maxResults,
-    q: req.params.keyword,
-    key: process.env.YOUTUBE_API_KEY,
-  });
+  // const maxResults = 3;
+  // const params = new URLSearchParams({
+  //   part: "snippet",
+  //   maxResults,
+  //   q: req.params.keyword,
+  //   key: process.env.YOUTUBE_API_KEY,
+  // });
 
-  const url = `https://www.googleapis.com/youtube/v3/search?${params}`;
+  // const url = `https://www.googleapis.com/youtube/v3/search?${params}`;
 
-  // Make an API call to the YouTube API to get the latest videos
-  try {
-    const response = await axios.get(url);
-    const data = response.data;
-    res.send(data.items);
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
+  // // Make an API call to the YouTube API to get the latest videos
+  // try {
+  //   const response = await axios.get(url);
+  //   const data = response.data;
+  //   res.send(data.items);
+  // } catch (error) {
+  //   return res.status(400).json({ error });
+  // }
 });
 
 app.get("/:any", (req, res) => {
