@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
 import "../styles/Chatbot.css";
-import axios from "axios";
 import { AuthContext } from "./AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 
