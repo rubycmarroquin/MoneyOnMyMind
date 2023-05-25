@@ -34,7 +34,7 @@ const GenerateCharts = ({
   };
 
   const columnChartOptions = {
-    title: `Monthly Spendings and Income (${year})`,
+    title: `${year} Spendings and Income by Month`,
     vAxis: { title: "Amount" },
     hAxis: { title: "Month" },
     seriesType: "bars",
