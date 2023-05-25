@@ -49,33 +49,34 @@ const MonthDropDown = ({ month, setMonth, year, setYear }) => {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        {month && (
-          <div>
-            <Dropdown
+        {/* {month && ( */}
+        <div>
+          <Dropdown
+            variant="secondary"
+            id="dropdown-basic"
+            onSelect={(e) => setYear(e)}
+          >
+            <Dropdown.Toggle
               variant="secondary"
               id="dropdown-basic"
-              onSelect={(e) => setYear(e)}
+              className="MDDropDown"
+              disabled={month ? false : true}
             >
-              <Dropdown.Toggle
-                variant="secondary"
-                id="dropdown-basic"
-                className="MDDropDown"
-              >
-                {year ? year : "Select Year"}
-              </Dropdown.Toggle>
-              <Dropdown.Menu style={{ overflowY: "scroll", height: "200px" }}>
-                {years.map((currentYear) => (
-                  <Dropdown.Item
-                    key={`Year+${currentYear}`}
-                    eventKey={`${currentYear}`}
-                  >
-                    {currentYear}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-        )}
+              {year ? year : "Select Year"}
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{ overflowY: "scroll", height: "200px" }}>
+              {years.map((currentYear) => (
+                <Dropdown.Item
+                  key={`Year+${currentYear}`}
+                  eventKey={`${currentYear}`}
+                >
+                  {currentYear}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+        {/* )} */}
       </div>
     </div>
   );
