@@ -31,19 +31,16 @@ const Chatbot = () => {
     ]);
     setUserInput("");
 
-    // get response from openai api
-    const response = await axios.post(
-      "/api/chat",
-      { userInput },
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      }
-    );
-
-    // grab message from response
-    const generatedMessage = response.data.advice;
+    const generatedMessage = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify({ userInput }),
+    })
+      .then((response) => response.json())
+      .then((data) => data.advice);
 
     // add generated message to chat log
     setChatLog((prevChatLog) => [
