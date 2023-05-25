@@ -53,44 +53,48 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="chatbot-container">
-      <button className="chatbot-toggle-button" onClick={toggleChatbot}>
-        {isOpen ? "Close Money Mentor" : "Open Money Mentor"}
-      </button>
+    authToken && (
+      <div className="chatbot-container">
+        <button className="chatbot-toggle-button" onClick={toggleChatbot}>
+          {isOpen ? "Close Money Mentor" : "Open Money Mentor"}
+        </button>
 
-      {isOpen && (
-        <div className="chatbot-popup">
-          <div className="chat-log-container">
-            {chatLog.map((message, index) => (
-              <div key={index} className={`message ${message.role}`}>
-                <p>
-                  <span className={message.role === "user" ? `user` : `mentor`}>
-                    {message.role === "user"
-                      ? `${user.nickname}`
-                      : "Money Mentor: "}
-                  </span>
-                </p>
-                <span className="messageColor">{message.content}</span>
-              </div>
-            ))}
+        {isOpen && (
+          <div className="chatbot-popup">
+            <div className="chat-log-container">
+              {chatLog.map((message, index) => (
+                <div key={index} className={`message ${message.role}`}>
+                  <p>
+                    <span
+                      className={message.role === "user" ? `user` : `mentor`}
+                    >
+                      {message.role === "user"
+                        ? `${user.nickname}`
+                        : "Money Mentor: "}
+                    </span>
+                  </p>
+                  <span className="messageColor">{message.content}</span>
+                </div>
+              ))}
+            </div>
+            <div className="user-input-container">
+              <input
+                type="text"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                onKeyDown={(e) => handleKeyDown(e.key)}
+                placeholder="Type your message"
+                className="user-input"
+                maxLength={400}
+              />
+              <button onClick={sendMessage} className="send-button">
+                Send
+              </button>
+            </div>
           </div>
-          <div className="user-input-container">
-            <input
-              type="text"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              onKeyDown={(e) => handleKeyDown(e.key)}
-              placeholder="Type your message"
-              className="user-input"
-              maxLength={400}
-            />
-            <button onClick={sendMessage} className="send-button">
-              Send
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    )
   );
 };
 
