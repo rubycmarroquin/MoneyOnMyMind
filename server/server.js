@@ -380,24 +380,24 @@ app.post("/api/calendar", cors(), async (req, res) => {
 
 // mock video api payload
 app.get("/api/videos/:keyword", async (req, res) => {
-  // const maxResults = 3;
-  // const params = new URLSearchParams({
-  //   part: "snippet",
-  //   maxResults,
-  //   q: req.params.keyword,
-  //   key: process.env.YOUTUBE_API_KEY,
-  // });
+  const maxResults = 3;
+  const params = new URLSearchParams({
+    part: "snippet",
+    maxResults,
+    q: req.params.keyword,
+    key: process.env.YOUTUBE_API_KEY,
+  });
 
-  // const url = `https://www.googleapis.com/youtube/v3/search?${params}`;
+  const url = `https://www.googleapis.com/youtube/v3/search?${params}`;
 
-  // // Make an API call to the YouTube API to get the latest videos
-  // try {
-  //   const response = await axios.get(url);
-  //   const data = response.data;
-  //   res.send(data.items);
-  // } catch (error) {
-  //   return res.status(400).json({ error });
-  // }
+  // Make an API call to the YouTube API to get the latest videos
+  try {
+    const response = await axios.get(url);
+    const data = response.data;
+    res.send(data.items);
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
 });
 
 app.get("/:any", (req, res) => {
