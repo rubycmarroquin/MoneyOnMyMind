@@ -6,7 +6,6 @@ const path = require("path");
 const db = require("./db/db-connection.js");
 const axios = require("axios");
 const Calendar = require("./calendar.js");
-const { Configuration, OpenAIApi } = require("openai");
 
 //auth0 jwt
 const { auth } = require("express-oauth2-jwt-bearer");
@@ -35,32 +34,34 @@ app.use(cors());
 app.use(express.json());
 app.use(jwtCheck);
 
-const configuration = new Configuration({
-  organization: process.env.ORGANIZATION,
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const openai = new OpenAIApi(configuration);
-
 app.post("/api/chat", async (req, res) => {
   const { userInput } = req.body;
-  try {
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `Generate me one response based on this inquiry " ${userInput} ". Structure response as a sentence or small paragraph. Try to keep the topic related to financial advice if possible.`,
-      max_tokens: 2048,
-      temperature: 1,
-      top_p: 1.0,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.0,
-    });
+  const client = axios.create({
+    headers: {
+      Authorization: "Bearer " + process.env.OPENAI_API_KEY,
+    },
+  });
 
-    // format data to remove all \n from response 
-    let openAiResponse = response.data.choices[0].text.replaceAll('\n', "");
-    res.send({advice: openAiResponse});
-  } catch (e) {
-    return res.status(400).json({ e });
-  }
+  const params = {
+    model: "text-davinci-003",
+    prompt: `Generate me one response based on this inquiry " ${userInput} ". Structure response as a sentence or small paragraph. Try to keep the topic related to financial advice if possible.`,
+    max_tokens: 2048,
+    temperature: 1,
+    top_p: 1.0,
+    frequency_penalty: 0.0,
+    presence_penalty: 0.0,
+  };
+
+  client
+    .post("https://api.openai.com/v1/completions", params)
+    .then((result) => {
+      // format data to remove all \n from response
+      let openAiResponse = result.data.choices[0].text.replaceAll("\n", "");
+      res.send({ advice: openAiResponse });
+    })
+    .catch((err) => {
+      return res.status(400).json({ err });
+    });
 });
 
 /***************************************************************************************************
@@ -382,7 +383,6 @@ app.get("/api/videos/:keyword", async (req, res) => {
   });
 
   const url = `https://www.googleapis.com/youtube/v3/search?${params}`;
-  console.log(url);
 
   // Make an API call to the YouTube API to get the latest videos
   try {
