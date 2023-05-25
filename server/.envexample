@@ -1,7 +1,24 @@
-//If you have a postgres db with an user and password - 
+//If you have a postgres db with an user and password -
 //Replace everything between the <> with your variables and remove the <>
-DB_URI="postgresql://<user>:<password>@localhost/<database>"
+DATABASE_URL="postgresql://<user>:<password>@localhost/<database>"
 
-//If you don't have postgres db with an user and password - 
+//If you don't have postgres db with an user and password -
 //Replace everything between the <> with your variables and remove the <>
-DB_URI="postgresql://localhost/<database>"
+DATABASE_URL="postgresql://localhost/<database>"
+
+// If you do not have a YouTube API key here, go to this link to find out
+// how to get one https://blog.hubspot.com/website/how-to-get-youtube-api-key
+YOUTUBE_API_KEY=
+
+// Client ID and Client Secret for Google Calendar API
+// If you do not have either, follow the link to see how to set it up
+// https://simplyscheduleappointments.com/guides/google-api-credentials/
+CLIENT_ID=
+CLIENT_SECRET=
+
+// OpenAI GPT3 API
+// If you do not have an account create one and follow the instructions here
+// to set up / find your API KEY and Organization ID
+// https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key
+OPENAI_API_KEY=
+OPEN_AI_ORGANIATION_ID=
