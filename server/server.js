@@ -44,7 +44,6 @@ const openai = new OpenAIApi(configuration);
 
 app.post("/api/chat", async (req, res) => {
   const { userInput } = req.body;
-  console.log(userInput);
   try {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
@@ -56,11 +55,10 @@ app.post("/api/chat", async (req, res) => {
       presence_penalty: 0.0,
     });
 
-    console.log(response.data);
+    // format data to remove all \n from response 
     let openAiResponse = response.data.choices[0].text.replaceAll('\n', "");
     res.send({advice: openAiResponse});
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ e });
   }
 });
@@ -99,7 +97,6 @@ app.post("/api/user", cors(), async (req, res) => {
     // if value is undefined, set value to {}
     res.json(result.rows[0] ?? {});
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ e });
   }
 });
@@ -120,7 +117,6 @@ app.put("/api/user/:userId", cors(), async (req, res) => {
     console.log(updated.rows[0]);
     res.send(updated.rows[0]);
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ e });
   }
 });
@@ -142,7 +138,6 @@ app.get(
         `SELECT * FROM expenses WHERE user_id = $1 AND month iLIKE $2 AND year iLike $3`,
         [user_id, monthName, yearNum]
       );
-      console.log(budgets);
       res.send(budgets);
     } catch (e) {
       return res.status(400).json({ e });
@@ -181,7 +176,6 @@ app.post("/api/expenses", cors(), async (req, res) => {
     );
     res.json(result.rows[0]);
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ e });
   }
 });
@@ -191,10 +185,8 @@ app.delete("/api/expenses/:expenseId", cors(), async (req, res) => {
   try {
     const expense_id = req.params.expenseId;
     await db.query("DELETE FROM expenses WHERE expense_id=$1", [expense_id]);
-    console.log("From the delete request-url", expense_id);
     res.status(200).end();
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ e });
   }
 });
@@ -224,7 +216,6 @@ app.put("/api/expense/:expenseId", cors(), async (req, res) => {
     );
     res.json(result.rows[0]);
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ e });
   }
 });
@@ -246,7 +237,6 @@ app.get(
         "SELECT * FROM incomes WHERE user_id = $1 AND month iLIKE $2 AND year iLike $3",
         [user_id, monthName, yearNum]
       );
-      console.log(incomes);
       res.send(incomes);
     } catch (e) {
       return res.status(400).json({ e });
@@ -281,7 +271,6 @@ app.post("/api/incomes", cors(), async (req, res) => {
     );
     res.json(result.rows[0]);
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ e });
   }
 });
@@ -291,10 +280,8 @@ app.delete("/api/incomes/:incomeId", cors(), async (req, res) => {
   try {
     const income_id = req.params.incomeId;
     await db.query("DELETE FROM incomes WHERE income_id=$1", [income_id]);
-    console.log("From the delete request-url", income_id);
     res.status(200).end();
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ e });
   }
 });
@@ -320,7 +307,6 @@ app.put("/api/incomes/:incomeId", cors(), async (req, res) => {
     );
     res.json(result.rows[0]);
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ e });
   }
 });
@@ -337,7 +323,6 @@ app.get("/api/yearly/incomes/:userId&:yearNum", cors(), async (req, res) => {
       "SELECT amount, month FROM incomes WHERE user_id = $1 AND year iLike $2",
       [user_id, yearNum]
     );
-    console.log(incomes);
     res.send(incomes);
   } catch (e) {
     return res.status(400).json({ e });
@@ -353,7 +338,6 @@ app.get("/api/yearly/expenses/:userId&:yearNum", cors(), async (req, res) => {
       "SELECT amount, month FROM expenses WHERE user_id = $1 AND year iLike $2",
       [user_id, yearNum]
     );
-    console.log(expenses);
     res.send(expenses);
   } catch (e) {
     return res.status(400).json({ e });
@@ -390,7 +374,6 @@ app.post("/api/calendar", cors(), async (req, res) => {
 // mock video api payload
 app.get("/api/videos/:keyword", async (req, res) => {
   const maxResults = 3;
-
   const params = new URLSearchParams({
     part: "snippet",
     maxResults,
@@ -405,10 +388,8 @@ app.get("/api/videos/:keyword", async (req, res) => {
   try {
     const response = await axios.get(url);
     const data = response.data;
-    console.log(data);
     res.send(data.items);
   } catch (error) {
-    console.error(error);
     return res.status(400).json({ error });
   }
 });
