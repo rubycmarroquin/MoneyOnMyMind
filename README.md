@@ -63,6 +63,12 @@ Here's why:
 - [OpenAI GPT-3 API](https://platform.openai.com/docs/api-reference)
 - [YouTube API](https://developers.google.com/youtube/v3)
 
+<!-- Database Schema -->
+
+## Database Schema
+
+<img src="./assets/DBSchema.png" />
+
 <!-- Installation -->
 
 ## Installation
@@ -121,7 +127,7 @@ In the Budget's page, users are prompted to select a month and year for which th
 
 <img src="./assets/BudgetPage.png" />
 
-Additionally, users are offered a "bell" option that allows them to get a Google calendar invitation that is generated using Google Calendar API! ~never forget to pay your bills again~. The calendar invite is only available if an expense has a due date and if the date has not already passed (e.g., If it is May 25th, 2023 you cannot get one for January 1st, 2023).
+Additionally, users are offered a "bell" option that allows them to get a Google calendar invitation that is generated using Google Calendar API! (never forget to pay your bills again~) The calendar invite is only available if an expense has a due date and if the date has not already passed (e.g., If it is May 25th, 2023 you cannot get one for January 1st, 2023).
 
 <img src="./assets/CalendarInvite.png" />
 
@@ -137,7 +143,7 @@ The real show stopper of the Financal Literacy Page is "Money Mentor"! Money Men
 
 ### Account Settings
 
-#### In the Account Settings, users are able to provide some basic information such as a name or phone number, not required. Additionally, users can request a password reset email that is generated using Auth0 Management API to securely change your password.
+In the Account Settings, users are able to provide some basic information such as a name or phone number, not required. Additionally, users can request a password reset email that is generated using Auth0 Management API to securely change your password.
 
 <img src="./assets/AccountSettings.png" />
 
