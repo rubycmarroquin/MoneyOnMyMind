@@ -105,37 +105,35 @@ Step 5: Start the program!
 
 ### Get started!
 
-#### Create an account with our secure login powered by Auth0!
+Create an account with our secure login powered by Auth0!
 
-<video src="./assets/Login.mov" controls="controls" style="max-width: 730px;">
-</video>
+<img src="./assets/LoginDemo.gif" />
 
 ### Dashboard
 
-#### When first logging in, users can see the current month/year's spending breakdown. Users are also able to switch between months and years where our charts that have been generated using React Google Charts and table are dynamically updated based on the month/year selected.
+When first logging in, users can see the current month/year's spending breakdown. Users are also able to switch between months and years where our charts that have been generated using React Google Charts and table are dynamically updated based on the month/year selected.
 
 <img src="./assets/Dashboard.png" />
 
 ### Budget
 
-#### In the Budget's page, users are prompted to select a month and year for which they want to add an expense or income to. Users can edit an expense that has already been added or delete it!
+In the Budget's page, users are prompted to select a month and year for which they want to add an expense or income to. Users can edit an expense that has already been added or delete it!
 
 <img src="./assets/BudgetPage.png" />
 
-#### Additionally, users are offered a "bell" option that allows them to get a Google calendar invitation that is generated using Google Calendar API! ~never forget to pay your bills again~. The calendar invite is only available if an expense has a due date and if the date has not already passed (e.g., If it is May 25th, 2023 you cannot get one for January 1st, 2023).
+Additionally, users are offered a "bell" option that allows them to get a Google calendar invitation that is generated using Google Calendar API! ~never forget to pay your bills again~. The calendar invite is only available if an expense has a due date and if the date has not already passed (e.g., If it is May 25th, 2023 you cannot get one for January 1st, 2023).
 
 <img src="./assets/CalendarInvite.png" />
 
 ### Financial Literacy
 
-#### Become informed, or watch some informative videos. The Financial Literacy Page is there to help educate to empower you to make good financial decisions! The videos displayed are rendered using the YouTube API and can change depending on video popularity, video deletion, etc...
+Become informed, or watch some informative videos. The Financial Literacy Page is there to help educate to empower you to make good financial decisions! The videos displayed are rendered using the YouTube API and can change depending on video popularity, video deletion, etc...
 
 <img src="./assets/FinancialLiteracyPage.png" />
 
-#### The real show stopper of the Financal Literacy Page is "Money Mentor"! Money Mentor? You may ask, is an in-app chatbot that is powered by OpenAI API that provides financial advice based on a user's inquiry. (disclaimer: response times may vary depending on OpenAI API usage)
+The real show stopper of the Financal Literacy Page is "Money Mentor"! Money Mentor? You may ask, is an in-app chatbot that is powered by OpenAI API that provides financial advice based on a user's inquiry. (disclaimer: response times may vary depending on OpenAI API usage)
 
-<video src="./assets/MoneyMentor.mov" controls="controls" style="max-width: 730px;">
-</video>
+<img src="./assets/MoneyMentor.gif" />
 
 ### Account Settings
 
