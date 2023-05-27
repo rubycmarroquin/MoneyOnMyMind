@@ -49,7 +49,6 @@ const MonthDropDown = ({ month, setMonth, year, setYear }) => {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        {/* {month && ( */}
         <div>
           <Dropdown
             variant="secondary"
@@ -76,7 +75,6 @@ const MonthDropDown = ({ month, setMonth, year, setYear }) => {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        {/* )} */}
       </div>
     </div>
   );
