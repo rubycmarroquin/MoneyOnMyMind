@@ -109,6 +109,12 @@ Step 5: Start the program!
 
 ## Usage
 
+### Testing Account
+
+testingaccount+1@gmail.com
+<br>
+TestAccount23!
+
 ### Get started!
 
 Create an account with our secure login powered by Auth0!
@@ -127,7 +133,7 @@ In the Budget's page, users are prompted to select a month and year for which th
 
 <img src="./assets/BudgetPage.png" />
 
-Additionally, users are offered a "bell" option that allows them to get a Google calendar invitation that is generated using Google Calendar API! (never forget to pay your bills again~) The calendar invite is only available if an expense has a due date and if the date has not already passed (e.g., If it is May 25th, 2023 you cannot get one for January 1st, 2023).
+Additionally, users are offered a "bell" option that allows them to get a Google calendar invitation that is generated using Google Calendar API! (never forget to pay your bills again~) The calendar invite is only available if an expense has a due date and if the date has not already passed (e.g., If it is May 25th, 2023 you cannot get one for January 1st, 2023). DISCLAIMER: If you want to use the calendar invite, you must use a valid email address during sign up!
 
 <img src="./assets/CalendarInvite.png" />
 
@@ -173,6 +179,12 @@ In the Account Settings, users are able to provide some basic information such a
 ## Contributing
 
 In case you have a suggestion to improve the project, you can either fork the repository and initiate a pull request or raise an issue labeled as "enhancement".
+
+<!-- ABOUT THE DEVELOPER -->
+
+## About the Developer
+
+Hey there! My name is Ruby Marroquin and my pronouns are she/her. I am from Los Angeles, California. After high school I went to community college, where I used to tutor in mathematics and eventually got my associates in math. I decided to pursue higher education and was the first in my family to attend university. I went to UC San Diego and was part of the Jacobs School of Engineering, where I planned on getting a computer science degree despite having a math background. Ultimately, the program was too expensive for me to stay, but that did not deter me from seeking a way into tech, which is how I ended up at Techtonica. Thank you for reading & I hope you enjoy Money on My Mind!
 
 <!-- CONTACT -->
 
