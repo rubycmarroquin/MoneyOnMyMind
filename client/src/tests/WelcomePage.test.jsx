@@ -6,7 +6,7 @@ import * as auth0 from "@auth0/auth0-react";
 
 vi.mock("@auth0/auth0-react");
 
-test("Welcome Page renders correctly", () => {
+test("Welcome Page renders correctly when user not signed in", () => {
   auth0.useAuth0 = vi.fn().mockReturnValue({
     isAuthenticated: false,
     user: { nickname: "Test" },
@@ -20,7 +20,7 @@ test("Welcome Page renders correctly", () => {
   expect(welcomePageText).toBeDefined();
 });
 
-test("WelcomePage when user is signed in", () => {
+test("WelcomePage redirect text when user is signed in", () => {
   auth0.useAuth0 = vi.fn().mockReturnValue({
     isAuthenticated: true,
     user: { nickname: "Test" },
