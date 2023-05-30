@@ -18,7 +18,7 @@ const Profile = () => {
       body: JSON.stringify(userObj),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then(data);
   }
 
   useEffect(() => {

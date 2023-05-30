@@ -40,7 +40,7 @@ const AccountSettings = () => {
         else handleOpen("An error occured, try again!");
         return response.json();
       })
-      .then((data) => console.log(data));
+      .then(data);
   }
 
   const handleNameChange = (event) => {
